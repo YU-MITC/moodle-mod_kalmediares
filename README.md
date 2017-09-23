@@ -1,6 +1,6 @@
-# YU Video Package for Kaltura
+# YU Kaltura Media Package
 
-"YU Video Package" is a Kaltura plugin package for Moodle 2.9 or later.
+"YU Kaltura Media Package" is a Kaltura plugin package for Moodle 2.9 or later.
 This package is developed by the Media and Information Technology Center, Yamaguchi University.
 By using this package, users can upload media to the Kaltura server, and easily embed the media in Moodle courses.
 Moreover, this package provides some useful functions.
@@ -13,7 +13,7 @@ YU Kaltura Media Resource for Moodle
 ------
 
 This is a resource module.
-Teachers can create media view page (embed media) in their courses, and can view students' play/view status.
+Teachers can create media play page (embed media) in their courses, and can view students' play/view status.
 This plugin is updated with stable releases. To follow active development on GitHub, click [here](https://github.com/YU-MITC/moodle-mod_kalmediares/).
 
 Requirements
