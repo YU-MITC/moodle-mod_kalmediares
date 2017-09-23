@@ -74,4 +74,5 @@ $string['totalplays'] = 'Total plays';
 $string['totalviews'] = 'Total views';
 $string['no_student'] = 'There is no student in this course.';
 $string['not_viewed'] = 'No student has been viewed this media.';
+$string['noresources'] = 'No Kaltura media resources found in the course';
 

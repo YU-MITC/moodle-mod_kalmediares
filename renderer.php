@@ -27,6 +27,7 @@ require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once(dirname(dirname(dirname(__FILE__))) . '/local/yukaltura/locallib.php');
 require_once(dirname(dirname(dirname(__FILE__))) . '/local/yukaltura/API/KalturaClient.php');
 require_once(dirname(dirname(dirname(__FILE__))) . '/local/yukaltura/kaltura_entries.class.php');
+require_once(dirname(dirname(dirname(__FILE__))) . '/mod/kalmediares/renderable.php');
 
 if (!defined('MOODLE_INTERNAL')) {
     // It must be included from a Moodle page.
@@ -449,5 +450,110 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
         $output .= html_writer::end_tag('div');
 
         return $output;
+    }
+
+    /**
+     * Displays the resources listing table.
+     *
+     * @param object $course The course odject.
+     */
+    public function display_kalmediaresources_table($course) {
+        global $CFG, $DB, $PAGE, $OUTPUT, $USER;
+
+        echo html_writer::start_tag('center');
+
+        $strplural = get_string('modulenameplural', 'kalmediares');
+
+        if (!$cms = get_coursemodules_in_course('kalmediares', $course->id)) {
+            echo get_string('noresources', 'kalmediares');
+            echo $OUTPUT->continue_button($CFG->wwwroot.'/course/view.php?id='.$course->id);
+        }
+
+        $strsectionname  = get_string('sectionname', 'format_'.$course->format);
+        $usesections = course_format_uses_sections($course->format);
+        $modinfo = get_fast_modinfo($course);
+
+        if ($usesections) {
+            $sections = $modinfo->get_section_info_all();
+        }
+        $courseindexsummary = new kalmediares_course_index_summary($usesections, $strsectionname);
+
+        $timenow = time();
+        $currentsection = '';
+        $resourcecount = 0;
+
+        if (!empty($modinfo) && !empty($modinfo->instances['kalmediares'])) {
+            foreach ($modinfo->instances['kalmediares'] as $cm) {
+                if (!$cm->uservisible) {
+                    continue;
+                }
+
+                $resourcecount++;
+
+                $sectionname = '';
+                if ($usesections && $cm->sectionnum) {
+                    $sectionname = get_section_name($course, $sections[$cm->sectionnum]);
+                }
+
+                $context = context_module::instance($cm->id);
+                $courseindexsummary->add_resource_info($cm->id, $cm->name, $sectionname);
+            }
+        }
+
+        if ($resourcecount > 0) {
+            $pagerenderer = $PAGE->get_renderer('mod_kalmediares');
+            echo $pagerenderer->render($courseindexsummary);
+        }
+
+        echo html_writer::end_tag('center');
+    }
+
+    /**
+     * Render a course index summary.
+     *
+     * @param kalmediaassign_course_index_summary $indexsummary Structure for index summary.
+     * @return string HTML for assignments summary table
+     */
+    public function render_kalmediares_course_index_summary(kalmediares_course_index_summary $indexsummary) {
+        $strplural = get_string('modulenameplural', 'kalmediares');
+        $strsectionname  = $indexsummary->courseformatname;
+
+        $table = new html_table();
+        if ($indexsummary->usesections) {
+            $table->head  = array ($strsectionname, $strplural);
+            $table->align = array ('left', 'left');
+        } else {
+            $table->head  = array ($strplural);
+            $table->align = array ('left');
+        }
+        $table->data = array();
+
+        $currentsection = '';
+        foreach ($indexsummary->resources as $info) {
+            $params = array('id' => $info['cmid']);
+            $link = html_writer::link(new moodle_url('/mod/kalmediares/view.php', $params), $info['cmname']);
+
+            $printsection = '';
+            if ($indexsummary->usesections) {
+                if ($info['sectionname'] !== $currentsection) {
+                    if ($info['sectionname']) {
+                        $printsection = $info['sectionname'];
+                    }
+                    if ($currentsection !== '') {
+                        $table->data[] = 'hr';
+                    }
+                    $currentsection = $info['sectionname'];
+                }
+            }
+
+            if ($indexsummary->usesections) {
+                $row = array($printsection, $link);
+            } else {
+                $row = array($link);
+            }
+            $table->data[] = $row;
+        }
+
+        return html_writer::table($table);
     }
 }

@@ -15,10 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * YU Kaltura Media Resouurce version file.
- *
- * Setting the $plugin->version to 0 prevents the plugin from being installed.
- * See https://docs.moodle.org/dev/version.php for more info.
+ * Displays information about all the resource modules in the requested course
  *
  * @package    mod
  * @subpackage kalmediares
@@ -27,19 +24,32 @@
  */
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
+require_once(dirname(dirname(dirname(__FILE__))) . '/local/yukaltura/locallib.php');
+require_once(dirname(__FILE__) . '/renderable.php');
 
 if (!defined('MOODLE_INTERNAL')) {
     // It must be included from a Moodle page.
     die('Direct access to this script is forbidden.');
 }
 
-$plugin->component = 'mod_kalmediares';
-$plugin->version = 2017092301;
-$plugin->release = 'YU Kaltura Media Resource 1.0.1';
-$plugin->requires = 2015051100;
-$plugin->maturity = MATURITY_STABLE;
-$plugin->cron = 0;
-$plugin->dependencies = array(
-    'local_yukaltura' => 2017092301,
-    'local_yumymedia' => 2017092301
-);
+$id = required_param('id', PARAM_INT); // Course ID.
+
+$course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
+
+require_login($course);
+
+global $SESSION, $CFG;
+
+$strplural = get_string("modulenameplural", "kalmediares");
+$PAGE->set_url('/mod/kalmediares/index.php', array('id' => $id));
+$PAGE->set_pagelayout('incourse');
+$PAGE->navbar->add($strplural);
+$PAGE->set_title($strplural);
+$PAGE->set_heading($course->fullname);
+
+echo $OUTPUT->header();
+
+$renderer = $PAGE->get_renderer('mod_kalmediares');
+$renderer->display_kalmediaresources_table($course);
+
+echo $OUTPUT->footer();
