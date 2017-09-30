@@ -65,7 +65,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
      * @return string - HTML markup to embed media.
      */
     public function embed_media($kalmediares) {
-        global $PAGE, $COURSE;
+        global $COURSE;
 
         $output = '';
         $entryobj = local_yukaltura_get_ready_entry_object($kalmediares->entry_id);
@@ -78,7 +78,6 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
                 $kalmediares->uiconf_id = $newplayer;
             }
 
-            $courseid = $COURSE->id;
             // Set the session.
             $session = local_yukaltura_generate_kaltura_session(array($entryobj->id));
 
@@ -163,7 +162,6 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
      * @return string - HTML markup to display paging bar.
      */
     public function create_pagingbar_markup($page) {
-        global $USER;
 
         $output = '';
 
@@ -200,7 +198,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
      * @return string - HTML markup to display link to access status page.
      */
     public function create_access_list_markup($kalmediares, $moduleid, $sort, $order, $page, $tablerows, $perpage, &$rows) {
-        global $CFG, $COURSE, $USER, $OUTPUT, $DB;
+        global $CFG, $COURSE, $OUTPUT, $DB;
 
         $url = new moodle_url('/mod/kalmediares/access_logs.php');
 
@@ -209,7 +207,6 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
         $rows = 0;
 
         if (!empty($kalmediares->entry_id)) {
-            $total = 0;
 
             $roleid = 0;
 
@@ -533,13 +530,11 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
      * @return nothing.
      */
     public function display_kalmediaresources_table($course) {
-        global $CFG, $DB, $PAGE, $OUTPUT, $USER;
+        global $CFG, $PAGE, $OUTPUT;
 
         echo html_writer::start_tag('center');
 
-        $strplural = get_string('modulenameplural', 'kalmediares');
-
-        if (!$cms = get_coursemodules_in_course('kalmediares', $course->id)) {
+        if (!get_coursemodules_in_course('kalmediares', $course->id)) {
             echo get_string('noresources', 'kalmediares');
             echo $OUTPUT->continue_button($CFG->wwwroot.'/course/view.php?id='.$course->id);
         }
@@ -553,8 +548,6 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
         }
         $courseindexsummary = new kalmediares_course_index_summary($usesections, $strsectionname);
 
-        $timenow = time();
-        $currentsection = '';
         $resourcecount = 0;
 
         if (!empty($modinfo) && !empty($modinfo->instances['kalmediares'])) {
@@ -570,7 +563,6 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
                     $sectionname = get_section_name($course, $sections[$cm->sectionnum]);
                 }
 
-                $context = context_module::instance($cm->id);
                 $courseindexsummary->add_resource_info($cm->id, $cm->name, $sectionname);
             }
         }

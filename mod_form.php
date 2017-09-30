@@ -77,8 +77,6 @@ class mod_kalmediares_mod_form extends moodleform_mod {
             $PAGE->requires->js('/local/yukaltura/js/jquery-3.0.0.js', true);
             $PAGE->requires->js_call_amd('local_yukaltura/simple_selector');
 
-            $courseid = $COURSE->id;
-
             $uiconfid = local_yukaltura_get_player_uiconf('player_resource');
         }
 
@@ -180,7 +178,6 @@ class mod_kalmediares_mod_form extends moodleform_mod {
      */
     private function add_access_definition($mform) {
         $accessgroup = array();
-        $attr = array('id' => 'internal', 'name' => 'internal');
         $options = array('0' => 'No', '1' => 'Yes');
         $select = $mform->addElement('select', 'internal', get_string('internal', 'mod_kalmediares'), $options);
         $select->setSelected('0');
@@ -196,7 +193,6 @@ class mod_kalmediares_mod_form extends moodleform_mod {
      * @return nothing.
      */
     private function add_media_definition($mform) {
-        global $COURSE;
 
         $thumbnail = $this->get_thumbnail_markup();
 
@@ -205,10 +201,6 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         if (empty($this->current->entry_id)) {
             $prop = array('style' => 'display:none;');
         }
-
-        $radioarray = array();
-        $attributes = array();
-        $context    = null;
 
         $selectorurl = new moodle_url('/local/yukaltura/simple_selector.php');
         $attr = array('onclick' => 'fadeInSelectorWindow("' . $selectorurl . '")');
@@ -294,8 +286,6 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         $title  = get_string('add_media', 'kalmediares');
 
         if (!empty($this->current->entry_id)) {
-
-            $entries = new KalturaStaticEntries();
 
             $entryobj = KalturaStaticEntries::get_entry($this->current->entry_id, null, false);
 
@@ -470,10 +460,11 @@ class mod_kalmediares_mod_form extends moodleform_mod {
      * @return array - media properties.
      */
     private function get_default_media_properties() {
-        return $properties = array('media_prop_player' => 4674741,
-                                   'media_prop_dimensions' => 0,
-                                   'media_prop_size' => 0,
-                                  );
+        $properties = array('media_prop_player' => 4674741,
+                            'media_prop_dimensions' => 0,
+                            'media_prop_size' => 0,
+                          );
+        return $properties;
     }
 
     /**
