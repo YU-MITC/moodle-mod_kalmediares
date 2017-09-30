@@ -1,4 +1,3 @@
-
 language: php
 
 sudo: false
@@ -23,7 +22,7 @@ php:
 
 env:
  global:
-  - MOODLE_BRANCH=MOODLE_32_STABLE
+  - MOODLE_BRANCH=MOODLE_33_STABLE
  matrix:
   - DB=pgsql
   - DB=mysqli
@@ -36,6 +35,8 @@ before_install:
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
 install:
+  - moodle-plugin-ci add-plugin --branch MOODLE_29_STABLE YU-MITC/moodle-local_yukaltura
+  - moodle-plugin-ci add-plugin --branch MOODLE_29_STABLE YU-MITC/moodle-local_yumymedia
   - moodle-plugin-ci install
 
 script:
@@ -47,5 +48,6 @@ script:
   - moodle-plugin-ci savepoints
   - moodle-plugin-ci mustache
   - moodle-plugin-ci grunt
+  - moodle-plugin-ci grunt --tasks gherkinlint
   - moodle-plugin-ci phpunit
   - moodle-plugin-ci behat
