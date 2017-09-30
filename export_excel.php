@@ -133,7 +133,7 @@ if (($admin == true || ($userrole != 'student' && $userrole != 'guest')) && !emp
         $query .= 'where component=\'mod_kalmediares\' and action=\'viewed\' and contextinstanceid=' . $id . ' group by userid) v ';
         $query .= 'left join (select userid,count(timecreated) plays, min(timecreated) firstplay, max(timecreated) lastplay ';
         $query .= 'from {logstore_standard_log} where component=\'mod_kalmediares\' and action=\'played\' and ';
-        $quety .= 'contextinstanceid=' . $id . ' group by userid) p on v.userid=p.userid)) n on n.userid=m.id) ';
+        $query .= 'contextinstanceid=' . $id . ' group by userid) p on v.userid=p.userid)) n on n.userid=m.id) ';
         $query .= 'order by ' . $sort . ' ' . $order;
 
         $userdata = $DB->get_recordset_sql( $query );

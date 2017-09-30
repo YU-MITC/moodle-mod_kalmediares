@@ -75,7 +75,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         // Check if connection to Kaltura can be established.
         if ($connection) {
             $PAGE->requires->js('/local/yukaltura/js/jquery-3.0.0.js', true);
-            $PAGE->requires->js_call_amd('local_yukaltura/simple_selector');
+            $PAGE->requires->js('/local/yukaltura/js/simple_selector.js', true);
 
             $uiconfid = local_yukaltura_get_player_uiconf('player_resource');
         }
@@ -181,7 +181,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         $options = array('0' => 'No', '1' => 'Yes');
         $select = $mform->addElement('select', 'internal', get_string('internal', 'mod_kalmediares'), $options);
         $select->setSelected('0');
-        $acessgroup[] =& $select;
+        $accessgroup[] =& $select;
 
         $mform->addGroup($accessgroup, 'access_group', '&nbsp;', '&nbsp;', false);
     }
