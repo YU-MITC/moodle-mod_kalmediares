@@ -1,12 +1,28 @@
-var createObjectURL
-= window.URL && window.URL.createObjectURL ? function(file) { return window.URL.createObjectURL(file); }
-    : window.webkitURL && window.webkitURL.createObjectURL ? function(file) { return window.webkitURL.createObjectURL(file); }
-        : undefined;
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-var revokeObjectURL
-= window.URL && window.URL.revokeObjectURL ? function(file) { return window.URL.revokeObjectURL(file); }
-    : window.webkitURL && window.webkitURL.revokeObjectURL ? function(file) { return window.webkitURL.revokeObjectURL(file); }
-        : undefined;
+/**
+ * Scripts for mod_kalmediares
+ *
+ * @package    mod_kalmediares
+ * @copyright  (C) 2016-2017 Yamaguchi University (info-cc@ml.cc.yamaguchi-u.ac.jp)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+/*global $:false */
+/* global $ */
 
 var addEvent;
 var removeEvent;
@@ -33,6 +49,8 @@ var ratechange = false;
 
 /**
  * This function retrieve os type.
+ * @param none.
+ * @return {string} - os type.
  */
 function getOperatingSystem() {
     var os, ua = navigator.userAgent;
@@ -58,6 +76,8 @@ function getOperatingSystem() {
 
 /**
  * Attatch onlaod event.
+ * @param none.
+ * @return nothing.
  */
 window.onload = function() {
     var mobile = false;
@@ -129,6 +149,12 @@ window.onload = function() {
     serviceURL = trigger_url.replace( /"/g , "");
 };
 
+
+/**
+ * This function arise play event.
+ * @param none.
+ * @return nothing.
+ */
 function arisePlay()
 {
     removeEvent(videoTag, 'play', arisePlay);
@@ -139,6 +165,11 @@ function arisePlay()
     }
 }
 
+/**
+ * This function arise playing event.
+ * @param none.
+ * @return nothing.
+ */
 function arisePlaying()
 {
     removeEvent(videoTag, 'playing', arisePlaying);
@@ -149,6 +180,11 @@ function arisePlaying()
     }
 }
 
+/**
+ * This function arise timeupdate event.
+ * @param none.
+ * @return nothing.
+ */
 function ariseTimeupdate()
 {
     removeEvent(videoTag, 'timeupdate', ariseTimeupdate);
@@ -169,6 +205,11 @@ function ariseSeeked()
     }
 }
 
+/**
+ * This function arise pause event.
+ * @param none.
+ * @return nothing.
+ */
 function arisePause()
 {
     removeEvent(videoTag, 'pause', arisePause);
@@ -179,6 +220,11 @@ function arisePause()
     }
 }
 
+/**
+ * This function arise ended event.
+ * @param none.
+ * @return nothing.
+ */
 function ariseEnded()
 {
     removeEvent(videoTag, 'ended', ariseEnded);
@@ -189,6 +235,11 @@ function ariseEnded()
     }
 }
 
+/**
+ * This function arise ratechange event.
+ * @param none.
+ * @return nothing.
+ */
 function ariseRatechange()
 {
     removeEvent(videoTag, 'ratechange', ariseRatechange);
@@ -199,6 +250,11 @@ function ariseRatechange()
     }
 }
 
+/**
+ * This function trigger event.
+ * @param none.
+ * @return true if event transmission was succeed. Otherwise false.
+ */
 function triggerEvent()
 {
     var fd = new FormData();

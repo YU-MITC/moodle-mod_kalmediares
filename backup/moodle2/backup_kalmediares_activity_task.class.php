@@ -15,11 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    moodlecore
- * @subpackage backup-moodle2
- * @copyright  (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
- * @copyright  (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   moodlecore_backup-moodle2
+ * @copyright (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
+ * @copyright (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/config.php');
@@ -35,19 +34,29 @@ if (!defined('MOODLE_INTERNAL')) {
 
 /**
  * kalmediares backup task that provides all the settings and steps to perform one
- * complete backup of the activity
+ * complete backup of the activity.
+ * @package    moodlecore_backup-moodle2
+ * @copyright  (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
+ * @copyright  (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_kalmediares_activity_task extends backup_activity_task {
 
     /**
-     * Define (add) particular settings this activity can have
+     * Define (add) particular settings this activity can have.
+     * @access protected
+     * @param none.
+     * @return nothing.
      */
     protected function define_my_settings() {
         // No particular settings for this activity.
     }
 
     /**
-     * Define (add) particular steps this activity can have
+     * Define (add) particular steps this activity can have.
+     * @access protected
+     * @param none.
+     * @return nothing.
      */
     protected function define_my_steps() {
         // Choice only has one structure step.
@@ -56,7 +65,10 @@ class backup_kalmediares_activity_task extends backup_activity_task {
 
     /**
      * Code the transformations to perform in the activity in
-     * order to get transportable (encoded) links
+     * order to get transportable (encoded) links.
+     * @access protected
+     * @param string $content - link URL of content..
+     * @return nothing.
      */
     static public function encode_content_links($content) {
         global $CFG;

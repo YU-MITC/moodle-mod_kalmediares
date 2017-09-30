@@ -20,8 +20,7 @@
  * You can have a rather longer description of the file as well,
  * if you like, and it can span multiple lines.
  *
- * @package    mod
- * @subpackage kalmediares
+ * @package    mod_kalmediares
  * @copyright  (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -58,8 +57,7 @@ $PAGE->set_url('/mod/kalmediares/view.php', array('id' => $id));
 $PAGE->set_title(format_string($kalmediares->name));
 $PAGE->set_heading($course->fullname);
 
-$url = new moodle_url('/local/yukaltura/js/jquery.js');
-$PAGE->requires->js($url, true);
+$PAGE->requires->js('/local/yukaltura/js/jquery-3.0.0.js', true);
 
 // Try connection.
 $kaltura = new yukaltura_connection();
@@ -68,7 +66,7 @@ $connection = $kaltura->get_connection(true, KALTURA_SESSION_LENGTH);
 if ($connection) {
     if (local_yukaltura_has_mobile_flavor_enabled() && local_yukaltura_get_enable_html5()) {
         $uiconfid = local_yukaltura_get_player_uiconf('player_resource');
-        $url = new moodle_url(local_yukaltura_htm5_javascript_url($uiconfid));
+        $url = new moodle_url(local_yukaltura_html5_javascript_url($uiconfid));
         $PAGE->requires->js($url, true);
         $url = new moodle_url('/local/yukaltura/js/frameapi.js');
         $PAGE->requires->js($url, true);
@@ -160,6 +158,11 @@ if ($kalmediares->internal == 1 and !local_yukaltura_check_internal($clientipadd
 
 echo $OUTPUT->footer();
 
+/**
+ * This function encode data.
+ * @param $data - source data.
+ * @return object - encoded data.
+ */
 function json_safe_encode($data) {
     return json_encode($data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
 }

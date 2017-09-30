@@ -24,10 +24,9 @@
  * logic, should go to locallib.php. This will help to save some memory when
  * Moodle is performing actions across all modules.
  *
- * @package    mod
- * @subpackage kalmediares
- * @copyright  (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_kalmediares
+ * @copyright (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
@@ -43,8 +42,8 @@ if (!defined('MOODLE_INTERNAL')) {
  * will create a new instance and return the id number
  * of the new instance.
  *
- * @param object $kalmediares An object from the form in mod_form.php
- * @return int The id of the newly inserted kalvidassign record
+ * @param object $kalmediares - An object from the form in mod_form.php
+ * @return int - The id of the newly inserted kalvidassign record
  */
 function kalmediares_add_instance($kalmediares) {
     global $DB;
@@ -61,8 +60,8 @@ function kalmediares_add_instance($kalmediares) {
  * (defined by the form in mod_form.php) this function
  * will update an existing instance with new data.
  *
- * @param object $kalmediares An object from the form in mod_form.php
- * @return boolean Success/Fail
+ * @param object $kalmediares - An object from the form in mod_form.php
+ * @return boolean - Success/Fail
  */
 function kalmediares_update_instance($kalmediares) {
     global $DB;
@@ -80,8 +79,8 @@ function kalmediares_update_instance($kalmediares) {
  * this function will permanently delete the instance
  * and any data that depends on it.
  *
- * @param int $id Id of the module instance
- * @return boolean Success/Failure
+ * @param int $id - Id of the module instance
+ * @return boolean - Success/Failure
  */
 function kalmediares_delete_instance($id) {
     global $DB;
@@ -101,8 +100,11 @@ function kalmediares_delete_instance($id) {
  * Used for user activity reports.
  * $return->time = the time they did it
  * $return->info = a short text description
- *
- * @return null
+ * @param object $course - Moodle course object.
+ * @param object $user - Moodle user object.
+ * @param object $mod - Moodle moduble object.
+ * @param object $kalmediares - An object from the form in mod_form.php.
+ * @return object - outline of user.
  * @todo Finish documenting this function
  */
 function kalmediares_user_outline($course, $user, $mod, $kalmediares) {
@@ -115,8 +117,11 @@ function kalmediares_user_outline($course, $user, $mod, $kalmediares) {
 /**
  * Print a detailed representation of what a user has done with
  * a given particular instance of this module, for user activity reports.
- *
- * @return boolean
+ * @param object $course - Moodle course object.
+ * @param object $user - Moodle user object.
+ * @param object $mod - Moodle module obuject.
+ * @param object $kalmediares - An object from the form in mod_form.php.
+ * @return boolean - this function always return true.
  * @todo Finish documenting this function
  */
 function kalmediares_user_complete($course, $user, $mod, $kalmediares) {
@@ -127,8 +132,10 @@ function kalmediares_user_complete($course, $user, $mod, $kalmediares) {
  * Given a course and a time, this module should find recent activity
  * that has occurred in kalvidres activities and print it out.
  * Return true if there was output, or false is there was none.
- *
- * @return boolean
+ * @param object $course - Moodle course object.
+ * @param array $viewfullnames - fullnames of course.
+ * @param int $timestart - timestamp.
+ * @return boolean - True if anything was printed, otherwise false.
  * @todo Finish documenting this function
  */
 function kalmediares_print_recent_activity($course, $viewfullnames, $timestart) {
@@ -140,8 +147,8 @@ function kalmediares_print_recent_activity($course, $viewfullnames, $timestart) 
  * Function to be run periodically according to the moodle cron
  * This function searches for things that need to be done, such
  * as sending out mail, toggling flags etc ...
- *
- * @return boolean
+ * @param none.
+ * @return boolean - this function always return false.
  */
 function kalmediares_cron () {
     return false;
@@ -153,8 +160,8 @@ function kalmediares_cron () {
  * of his role (student, teacher, admin...). The returned objects must contain
  * at least id property. See other modules as example.
  *
- * @param int $kalmediares ID of an instance of this module
- * @return boolean|array false if no participants, array of objects otherwise
+ * @param int $kalmediares - ID of an instance of this module
+ * @return boolean|array - false if no participants, array of objects otherwise
  */
 function kalmediares_get_participants($kalmediaresid) {
     // TODO: finish this function.
@@ -162,8 +169,9 @@ function kalmediares_get_participants($kalmediaresid) {
 }
 
 /**
- * @param string $feature FEATURE_xx constant for requested feature
- * @return mixed True if module supports feature, null if doesn't know
+ * This function return support status.
+ * @param string $feature - FEATURE_xx constant for requested feature
+ * @return mixed - True if module supports feature, null if doesn't know
  */
 function kalmediares_supports($feature) {
     switch($feature) {

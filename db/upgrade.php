@@ -24,10 +24,9 @@
  * it cannot do itself, it will tell you what you need to do.  The commands in
  * here will all be database-neutral, using the functions defined in DLL libraries.
  *
- * @package    mod
- * @subpackage kalmediares
- * @copyright  (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_kalmediares
+ * @copyright (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
@@ -40,8 +39,8 @@ if (!defined('MOODLE_INTERNAL')) {
 /**
  * Execute newmodule upgrade from the given old version
  *
- * @param int $oldversion
- * @return bool
+ * @param int $oldversion - version number of old plugin.
+ * @return bool - this function always return true.
  */
 function xmldb_kalmediares_upgrade($oldversion) {
     global $CFG, $DB;
@@ -69,6 +68,9 @@ function xmldb_kalmediares_upgrade($oldversion) {
              $field->setDefault('0');
              $dbman->add_field($table, $field);
         }
+
+        // Plugin kalmediares savepoint reached.
+        upgrade_mod_savepoint(true, 2017051202, 'kalmediares');
     }
 
     return true;

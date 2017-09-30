@@ -15,14 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Provides code to be executed during the module uninstallation
+ * Provides code to be executed during the module uninstallation.
  *
- * @see uninstall_plugin()
- *
- * @package    mod
- * @subpackage kalmediares
- * @copyright  2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_kalmediares
+ * @copyright 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
@@ -34,6 +31,8 @@ if (!defined('MOODLE_INTERNAL')) {
 
 /**
  * Custom uninstallation procedure
+ * @param none.
+ * @param bool - this function alyways return true.
  */
 function xmldb_kalmediares_uninstall() {
     return true;

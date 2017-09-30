@@ -17,8 +17,7 @@
 /**
  * Kaltura media resource renderer class
  *
- * @package    mod
- * @subpackage kalmediares
+ * @package    mod_kalmediares
  * @copyright  (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -34,8 +33,20 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.');
 }
 
+/**
+ * Renderer class of YU Kaltura media resource.
+ * @package   mod_kalmediares
+ * @copyright (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mod_kalmediares_renderer extends plugin_renderer_base {
 
+    /**
+     * This function return HTML markup to display module information(title).
+     * @access public
+     * @param string $title - title of module.
+     * @return string - HTML markup to display module information.
+     */
     public function display_mod_info($title) {
 
         $output = '';
@@ -47,6 +58,12 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
         return $output;
     }
 
+    /**
+     * This function return HTML markup to embed media.
+     * @access public
+     * @param object $kalmediares - object of Kaltura Media resource.
+     * @return string - HTML markup to embed media.
+     */
     public function embed_media($kalmediares) {
         global $PAGE, $COURSE;
 
@@ -76,9 +93,9 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
                 $entryobj->height = $kalmediares->height;
 
                 if (0 == strcmp($theme, 'mymobile')) {
-                    $markup = local_yukaltura_get_kwidget_code($entryobj, $kalmediares->uiconf_id, $courseid, $session);
+                    $markup = local_yukaltura_get_kwidget_code($entryobj, $kalmediares->uiconf_id, $session);
                 } else {
-                    $markup = local_yukaltura_get_kdp_code($entryobj, $kalmediares->uiconf_id, $courseid, $session);
+                    $markup = local_yukaltura_get_kdp_code($entryobj, $kalmediares->uiconf_id, $session);
                 }
             }
 
@@ -92,10 +109,22 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
         return $output;
     }
 
+    /**
+     * This function return HTML markup to display connection error message.
+     * @access public
+     * @param none.
+     * @return string - HTML markup to display connection error message.
+     */
     public function connection_failure() {
         return html_writer::tag('p', get_string('conn_failed_alt', 'local_yukaltura'));
     }
 
+    /**
+     * This function return HTML markup to display link to access status page.
+     * @access public
+     * @param int $id - module id.
+     * @return string - HTML markup to display link to access status page.
+     */
     public function create_access_link_markup($id) {
         global $COURSE, $USER;
 
@@ -127,6 +156,12 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
         return $output;
     }
 
+    /**
+     * This function return HTML markup to display paging bar.
+     * @access public
+     * @param int $page - page number.
+     * @return string - HTML markup to display paging bar.
+     */
     public function create_pagingbar_markup($page) {
         global $USER;
 
@@ -151,6 +186,19 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
         return $output;
     }
 
+    /**
+     * This function return HTML markup to display link to access status page.
+     * @access public.
+     * @param object $kamediares - object of Kaltura Media resource.
+     * @param int $moduleid - moudle id.
+     * @param string $sort - sorting option.
+     * @param string $order - sorting order ("ASC" or "DESC").
+     * @param int $page - page number.
+     * @param int $tablerows - rows per table.
+     * @param int $perpage - number of rows per page..
+     * @param int $rows - number of rows.
+     * @return string - HTML markup to display link to access status page.
+     */
     public function create_access_list_markup($kalmediares, $moduleid, $sort, $order, $page, $tablerows, $perpage, &$rows) {
         global $CFG, $COURSE, $USER, $OUTPUT, $DB;
 
@@ -175,7 +223,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
            $query = 'select m.id, picture, m.firstname, m.lastname, m.firstnamephonetic, m.lastnamephonetic, m.middlename, m.alternatename, m.imagealt, m.email, n.plays, n.views, n.first, n.last from ((select distinct u.id, picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email from {role_assignments} as a join {user} as u on u.id=a.userid and a.contextid=' . $coursecontext->id . ' and a.roleid=' . $roleid . ') as m left join (select v.userid, plays, views, least(firstview,ifnull(firstplay, firstview)) as first, greatest(ifnull(firstplay,firstview),ifnull(lastplay,lastview)) as last from ((select userid,count(timecreated) as views, min(timecreated) as firstview, max(timecreated) as lastview from {logstore_standard_log} where component=\'mod_kalmediares\' and action=\'viewed\' and contextinstanceid=' . $moduleid . ' group by userid) as v left join (select userid,count(timecreated) as plays, min(timecreated) as firstplay, max(timecreated) as lastplay from {logstore_standard_log} where component=\'mod_kalmediares\' and action=\'played\' and contextinstanceid=' . $moduleid . ' group by userid) as p on v.userid=p.userid)) as n on n.userid=m.id) order by ' . $sort . ' ' . $order;
 
-            $studentlist = $DB->get_recordset_sql( $query );
+            $studentlist = $DB->get_recordset_sql($query);
 
             $totalplays = 0;
             $totalviews = 0;
@@ -428,7 +476,12 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
         return $output;
     }
 
-
+    /**
+     * This function return HTML markup to display access error message.
+     * @access public
+     * @param string - IP address of client.
+     * @return string - HTML markup to display access error message.
+     */
     public function create_access_error_markup($ipaddress = 'unknown') {
         $output = '';
         $output .= get_string('invalid_ipaddress', 'kalmediares');
@@ -436,7 +489,14 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
         return $output;
     }
 
-
+    /**
+     * This function return HTML markup to display download button.
+     * @access public
+     * @param int $id - id of rsource module.
+     * @param string $sort - sorting option.
+     * @param string $order - sorting order.
+     * @return string - HTML markup to display download button.
+     */
     public function create_export_excel_markup($id, $sort, $order) {
         $output  = '';
 
@@ -454,8 +514,9 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
     /**
      * Displays the resources listing table.
-     *
-     * @param object $course The course odject.
+     * @access public
+     * @param object $course - The course odject.
+     * @return nothing.
      */
     public function display_kalmediaresources_table($course) {
         global $CFG, $DB, $PAGE, $OUTPUT, $USER;
@@ -510,9 +571,9 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
     /**
      * Render a course index summary.
-     *
-     * @param kalmediaassign_course_index_summary $indexsummary Structure for index summary.
-     * @return string HTML for assignments summary table
+     * @access public
+     * @param kalmediaassign_course_index_summary $indexsummary - Structure for index summary.
+     * @return string - HTML for assignments summary table.
      */
     public function render_kalmediares_course_index_summary(kalmediares_course_index_summary $indexsummary) {
         $strplural = get_string('modulenameplural', 'kalmediares');

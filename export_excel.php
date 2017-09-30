@@ -20,10 +20,9 @@
  * You can have a rather longer description of the file as well,
  * if you like, and it can span multiple lines.
  *
- * @package    mod
- * @subpackage kalmediares
- * @copyright  (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_kalmediares
+ * @copyright (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
@@ -123,7 +122,19 @@ if (($admin == true || ($userrole != 'student' && $userrole != 'guest')) && !emp
 
         $coursecontext = context_course::instance($COURSE->id);
 
-        $query = 'select m.id, m.username, m.firstname, m.lastname, n.plays, n.views, n.first, n.last from ((select distinct u.id, u.username, u.firstname, u.lastname from {role_assignments} as a join {user} as u on u.id=a.userid and a.contextid=' . $coursecontext->id . ' and a.roleid=' . $roleid . ' group by u.username) as m left join (select v.userid, plays, views, least(firstview,ifnull(firstplay, firstview)) as first, greatest(ifnull(firstplay,firstview),ifnull(lastplay,lastview)) as last from ((select userid,count(timecreated) as views, min(timecreated) as firstview, max(timecreated) as lastview from {logstore_standard_log} where component=\'mod_kalmediares\' and action=\'viewed\' and contextinstanceid=' . $id . ' group by userid) as v left join (select userid,count(timecreated) as plays, min(timecreated) as firstplay, max(timecreated) as lastplay from {logstore_standard_log} where component=\'mod_kalmediares\' and action=\'played\' and contextinstanceid=' . $id . ' group by userid) as p on v.userid=p.userid)) as n on n.userid=m.id) order by ' . $sort . ' ' . $order;
+        $query = 'select m.id, m.username, m.firstname, m.lastname, n.plays, n.views, n.first, n.last ';
+        $query .= 'from ((select distinct u.id, u.username, u.firstname, u.lastname from {role_assignments} a join {user} u ';
+        $query .= 'on u.id=a.userid and a.contextid=' . $coursecontext->id . ' and a.roleid=' . $roleid;
+        &query .= ' group by u.username) m ';
+        $query .= 'left join (select v.userid, plays, views, least(firstview,ifnull(firstplay, firstview)) ';
+        $query .= 'first, greatest(ifnull(firstplay,firstview),ifnull(lastplay,lastview)) last ';
+        $query .= 'from ((select userid,count(timecreated) views, min(timecreated) firstview, max(timecreated) lastview ';
+        $query .= 'from {logstore_standard_log} ';
+        $query .= 'where component=\'mod_kalmediares\' and action=\'viewed\' and contextinstanceid=' . $id . ' group by userid) v ';
+        $query .= 'left join (select userid,count(timecreated) plays, min(timecreated) firstplay, max(timecreated) lastplay ';
+        $query .= 'from {logstore_standard_log} where component=\'mod_kalmediares\' and action=\'played\' and ';
+        $quety .= 'contextinstanceid=' . $id . ' group by userid) p on v.userid=p.userid)) n on n.userid=m.id) ';
+        $query .= 'order by ' . $sort . ' ' . $order;
 
         $userdata = $DB->get_recordset_sql( $query );
 

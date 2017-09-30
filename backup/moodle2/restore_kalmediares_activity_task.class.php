@@ -15,11 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    moodlecore
- * @subpackage backup-moodle2
- * @copyright  (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
- * @copyright  (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   moodlecore_backup-moodle2
+ * @copyright (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
+ * @copyright (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/config.php');
@@ -33,12 +32,19 @@ if (!defined('MOODLE_INTERNAL')) {
 
 /**
  * kalmediares restore task that provides all the settings and steps to perform one
- * complete restore of the activity
+ * complete restore of the activity.
+ * @package   moodlecore_backup-moodle2
+ * @copyright (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
+ * @copyright (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class restore_kalmediares_activity_task extends restore_activity_task {
 
     /**
-     * Define (add) particular settings this activity can have
+     * Define (add) particular settings this activity can have.
+     * @access protected
+     * @param none.
+     * @return nothing.
      */
     protected function define_my_settings() {
         // No particular settings for this activity.
@@ -46,6 +52,9 @@ class restore_kalmediares_activity_task extends restore_activity_task {
 
     /**
      * Define (add) particular steps this activity can have
+     * @access protected
+     * @param none.
+     * @return nothing.
      */
     protected function define_my_steps() {
         // Certificate only has one structure step.
@@ -54,7 +63,10 @@ class restore_kalmediares_activity_task extends restore_activity_task {
 
     /**
      * Define the contents in the activity that must be
-     * processed by the link decoder
+     * processed by the link decoder.
+     * @access public
+     * @param none.
+     * @return array - decoded contents.
      */
     static public function define_decode_contents() {
         $contents = array();
@@ -66,7 +78,10 @@ class restore_kalmediares_activity_task extends restore_activity_task {
 
     /**
      * Define the decoding rules for links belonging
-     * to the activity to be executed by the link decoder
+     * to the activity to be executed by the link decoder.
+     * @access public
+     * @param none.
+     * @return array - list of rule.
      */
     static public function define_decode_rules() {
         $rules = array();
@@ -82,7 +97,10 @@ class restore_kalmediares_activity_task extends restore_activity_task {
      * Define the restore log rules that will be applied
      * by the {@link restore_logs_processor} when restoring
      * kalmediares logs. It must return one array
-     * of {@link restore_log_rule} objects
+     * of {@link restore_log_rule} objects.
+     * @access public
+     * @param none.
+     * @return array - list of rule.
      */
     static public function define_restore_log_rules() {
         $rules = array();
@@ -101,6 +119,10 @@ class restore_kalmediares_activity_task extends restore_activity_task {
      * Note this rules are applied when restoring course logs
      * by the restore final task, but are defined here at
      * activity level. All them are rules not linked to any module instance (cmid = 0)
+     *
+     * @access public
+     * @param none.
+     * @return array - list of rule.
      */
     static public function define_restore_log_rules_for_course() {
         $rules = array();

@@ -20,8 +20,7 @@
  * It uses the standard core Moodle formslib. For more info about them, please
  * visit: http://docs.moodle.org/en/Development:lib/formslib.php
  *
- * @package    mod
- * @subpackage kalmediares
+ * @package    mod_kalmediares
  * @copyright  (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -36,10 +35,22 @@ if (!defined('MOODLE_INTERNAL')) {
 
 require_once($CFG->dirroot . '/course/moodleform_mod.php');
 
+/**
+ * class of YU Kaltura Media resource setting form.
+ * @package mod_kalmediares
+ * @copyright  (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mod_kalmediares_mod_form extends moodleform_mod {
 
     protected $_default_player = false;
 
+    /**
+     * This function outputs a resource information form.
+     * @access protected
+     * @param none.
+     * @return nothing.
+     */
     protected function definition() {
         global $CFG, $COURSE, $PAGE;
 
@@ -52,7 +63,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
             $loginsession = $connection->getKs();
         }
 
-        $PAGE->requires->css('/mod/kalmediares/css/styles.css');
+        $PAGE->requires->css('/mod/kalmediares/css/kalmediares.css');
         $PAGE->requires->css('/local/yukaltura/css/simple_selector.css');
 
         $partnerid = local_yukaltura_get_partner_id();
@@ -67,7 +78,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         // Check if connection to Kaltura can be established.
         if ($connection) {
             $PAGE->requires->js('/local/yukaltura/js/jquery-3.0.0.js', true);
-            $PAGE->requires->js('/local/yukaltura/js/simple_selector.js', true);
+            $PAGE->requires->js_call_amd('local_yukaltura/simple_selector');
 
             $courseid = $COURSE->id;
 
@@ -78,7 +89,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
         if (local_yukaltura_has_mobile_flavor_enabled() && local_yukaltura_get_enable_html5()) {
 
-            $url = new moodle_url(local_yukaltura_htm5_javascript_url($uiconfid));
+            $url = new moodle_url(local_yukaltura_html5_javascript_url($uiconfid));
             $PAGE->requires->js($url, true);
         }
 
@@ -142,7 +153,12 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         $this->add_action_buttons();
     }
 
-
+    /**
+     * This function return HTML markup for progress bar.
+     * @access private
+     * @param none.
+     * @return string - HTML markup for progress bar.
+     */
     private function draw_progress_bar() {
         $attr = array('id' => 'progress_bar');
         $progressbar = html_writer::tag('span', '', $attr);
@@ -161,6 +177,12 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
     }
 
+    /**
+     * This function add "Access" part to module form.
+     * @access private
+     * @param object $mform - form object.
+     * @return string - HTML markup for "Access" part.
+     */
     private function add_access_definition($mform) {
         $accessgroup = array();
         $attry = array('id' => 'internal', 'name' => 'internal');
@@ -170,7 +192,12 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         $acessgroup[] =& $select;
     }
 
-
+    /**
+     * This function add "Media" part to module form.
+     * @access private
+     * @param object $mform - form object.
+     * @return string - HTML markup for "Media" part.
+     */
     private function add_media_definition($mform) {
         global $COURSE;
 
@@ -205,7 +232,12 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
     }
 
-
+    /**
+     * This function return HTML markup to display popup panel.
+     * @access private
+     * @param none.
+     * @return string - HTML markup to display popup panel.
+     */
     private function get_popup_markup() {
 
         $output = '';
@@ -240,7 +272,12 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         return $output;
     }
 
-
+    /**
+     * This function return HTML markup to display thumbnail.
+     * @access private
+     * @param none.
+     * @return string - HTML markup to display thumbnail.
+     */
     private function get_thumbnail_markup() {
         global $CFG;
 
@@ -291,9 +328,8 @@ class mod_kalmediares_mod_form extends moodleform_mod {
      *
      * If the override configuration option is checked, then this function will
      * only return a single array entry with the overridden player
-     *
-     * @param none
-     *
+     * @ access private
+     * @param none     *
      * @return array - First element will be an array whose keys are player ids
      * and values are player name.  Second element will be the default selected
      * player.  The default player is determined by the Kaltura configuraiton
@@ -338,10 +374,9 @@ class mod_kalmediares_mod_form extends moodleform_mod {
     /**
      * Create player properties panel markup.  Default values are loaded from
      * the javascript (see function "handle_cancel" in yukaltura.js
-     *
+     * @access private
      * @param - none
-     *
-     * @return string - html markup
+     * @return string - html markup for media preferences.
      */
     private function get_media_preferences_markup() {
         $output = '';
@@ -431,6 +466,12 @@ class mod_kalmediares_mod_form extends moodleform_mod {
     }
 
 
+    /**
+     * This function return media properties.
+     * @access private
+     * @param none.
+     * @return array - media properties.
+     */
     private function get_default_media_properties() {
         return $properties = array('media_prop_player' => 4674741,
                                    'media_prop_dimensions' => 0,
@@ -438,7 +479,12 @@ class mod_kalmediares_mod_form extends moodleform_mod {
                                   );
     }
 
-
+    /**
+     * This function changes form information after media selected.
+     * @access public
+     * @param none.
+     * @return nothing.
+     */
     public function definition_after_data() {
         $mform = $this->_form;
 
