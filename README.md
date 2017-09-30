@@ -52,7 +52,3 @@ Warning
 
 We are not responsible for any problem caused by this software. 
 This software follows the license policy of Moodle (GNU GPL v3).
-
-Build check
-------
-[![Build Status](https://travis-ci.org/YU-MITC/moodle-mod_kalmediares.svg?branch=MOODLE_29_STABLE)](https://travis-ci.org/YU-MITC/moodle-mod_kalmediares)

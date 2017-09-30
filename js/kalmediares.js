@@ -21,7 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/*global $:false */
+/*global $:false unsed:false undef:false jQuery:true */
 /* global $ */
 
 var addEvent;
@@ -253,7 +253,7 @@ function ariseRatechange()
 /**
  * This function trigger event.
  * @param none.
- * @return true if event transmission was succeed. Otherwise false.
+ * @return {bool} - true if event transmission was succeed. Otherwise false.
  */
 function triggerEvent()
 {
