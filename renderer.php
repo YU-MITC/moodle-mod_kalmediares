@@ -224,7 +224,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
             $query = 'select m.id, picture, m.firstname, m.lastname, m.firstnamephonetic, m.lastnamephonetic, m.middlename, ';
             $query .= 'm.alternatename, m.imagealt, m.email, n.plays, n.views, n.first, n.last ';
             $query .= 'from ((select distinct u.id, picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, ';
-            $query .= u.middlename, u.alternatename, u.imagealt, u.email ';
+            $query .= 'u.middlename, u.alternatename, u.imagealt, u.email ';
             $query .= 'from {role_assignments} a join {user} u ';
             $query .= 'on u.id=a.userid and a.contextid=' . $coursecontext->id . ' and a.roleid=' . $roleid . ') m ';
             $query .= 'left join (select v.userid, plays, views, least(firstview,ifnull(firstplay, firstview)) first, ';
