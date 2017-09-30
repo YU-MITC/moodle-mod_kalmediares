@@ -90,7 +90,7 @@ echo $OUTPUT->header();
 $admin = false;
 
 if (is_siteadmin()) {
-   $admin = true;
+    $admin = true;
 }
 
 $teacher = false;

@@ -221,7 +221,22 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
             $coursecontext = context_course::instance($COURSE->id);
 
-           $query = 'select m.id, picture, m.firstname, m.lastname, m.firstnamephonetic, m.lastnamephonetic, m.middlename, m.alternatename, m.imagealt, m.email, n.plays, n.views, n.first, n.last from ((select distinct u.id, picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email from {role_assignments} as a join {user} as u on u.id=a.userid and a.contextid=' . $coursecontext->id . ' and a.roleid=' . $roleid . ') as m left join (select v.userid, plays, views, least(firstview,ifnull(firstplay, firstview)) as first, greatest(ifnull(firstplay,firstview),ifnull(lastplay,lastview)) as last from ((select userid,count(timecreated) as views, min(timecreated) as firstview, max(timecreated) as lastview from {logstore_standard_log} where component=\'mod_kalmediares\' and action=\'viewed\' and contextinstanceid=' . $moduleid . ' group by userid) as v left join (select userid,count(timecreated) as plays, min(timecreated) as firstplay, max(timecreated) as lastplay from {logstore_standard_log} where component=\'mod_kalmediares\' and action=\'played\' and contextinstanceid=' . $moduleid . ' group by userid) as p on v.userid=p.userid)) as n on n.userid=m.id) order by ' . $sort . ' ' . $order;
+            $query = 'select m.id, picture, m.firstname, m.lastname, m.firstnamephonetic, m.lastnamephonetic, m.middlename, ';
+            $query .= 'm.alternatename, m.imagealt, m.email, n.plays, n.views, n.first, n.last ';
+            $query .= 'from ((select distinct u.id, picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, ';
+            $query .= u.middlename, u.alternatename, u.imagealt, u.email ';
+            $query .= 'from {role_assignments} a join {user} u ';
+            $query .= 'on u.id=a.userid and a.contextid=' . $coursecontext->id . ' and a.roleid=' . $roleid . ') m ';
+            $query .= 'left join (select v.userid, plays, views, least(firstview,ifnull(firstplay, firstview)) first, ';
+            $query .= 'greatest(ifnull(firstplay,firstview), ifnull(lastplay,lastview)) last ';
+            $query .= 'from ((select userid,count(timecreated) views, min(timecreated) firstview, max(timecreated) lastview ';
+            $query .= 'from {logstore_standard_log} where component=\'mod_kalmediares\' and ';
+            $query .= 'action=\'viewed\' and contextinstanceid=' . $moduleid . ' group by userid) v ';
+            $query .= 'left join (select userid,count(timecreated) plays, min(timecreated) firstplay, max(timecreated) lastplay ';
+            $query .= 'from {logstore_standard_log} ';
+            $query .= 'where component=\'mod_kalmediares\' and action=\'played\' ';
+            $query .= 'and contextinstanceid=' . $moduleid . ' group by userid) p on v.userid=p.userid)) n on n.userid=m.id) ';
+            $query .= 'order by ' . $sort . ' ' . $order;
 
             $studentlist = $DB->get_recordset_sql($query);
 
@@ -320,7 +335,6 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
                             $output .= '<a href="' . $link . '">' . get_string('plays', 'kalmediares') . '</a>';
 
                             $output .= html_writer::end_tag('th');
-
 
                             $attr = array('class' => 'header c4');
 

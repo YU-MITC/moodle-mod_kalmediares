@@ -43,7 +43,7 @@ if (!defined('MOODLE_INTERNAL')) {
  * @return bool - this function always return true.
  */
 function xmldb_kalmediares_upgrade($oldversion) {
-    global $CFG, $DB;
+    global $DB;
 
     $dbman = $DB->get_manager();
 

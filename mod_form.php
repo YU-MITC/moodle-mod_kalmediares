@@ -66,9 +66,6 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         $PAGE->requires->css('/mod/kalmediares/css/kalmediares.css');
         $PAGE->requires->css('/local/yukaltura/css/simple_selector.css');
 
-        $partnerid = local_yukaltura_get_partner_id();
-        $host = local_yukaltura_get_host();
-
         /*
          * This line is needed to avoid a PHP warning when the form is submitted.
          * Because this value is set as the default for one of the formslib elements.
@@ -82,9 +79,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
             $courseid = $COURSE->id;
 
-            $conversionscript = "../local/yukaltura/check_conversion.php?courseid={$courseid}&entry_id=";
             $uiconfid = local_yukaltura_get_player_uiconf('player_resource');
-            $progressbarmarkup = $this->draw_progress_bar();
         }
 
         if (local_yukaltura_has_mobile_flavor_enabled() && local_yukaltura_get_enable_html5()) {
@@ -181,22 +176,24 @@ class mod_kalmediares_mod_form extends moodleform_mod {
      * This function add "Access" part to module form.
      * @access private
      * @param object $mform - form object.
-     * @return string - HTML markup for "Access" part.
+     * @return nothing.
      */
     private function add_access_definition($mform) {
         $accessgroup = array();
-        $attry = array('id' => 'internal', 'name' => 'internal');
+        $attr = array('id' => 'internal', 'name' => 'internal');
         $options = array('0' => 'No', '1' => 'Yes');
         $select = $mform->addElement('select', 'internal', get_string('internal', 'mod_kalmediares'), $options);
         $select->setSelected('0');
         $acessgroup[] =& $select;
+
+        $mform->addGroup($accessgroup, 'access_group', '&nbsp;', '&nbsp;', false);
     }
 
     /**
      * This function add "Media" part to module form.
      * @access private
      * @param object $mform - form object.
-     * @return string - HTML markup for "Media" part.
+     * @return nothing.
      */
     private function add_media_definition($mform) {
         global $COURSE;

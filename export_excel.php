@@ -125,7 +125,7 @@ if (($admin == true || ($userrole != 'student' && $userrole != 'guest')) && !emp
         $query = 'select m.id, m.username, m.firstname, m.lastname, n.plays, n.views, n.first, n.last ';
         $query .= 'from ((select distinct u.id, u.username, u.firstname, u.lastname from {role_assignments} a join {user} u ';
         $query .= 'on u.id=a.userid and a.contextid=' . $coursecontext->id . ' and a.roleid=' . $roleid;
-        &query .= ' group by u.username) m ';
+        $query .= ' group by u.username) m ';
         $query .= 'left join (select v.userid, plays, views, least(firstview,ifnull(firstplay, firstview)) ';
         $query .= 'first, greatest(ifnull(firstplay,firstview),ifnull(lastplay,lastview)) last ';
         $query .= 'from ((select userid,count(timecreated) views, min(timecreated) firstview, max(timecreated) lastview ';
