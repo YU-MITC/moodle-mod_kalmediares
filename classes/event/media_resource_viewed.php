@@ -34,9 +34,6 @@ defined('MOODLE_INTERNAL') || die();
 class media_resource_viewed extends \core\event\base {
     /**
      * This function set default value.
-     * @access protected
-     * @param none.
-     * @return nothing.
      */
     protected function init() {
         // Select flags. c(reate), r(ead), u(pdate), d(elete).
@@ -47,8 +44,6 @@ class media_resource_viewed extends \core\event\base {
 
     /**
      * This function return event name.
-     * @access public
-     * @param none.
      * @return string - event name.
      */
     public static function get_name() {
@@ -57,8 +52,6 @@ class media_resource_viewed extends \core\event\base {
 
     /**
      * This function return description of submission.
-     * @access public
-     * @param none.
      * @return string - description of event.
      */
     public function get_description() {
@@ -68,8 +61,6 @@ class media_resource_viewed extends \core\event\base {
 
     /**
      * This function return object url.
-     * @access public
-     * @param none.
      * @return string - URL of target submission.
      */
     public function get_url() {
@@ -78,8 +69,6 @@ class media_resource_viewed extends \core\event\base {
 
     /**
      * This function return object url.
-     * @access public
-     * @param none.
      * @return array - log data.
      */
     public function get_legacy_logdata() {

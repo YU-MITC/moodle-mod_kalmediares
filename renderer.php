@@ -43,7 +43,6 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
     /**
      * This function return HTML markup to display module information(title).
-     * @access public
      * @param string $title - title of module.
      * @return string - HTML markup to display module information.
      */
@@ -60,7 +59,6 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
     /**
      * This function return HTML markup to embed media.
-     * @access public
      * @param object $kalmediares - object of Kaltura Media resource.
      * @return string - HTML markup to embed media.
      */
@@ -110,8 +108,6 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
     /**
      * This function return HTML markup to display connection error message.
-     * @access public
-     * @param none.
      * @return string - HTML markup to display connection error message.
      */
     public function connection_failure() {
@@ -120,7 +116,6 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
     /**
      * This function return HTML markup to display link to access status page.
-     * @access public
      * @param int $id - module id.
      * @return string - HTML markup to display link to access status page.
      */
@@ -157,7 +152,6 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
     /**
      * This function return HTML markup to display paging bar.
-     * @access public
      * @param int $page - page number.
      * @return string - HTML markup to display paging bar.
      */
@@ -186,8 +180,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
     /**
      * This function return HTML markup to display link to access status page.
-     * @access public.
-     * @param object $kamediares - object of Kaltura Media resource.
+     * @param object $kalmediares - object of Kaltura Media resource.
      * @param int $moduleid - moudle id.
      * @param string $sort - sorting option.
      * @param string $order - sorting order ("ASC" or "DESC").
@@ -489,8 +482,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
     /**
      * This function return HTML markup to display access error message.
-     * @access public
-     * @param string - IP address of client.
+     * @param string $ipaddress - IP address of client.
      * @return string - HTML markup to display access error message.
      */
     public function create_access_error_markup($ipaddress = 'unknown') {
@@ -502,7 +494,6 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
     /**
      * This function return HTML markup to display download button.
-     * @access public
      * @param int $id - id of rsource module.
      * @param string $sort - sorting option.
      * @param string $order - sorting order.
@@ -525,9 +516,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
     /**
      * Displays the resources listing table.
-     * @access public
      * @param object $course - The course odject.
-     * @return nothing.
      */
     public function display_kalmediaresources_table($course) {
         global $CFG, $PAGE, $OUTPUT;
@@ -577,8 +566,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
     /**
      * Render a course index summary.
-     * @access public
-     * @param kalmediaassign_course_index_summary $indexsummary - Structure for index summary.
+     * @param kalmediares_course_index_summary $indexsummary - Structure for index summary.
      * @return string - HTML for assignments summary table.
      */
     public function render_kalmediares_course_index_summary(kalmediares_course_index_summary $indexsummary) {

@@ -25,7 +25,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Renderable course index summary
+ * Renderable course index summary.
+ * @package    mod_kalmediares
+ * @copyright  (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class kalmediares_course_index_summary implements renderable {
     /** @var array resources A list of course module info and submission counts or statuses */
@@ -38,8 +41,8 @@ class kalmediares_course_index_summary implements renderable {
     /**
      * constructor
      *
-     * @param $usesections boolean True if this course format uses sections
-     * @param $courseformatname string The id of this course format
+     * @param bool $usesections - True if this course format uses sections
+     * @param string $courseformatname - The id of this course format
      */
     public function __construct($usesections, $courseformatname) {
         $this->usesections = $usesections;
@@ -49,9 +52,9 @@ class kalmediares_course_index_summary implements renderable {
     /**
      * Add a row of data to display on the course index page
      *
-     * @param int $cmid The course module id for generating a link
-     * @param string $cmname The course module name for generating a link
-     * @param string $sectionname The name of the course section (only if $usesections is true)
+     * @param int $cmid - The course module id for generating a link
+     * @param string $cmname - The course module name for generating a link
+     * @param string $sectionname - The name of the course section (only if $usesections is true)
      */
     public function add_resource_info($cmid, $cmname, $sectionname) {
         $this->resources[] = array(

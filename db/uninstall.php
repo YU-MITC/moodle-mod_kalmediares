@@ -31,8 +31,7 @@ if (!defined('MOODLE_INTERNAL')) {
 
 /**
  * Custom uninstallation procedure
- * @param none.
- * @param bool - this function alyways return true.
+ * @return bool - this function alyways return true.
  */
 function xmldb_kalmediares_uninstall() {
     return true;

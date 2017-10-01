@@ -160,7 +160,7 @@ echo $OUTPUT->footer();
 
 /**
  * This function encode data.
- * @param $data - source data.
+ * @param object $data - source data.
  * @return object - encoded data.
  */
 function json_safe_encode($data) {

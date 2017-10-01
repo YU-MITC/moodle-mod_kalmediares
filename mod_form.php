@@ -43,13 +43,11 @@ require_once($CFG->dirroot . '/course/moodleform_mod.php');
  */
 class mod_kalmediares_mod_form extends moodleform_mod {
 
+    /** @var default player is set. */
     protected $_default_player = false;
 
     /**
      * This function outputs a resource information form.
-     * @access protected
-     * @param none.
-     * @return nothing.
      */
     protected function definition() {
         global $CFG, $COURSE, $PAGE;
@@ -148,8 +146,6 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
     /**
      * This function return HTML markup for progress bar.
-     * @access private
-     * @param none.
      * @return string - HTML markup for progress bar.
      */
     private function draw_progress_bar() {
@@ -172,9 +168,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
     /**
      * This function add "Access" part to module form.
-     * @access private
      * @param object $mform - form object.
-     * @return nothing.
      */
     private function add_access_definition($mform) {
         $accessgroup = array();
@@ -188,9 +182,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
     /**
      * This function add "Media" part to module form.
-     * @access private
      * @param object $mform - form object.
-     * @return nothing.
      */
     private function add_media_definition($mform) {
 
@@ -223,8 +215,6 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
     /**
      * This function return HTML markup to display popup panel.
-     * @access private
-     * @param none.
      * @return string - HTML markup to display popup panel.
      */
     private function get_popup_markup() {
@@ -263,8 +253,6 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
     /**
      * This function return HTML markup to display thumbnail.
-     * @access private
-     * @param none.
      * @return string - HTML markup to display thumbnail.
      */
     private function get_thumbnail_markup() {
@@ -315,8 +303,6 @@ class mod_kalmediares_mod_form extends moodleform_mod {
      *
      * If the override configuration option is checked, then this function will
      * only return a single array entry with the overridden player
-     * @ access private
-     * @param none     *
      * @return array - First element will be an array whose keys are player ids
      * and values are player name.  Second element will be the default selected
      * player.  The default player is determined by the Kaltura configuraiton
@@ -361,8 +347,6 @@ class mod_kalmediares_mod_form extends moodleform_mod {
     /**
      * Create player properties panel markup.  Default values are loaded from
      * the javascript (see function "handle_cancel" in yukaltura.js
-     * @access private
-     * @param - none
      * @return string - html markup for media preferences.
      */
     private function get_media_preferences_markup() {
@@ -455,8 +439,6 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
     /**
      * This function return media properties.
-     * @access private
-     * @param none.
      * @return array - media properties.
      */
     private function get_default_media_properties() {
@@ -469,9 +451,6 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
     /**
      * This function changes form information after media selected.
-     * @access public
-     * @param none.
-     * @return nothing.
      */
     public function definition_after_data() {
         $mform = $this->_form;

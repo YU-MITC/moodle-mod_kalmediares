@@ -147,8 +147,7 @@ function kalmediares_print_recent_activity($course, $viewfullnames, $timestart) 
  * Function to be run periodically according to the moodle cron
  * This function searches for things that need to be done, such
  * as sending out mail, toggling flags etc ...
- * @param none.
- * @return boolean - this function always return false.
+ * @return bool - this function always return false.
  */
 function kalmediares_cron () {
     return false;
@@ -160,8 +159,8 @@ function kalmediares_cron () {
  * of his role (student, teacher, admin...). The returned objects must contain
  * at least id property. See other modules as example.
  *
- * @param int $kalmediares - ID of an instance of this module
- * @return boolean|array - false if no participants, array of objects otherwise
+ * @param int $kalmediaresid - ID of an instance of this module
+ * @return mixed - false if no participants, array of objects otherwise
  */
 function kalmediares_get_participants($kalmediaresid) {
     // TODO: finish this function.

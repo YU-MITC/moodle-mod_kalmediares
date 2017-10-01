@@ -15,7 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    moodlecore_backup-moodle2
+ * Restore step script.
+ * @package    mod_kalmediares
  * @copyright  (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @copyright  (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -35,7 +36,7 @@ if (!defined('MOODLE_INTERNAL')) {
 /**
  * Structure step to restore one kalmediares activity.
  *
- * @package    moodlecore_backup-moodle2
+ * @package    mod_kalmediares
  * @copyright  (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @copyright  (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -44,8 +45,6 @@ class restore_kalmediares_activity_structure_step extends restore_activity_struc
 
     /**
      * Define (add) particular settings this resource can have.
-     * @access protected
-     * @param none.
      * @return object - define structure.
      */
     protected function define_structure() {
@@ -60,7 +59,6 @@ class restore_kalmediares_activity_structure_step extends restore_activity_struc
 
     /**
      * Define (add) particular settings this resource can have.
-     * @access protected
      * @param object $data - array of data.
      * @return object - kalmediaassign instance.
      */
@@ -81,9 +79,6 @@ class restore_kalmediares_activity_structure_step extends restore_activity_struc
 
     /**
      * Restore related files.
-     * @access protected
-     * @param none.
-     * @return nothing.
      */
     protected function after_execute() {
         // Add kalmediares related files, no need to match by itemname (just internally handled context).
