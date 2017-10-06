@@ -51,6 +51,12 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.');
 }
 
+global $PAGE;
+
+$PAGE->set_url('/mod/kalmediares/db/acess.php');
+
+require_login();
+
 $capabilities = array(
 
     'mod/kalmediares:addinstance' => array(

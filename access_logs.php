@@ -74,6 +74,9 @@ require_course_login($course->id, true, $cm);
 $PAGE->set_url('/mod/kalmediares/access_logs.php', array('id' => $id, 'sort' => $sort, 'order' => $order));
 $PAGE->set_title(get_string('access_logs', 'kalmediares') . ':' . format_string($kalmediares->name));
 $PAGE->set_heading($course->fullname);
+$PAGE->set_course($course);
+
+require_login();
 
 $coursenode = $PAGE->navigation->find($id, navigation_node::TYPE_ACTIVITY);
 $thingnode = $coursenode->add(get_string('access_logs', 'kalmediares'),

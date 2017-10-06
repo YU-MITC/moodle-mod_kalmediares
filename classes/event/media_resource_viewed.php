@@ -21,7 +21,9 @@
  * @copyright (C) 2016-2017 Yamaguchi University <info-cc@ml.cc.yamaguchi-u.ac.jp>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 namespace mod_kalmediares\event;
+
 defined('MOODLE_INTERNAL') || die();
 
 /**

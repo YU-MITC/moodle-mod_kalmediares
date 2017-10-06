@@ -57,7 +57,7 @@ $PAGE->set_url('/mod/kalmediares/view.php', array('id' => $id));
 $PAGE->set_title(format_string($kalmediares->name));
 $PAGE->set_heading($course->fullname);
 
-$PAGE->requires->js('/local/yukaltura/js/jquery-3.0.0.js', true);
+$context = $PAGE->context;
 
 // Try connection.
 $kaltura = new yukaltura_connection();
@@ -72,8 +72,6 @@ if ($connection) {
         $PAGE->requires->js($url, true);
     }
 }
-
-$context = $PAGE->context;
 
 $admin = false;
 
@@ -96,16 +94,14 @@ foreach ($roles as $role) {
 }
 
 if ($student == true) {
-    $url = new moodle_url('/mod/kalmediares/trigger.php');
-
-    $PAGE->requires->data_for_js('trigger_url',  '"' . $url . '"');
-    $PAGE->requires->data_for_js('cmid', $id);
-
     $event = \mod_kalmediares\event\media_resource_viewed::create(array(
         'objectid' => $kalmediares->id,
         'context' => context_module::instance($cm->id)
     ));
     $event->trigger();
+
+   $url = $CFG->wwwroot . '/mod/kalmediares/trigger.php';
+   $PAGE->requires->js_call_amd('mod_kalmediares/playtrigger', 'init', array($url, $id));
 }
 
 $completion = new completion_info($course);
@@ -136,9 +132,6 @@ if ($kalmediares->internal == 1 and !local_yukaltura_check_internal($clientipadd
 
             if ($media !== null) {
                 echo $renderer->embed_media($kalmediares);
-                if ($student == true) {
-                    echo '<script type="text/javascript" src="js/kalmediares.js"></script>';
-                }
             }
         } catch (Exception $ex) {
             echo '<p>';

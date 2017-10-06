@@ -36,6 +36,12 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.');
 }
 
+global $PAGE;
+
+$PAGE->set_url('/mod/kalmediares/lib.php');
+
+require_login();
+
 /**
  * Given an object containing all the necessary data,
  * (defined by the form in mod_form.php) this function

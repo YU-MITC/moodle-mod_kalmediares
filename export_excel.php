@@ -34,7 +34,12 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.');
 }
 
-global $SESSION, $CFG, $USER, $COURSE, $DB;
+global $PAGE, $SESSION, $CFG, $USER, $COURSE, $DB;
+
+$PAGE->set_url('/mod/kalmediares/export_excel.php');
+$PAGE->set_course($COURSE);
+
+require_login();
 
 $id = optional_param('id', 0, PARAM_INT);                // Course Module ID.
 $sort = optional_param('sort', 'lastname', PARAM_TEXT);  // Sorting Key.

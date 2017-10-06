@@ -24,6 +24,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+global $PAGE, $COURSE;
+
+$PAGE->set_url('/mod/kalmediares/renderable.php');
+
+require_login();
+
 /**
  * Renderable course index summary.
  * @package    mod_kalmediares

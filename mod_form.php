@@ -35,6 +35,10 @@ if (!defined('MOODLE_INTERNAL')) {
 
 require_once($CFG->dirroot . '/course/moodleform_mod.php');
 
+$PAGE->set_url('/mod/kalmediares/mod_form.php');
+
+require_login();
+
 /**
  * class of YU Kaltura Media resource setting form.
  * @package mod_kalmediares
@@ -72,9 +76,11 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
         // Check if connection to Kaltura can be established.
         if ($connection) {
-            $PAGE->requires->js('/local/yukaltura/js/jquery-3.0.0.js', true);
-            $PAGE->requires->js('/local/yukaltura/js/simple_selector.js', true);
-
+            $PAGE->requires->js_call_amd('local_yukaltura/simpleselector', 'init',
+                                         array($CFG->wwwroot . "/local/yukaltura/simple_selector.php",
+                                               get_string('replace_media', 'mod_kalmediares')));
+            $PAGE->requires->js_call_amd('local_yukaltura/properties', 'init',
+                                         array($CFG->wwwroot . "/local/yukaltura/media_properties.php"));
             $uiconfid = local_yukaltura_get_player_uiconf('player_resource');
         }
 
@@ -131,7 +137,11 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
         if (local_yukaltura_login(true, '')) {
             $mform->addElement('header', 'video', get_string('media_hdr', 'kalmediares'));
-            $this->add_media_definition($mform);
+            if (empty($this->current->entry_id)) {
+                $this->add_media_definition($mform, null);
+            } else {
+                $this->add_media_definition($mform, $this->current->entry_id);
+            }
         } else {
             $mform->addElement('static', 'connection_fail', get_string('conn_failed_alt', 'local_yukaltura'));
         }
@@ -176,32 +186,27 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         $select = $mform->addElement('select', 'internal', get_string('internal', 'mod_kalmediares'), $options);
         $select->setSelected('0');
         $accessgroup[] =& $select;
-
-        $mform->addGroup($accessgroup, 'access_group', '&nbsp;', '&nbsp;', false);
     }
 
     /**
      * This function add "Media" part to module form.
      * @param object $mform - form object.
+     * @param string $entryid - id of media entry.
      */
-    private function add_media_definition($mform) {
+    private function add_media_definition($mform, $entryid) {
 
-        $thumbnail = $this->get_thumbnail_markup();
+        $thumbnail = $this->get_thumbnail_markup($entryid);
 
         $mform->addElement('static', 'add_media_thumb', '&nbsp;', $thumbnail);
 
-        if (empty($this->current->entry_id)) {
+        if (empty($entryid)) {
             $prop = array('style' => 'display:none;');
         }
 
-        $selectorurl = new moodle_url('/local/yukaltura/simple_selector.php');
-        $attr = array('onclick' => 'fadeInSelectorWindow("' . $selectorurl . '")');
-
         $mediagroup = array();
-        $mediagroup[] =& $mform->createElement('button', 'add_media', get_string('add_media', 'kalmediares'), $attr);
+        $mediagroup[] =& $mform->createElement('button', 'add_media', get_string('add_media', 'kalmediares'), array());
 
-        $propertiesurl = new moodle_url('/local/yukaltura/media_properties.php');
-        $prop = array('onclick' => 'fadeInPropertiesWindow(\'' . $propertiesurl . '\');');
+        $prop = array();
 
         if (empty($this->current->entry_id)) {
             $prop += array('style' => 'visibility: hidden;');
@@ -253,9 +258,10 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
     /**
      * This function return HTML markup to display thumbnail.
+     * @param string $entryid - id of media entry.
      * @return string - HTML markup to display thumbnail.
      */
-    private function get_thumbnail_markup() {
+    private function get_thumbnail_markup($entryid) {
         global $CFG;
 
         $source = '';
@@ -273,9 +279,9 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         $alt    = get_string('add_media', 'kalmediares');
         $title  = get_string('add_media', 'kalmediares');
 
-        if (!empty($this->current->entry_id)) {
+        if (!empty($entryid)) {
 
-            $entryobj = KalturaStaticEntries::get_entry($this->current->entry_id, null, false);
+            $entryobj = KalturaStaticEntries::get_entry($entryid, null, false);
 
             if (isset($entryobj->thumbnailUrl)) {
                 $source = $entryobj->thumbnailUrl;
@@ -288,8 +294,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         $attr = array('id' => 'media_thumbnail',
                       'src' => $source,
                       'alt' => $alt,
-                      'title' => $title,
-                      'onchange' => 'replaceAddMediaLabel(\'' . get_string('replace_media', 'mod_kalmediares') . '\');');
+                      'title' => $title);
 
         $output .= html_writer::empty_tag('img', $attr);
 

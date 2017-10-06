@@ -35,16 +35,18 @@ $id = required_param('id', PARAM_INT); // Course ID.
 
 $course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
 
-require_login($course);
-
-global $SESSION, $CFG;
+global $PAGE, $SESSION, $CFG;
 
 $strplural = get_string("modulenameplural", "kalmediares");
 $PAGE->set_url('/mod/kalmediares/index.php', array('id' => $id));
 $PAGE->set_pagelayout('incourse');
 $PAGE->navbar->add($strplural);
+$PAGE->set_url('/mod/kalmediares/index.php');
 $PAGE->set_title($strplural);
 $PAGE->set_heading($course->fullname);
+$PAGE->set_course($course);
+
+require_login();
 
 echo $OUTPUT->header();
 

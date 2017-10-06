@@ -29,6 +29,12 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.');
 }
 
+global $PAGE;
+
+$PAGE->set_url('/mod/kalmediares/db/uninstall.php');
+
+require_login();
+
 /**
  * Custom uninstallation procedure
  * @return bool - this function alyways return true.

@@ -33,6 +33,12 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.');
 }
 
+global $PAGE, $COURSE;
+
+$PAGE->set_url('/mod/kalmediares/renderer.php');
+
+require_login();
+
 /**
  * Renderer class of YU Kaltura media resource.
  * @package   mod_kalmediares

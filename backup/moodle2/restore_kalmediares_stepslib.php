@@ -29,6 +29,12 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.');
 }
 
+global $PAGE;
+
+$PAGE->set_url('/mod/kalmediares/backup/moodle2/restore_kalmediares_stepslib.php');
+
+require_login();
+
 /**
  * Define all the restore steps that will be used by the restore_kalmediares_activity_task
  */

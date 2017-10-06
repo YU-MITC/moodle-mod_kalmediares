@@ -33,6 +33,12 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.');
 }
 
+global $PAGE;
+
+$PAGE->set_url('/mod/kalmediares/backup/moodle2/backup_kalmediares_activity_task.class.php');
+
+require_login();
+
 /**
  * kalmediares backup task.
  * @package    mod_kalmediares
