@@ -69,7 +69,6 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
      * @return string - HTML markup to embed media.
      */
     public function embed_media($kalmediares) {
-        global $COURSE;
 
         $output = '';
         $entryobj = local_yukaltura_get_ready_entry_object($kalmediares->entry_id);

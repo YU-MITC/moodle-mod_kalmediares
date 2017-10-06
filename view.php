@@ -100,8 +100,8 @@ if ($student == true) {
     ));
     $event->trigger();
 
-   $url = $CFG->wwwroot . '/mod/kalmediares/trigger.php';
-   $PAGE->requires->js_call_amd('mod_kalmediares/playtrigger', 'init', array($url, $id));
+    $url = $CFG->wwwroot . '/mod/kalmediares/trigger.php';
+    $PAGE->requires->js_call_amd('mod_kalmediares/playtrigger', 'init', array($url, $id));
 }
 
 $completion = new completion_info($course);

@@ -35,13 +35,6 @@ define(['jquery'], function($) {
 
             var videoTags;
             var trigger = false;
-            var played;
-            var playing;
-            var seeked;
-            var timeupdated;
-            var paused;
-            var ratechange;
-            var ended;
 
             (function() {
                 if (typeof window.console === "undefined") {
@@ -126,7 +119,6 @@ define(['jquery'], function($) {
              */
             function arisePlay() {
                 videoTags.off("play", "**");
-                played = true;
                 if (trigger === false)  {
                     trigger = true;
                     triggerEvent();
@@ -138,7 +130,6 @@ define(['jquery'], function($) {
              */
             function arisePlaying() {
                 videoTags.off("playing", "**");
-                playing = true;
                 if (trigger === false) {
                     trigger = true;
                     triggerEvent();
@@ -150,7 +141,6 @@ define(['jquery'], function($) {
              */
             function ariseTimeupdate() {
                 videoTags.off("timeupdate", "**");
-                timeupdated = true;
                 if (trigger === false) {
                     trigger = true;
                     triggerEvent();
@@ -162,7 +152,6 @@ define(['jquery'], function($) {
              */
             function ariseSeeked() {
                 videoTags.off("seeked", "**");
-                seeked = true;
                 if (trigger === false) {
                     trigger = true;
                     triggerEvent();
@@ -174,7 +163,6 @@ define(['jquery'], function($) {
              */
             function arisePause() {
                 videoTags.off("pause", "**");
-                paused = true;
                 if (trigger === false) {
                     trigger = true;
                     triggerEvent();
@@ -186,7 +174,6 @@ define(['jquery'], function($) {
              */
             function ariseEnded() {
                 videoTags.off("ended", "**");
-                ended = true;
                 if (trigger === false) {
                     trigger = true;
                     triggerEvent();
@@ -198,7 +185,6 @@ define(['jquery'], function($) {
              */
             function ariseRatechange() {
                 videoTags.off("ratechange", "**");
-                ratechange = true;
                 if (trigger === false) {
                     trigger = true;
                     triggerEvent();

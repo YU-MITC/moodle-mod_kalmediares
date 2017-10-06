@@ -54,7 +54,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
      * This function outputs a resource information form.
      */
     protected function definition() {
-        global $CFG, $COURSE, $PAGE;
+        global $CFG, $PAGE;
 
         $kaltura = new yukaltura_connection();
         $connection = $kaltura->get_connection(true, KALTURA_SESSION_LENGTH);
