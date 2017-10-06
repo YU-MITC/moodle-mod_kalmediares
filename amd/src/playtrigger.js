@@ -29,7 +29,9 @@ define(['jquery'], function($) {
     return {
         /**
          * Initial function.
-         * @access
+         * @access public
+         * @param {string} serviceURL - url of event record page.
+         * @param {string} cmid - id of content module.
          */
         init: function(serviceURL, cmid) {
 
@@ -95,7 +97,7 @@ define(['jquery'], function($) {
                 serviceURL = serviceURL + '?id=' + cmid;
 
                 // Transmit data.
-                $.ajax (
+                $.ajax(
                    serviceURL, postData
                 )
                 .done(function(xmlData) {
@@ -119,7 +121,7 @@ define(['jquery'], function($) {
              */
             function arisePlay() {
                 videoTags.off("play", "**");
-                if (trigger === false)  {
+                if (trigger === false) {
                     trigger = true;
                     triggerEvent();
                 }
