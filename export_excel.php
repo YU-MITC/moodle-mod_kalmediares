@@ -37,7 +37,6 @@ if (!defined('MOODLE_INTERNAL')) {
 global $PAGE, $SESSION, $CFG, $USER, $COURSE, $DB;
 
 $PAGE->set_url('/mod/kalmediares/export_excel.php');
-$PAGE->set_course($COURSE);
 
 require_login();
 
