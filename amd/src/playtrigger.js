@@ -24,6 +24,7 @@
 /**
  * @module mod_kalmediares/playtrigger
  */
+
 define(['jquery'], function($) {
 
     return {
@@ -37,15 +38,6 @@ define(['jquery'], function($) {
 
             var videoTags;
             var trigger = false;
-
-            (function() {
-                if (typeof window.console === "undefined") {
-                    window.console = {};
-                }
-                if (typeof window.console.log !== "function") {
-                    window.console.log = function() {};
-                }
-            })();
 
             /**
              * This function retrieve os type.
