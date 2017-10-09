@@ -19,8 +19,9 @@ This plugin is updated with stable releases. To follow active development on Git
 Requirements
 ------
 
-PHP5.6 or greater.
-Web browsers must supprot the JavaScript and HTML5.
+* PHP5.6 or greater.
+* Web browsers must supprot the JavaScript and HTML5.
+* "local_yukaltura" and "local_yumymedia" plugins.
 
 Installation
 ------
