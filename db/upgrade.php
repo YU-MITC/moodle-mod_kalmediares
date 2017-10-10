@@ -36,10 +36,6 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.');
 }
 
-global $PAGE;
-
-$PAGE->set_url('/mod/kalmediares/db/upgrade.php');
-
 require_login();
 
 /**

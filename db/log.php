@@ -29,9 +29,7 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.');
 }
 
-global $DB, $PAGE;
-
-$PAGE->set_url('/mod/kalmediares/db/log.php');
+global $DB;
 
 require_login();
 

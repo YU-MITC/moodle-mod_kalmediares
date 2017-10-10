@@ -35,8 +35,6 @@ if (!defined('MOODLE_INTERNAL')) {
 
 require_once($CFG->dirroot . '/course/moodleform_mod.php');
 
-$PAGE->set_url('/mod/kalmediares/mod_form.php');
-
 require_login();
 
 /**

@@ -22,11 +22,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
+
 defined('MOODLE_INTERNAL') || die();
-
-global $PAGE, $COURSE;
-
-$PAGE->set_url('/mod/kalmediares/renderable.php');
 
 require_login();
 
