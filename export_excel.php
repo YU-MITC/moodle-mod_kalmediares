@@ -29,10 +29,7 @@ require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once($CFG->libdir . '/excellib.class.php');
 require_once(dirname(dirname(dirname(__FILE__))) . '/local/yukaltura/locallib.php');
 
-if (!defined('MOODLE_INTERNAL')) {
-    // It must be included from a Moodle page.
-    die('Direct access to this script is forbidden.');
-}
+defined('MOODLE_INTERNAL') || die();
 
 global $PAGE, $SESSION, $CFG, $USER, $COURSE, $DB;
 
@@ -128,19 +125,28 @@ if (($admin == true || ($userrole != 'student' && $userrole != 'guest')) && !emp
 
         $query = 'select m.id, m.username, m.firstname, m.lastname, n.plays, n.views, n.first, n.last ';
         $query .= 'from ((select distinct u.id, u.username, u.firstname, u.lastname from {role_assignments} a join {user} u ';
-        $query .= 'on u.id=a.userid and a.contextid=' . $coursecontext->id . ' and a.roleid=' . $roleid;
-        $query .= ' group by u.username) m ';
+        $query .= 'on u.id=a.userid and a.contextid=:cid and a.roleid=:rid ';
+        $query .= 'group by u.username) m ';
         $query .= 'left join (select v.userid, plays, views, least(firstview,ifnull(firstplay, firstview)) ';
         $query .= 'first, greatest(ifnull(firstplay,firstview),ifnull(lastplay,lastview)) last ';
         $query .= 'from ((select userid,count(timecreated) views, min(timecreated) firstview, max(timecreated) lastview ';
         $query .= 'from {logstore_standard_log} ';
-        $query .= 'where component=\'mod_kalmediares\' and action=\'viewed\' and contextinstanceid=' . $id . ' group by userid) v ';
+        $query .= 'where component=\'mod_kalmediares\' and action=\'viewed\' and contextinstanceid=:mid1 group by userid) v ';
         $query .= 'left join (select userid,count(timecreated) plays, min(timecreated) firstplay, max(timecreated) lastplay ';
         $query .= 'from {logstore_standard_log} where component=\'mod_kalmediares\' and action=\'played\' and ';
-        $query .= 'contextinstanceid=' . $id . ' group by userid) p on v.userid=p.userid)) n on n.userid=m.id) ';
-        $query .= 'order by ' . $sort . ' ' . $order;
+        $query .= 'contextinstanceid=:mid2 group by userid) p on v.userid=p.userid)) n on n.userid=m.id) ';
+        $query .= 'order by :sort :order';
 
-        $userdata = $DB->get_recordset_sql( $query );
+        $userdata = $DB->get_recordset_sql($query,
+                                           array(
+                                               'cid' => $coursecontext->id,
+                                               'rid' => $roleid,
+                                               'mid1' => $id,
+                                               'mid2' => $id,
+                                               'sort' => $sort,
+                                               'order' => $order
+                                           )
+                                          );
 
         $worksheet[0]->write_string(0, 0, get_string('username', 'moodle'));
         $worksheet[0]->write_string(0, 1, get_string('lastname', 'moodle'));

@@ -28,10 +28,7 @@
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once(dirname(dirname(dirname(__FILE__))) . '/local/yukaltura/locallib.php');
 
-if (!defined('MOODLE_INTERNAL')) {
-    // It must be included from a Moodle page.
-    die('Direct access to this script is forbidden.');
-}
+defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/course/moodleform_mod.php');
 
@@ -210,7 +207,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
             $prop += array('style' => 'visibility: hidden;');
         }
 
-        $mediagroup[] =& $mform->createElement('button', 'media_properties', get_string('media_properties', 'kalmediares'), $prop);
+        $mediagroup[] =& $mform->createElement('button', 'media_properties', get_string('media_properties', 'local_yukaltura'), $prop);
 
         $mform->addGroup($mediagroup, 'media_group', '&nbsp;', '&nbsp;', false);
 
@@ -438,7 +435,6 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
         return $output;
     }
-
 
     /**
      * This function return media properties.

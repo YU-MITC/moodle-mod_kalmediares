@@ -28,10 +28,7 @@
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once(dirname(dirname(dirname(__FILE__))) . '/local/yukaltura/locallib.php');
 
-if (!defined('MOODLE_INTERNAL')) {
-    // It must be included from a Moodle page.
-    die('Direct access to this script is forbidden.');
-}
+defined('MOODLE_INTERNAL') || die();
 
 $id = optional_param('id', 0, PARAM_INT);  // Course Module ID.
 
@@ -140,8 +137,7 @@ if ($kalmediares->internal == 1 and !local_yukaltura_check_internal($clientipadd
             }
         } catch (Exception $ex) {
             echo '<p>';
-            echo 'Media (id = ' . $kalmediares->entry_id. ') is not avctive.<br>';
-            echo 'This media may have been deleted.';
+            echo get_string('no_media', 'kalmediares', $kalmediares->entry_id);
             echo '</p>';
         }
     }
@@ -155,12 +151,3 @@ if ($kalmediares->internal == 1 and !local_yukaltura_check_internal($clientipadd
 }
 
 echo $OUTPUT->footer();
-
-/**
- * This function encode data.
- * @param object $data - source data.
- * @return object - encoded data.
- */
-function json_safe_encode($data) {
-    return json_encode($data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
-}
