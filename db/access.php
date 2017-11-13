@@ -48,8 +48,6 @@ require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 
 defined('MOODLE_INTERNAL') || die();
 
-require_login();
-
 $capabilities = array(
 
     'mod/kalmediares:addinstance' => array(

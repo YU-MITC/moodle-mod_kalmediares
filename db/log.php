@@ -28,8 +28,6 @@ defined('MOODLE_INTERNAL') || die();
 
 global $DB;
 
-require_login();
-
 $logs = array(
     array('module' => 'kalmediares',
           'action' => 'view',

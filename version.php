@@ -29,15 +29,13 @@ require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
 defined('MOODLE_INTERNAL') || die();
 
-require_login();
-
 $plugin->component = 'mod_kalmediares';
-$plugin->version = 2017103101;
-$plugin->release = 'YU Kaltura Media Resource 1.0.8';
+$plugin->version = 2017111300;
+$plugin->release = 'YU Kaltura Media Resource 1.0.9';
 $plugin->requires = 2015051100;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->cron = 0;
 $plugin->dependencies = array(
-    'local_yukaltura' => 2017103100,
-    'local_yumymedia' => 2017103100
+    'local_yukaltura' => 2017111300,
+    'local_yumymedia' => 2017111300
 );
