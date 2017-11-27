@@ -207,7 +207,8 @@ class mod_kalmediares_mod_form extends moodleform_mod {
             $prop += array('style' => 'visibility: hidden;');
         }
 
-        $mediagroup[] =& $mform->createElement('button', 'media_properties', get_string('media_properties', 'local_yukaltura'), $prop);
+        $mediagroup[] =& $mform->createElement('button', 'media_properties',
+                                               get_string('media_properties', 'local_yukaltura'), $prop);
 
         $mform->addGroup($mediagroup, 'media_group', '&nbsp;', '&nbsp;', false);
 
