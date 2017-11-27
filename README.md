@@ -34,8 +34,11 @@ Installation will be completed after you log in as an administrator and access t
 How to use
 ------
 
-Soory!!
-We will write soon...
+User's guide, click [here](https://github.com/YU-MITC/moodle-local_yukaltura/blob/master/userguide_version1.1.pdf).
+
+Now, we wrote sections about installation, initial configuration and summary of "My Media".
+
+Rest sections will be written soon...
 
 Targeted Moodle versions
 ------
@@ -45,12 +48,12 @@ Moodle 2.9, 3.0, 3.1, 3.2, 3.3, 3.4
 Branches
 ------
 
-* MOODLE_29_STABLE -> Moodle2.9 branch
-* MOODLE_30_STABLE -> Moodle3.0 branch
-* MOODLE_31_STABLE -> Moodle3.1 branch
-* MOODLE_32_STABLE -> Moodle3.2 branch
-* MOODLE_33_STABLE -> Moodle3.3 branch
-* MOODLE_34_STABLE -> Moodle3.4 branch
+* MOODLE_29_STABLE -> Moodle2.9 branch 
+* MOODLE_30_STABLE -> Moodle3.0 branch 
+* MOODLE_31_STABLE -> Moodle3.1 branch 
+* MOODLE_32_STABLE -> Moodle3.2 branch 
+* MOODLE_33_STABLE -> Moodle3.3 branch 
+* MOODLE_34_STABLE -> Moodle3.4 branch 
 
 First clone the repository with "git clone", then "git checkout MOODLE_29_STABLE(branch name)" to switch branches.
 
