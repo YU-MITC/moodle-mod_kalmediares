@@ -90,7 +90,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
                 if (0 == strcmp($theme, 'mymobile')) {
                     $markup = local_yukaltura_get_kwidget_code($entryobj, $kalmediares->uiconf_id, $session);
                 } else {
-                    $markup = local_yukaltura_get_kdp_code($entryobj, $kalmediares->uiconf_id, $session);
+                    $markup = local_yukaltura_get_dynamicembed_code($entryobj, $kalmediares->uiconf_id, $session);
                 }
             }
 
