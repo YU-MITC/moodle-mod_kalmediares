@@ -135,16 +135,14 @@ if (($admin == true || ($userrole != 'student' && $userrole != 'guest')) && !emp
         $query .= 'left join (select userid,count(timecreated) plays, min(timecreated) firstplay, max(timecreated) lastplay ';
         $query .= 'from {logstore_standard_log} where component=\'mod_kalmediares\' and action=\'played\' and ';
         $query .= 'contextinstanceid=:mid2 group by userid) p on v.userid=p.userid)) n on n.userid=m.id) ';
-        $query .= 'order by :sort :order';
+        $query .= 'order by ' . $sort . ' ' . $order;
 
         $userdata = $DB->get_recordset_sql($query,
                                            array(
                                                'cid' => $coursecontext->id,
                                                'rid' => $roleid,
                                                'mid1' => $id,
-                                               'mid2' => $id,
-                                               'sort' => $sort,
-                                               'order' => $order
+                                               'mid2' => $id
                                            )
                                           );
 

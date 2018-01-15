@@ -37,11 +37,11 @@ $page = optional_param('page', 0, PARAM_INT);            // Mymedia Page ID.
 $sort = optional_param('sort', 'lastname', PARAM_TEXT);  // Sorting Key.
 $order = optional_param('order', 'ASC', PARAM_TEXT);     // Sorting Order (ASC or DESC).
 
-if ($sort != 'lastname' and $sort != 'firstname' and $sort != 'last' and $sort != 'plays' and $sort != 'views') {
+if ($sort != 'lastname' && $sort != 'firstname' && $sort != 'last' && $sort != 'plays' && $sort != 'views') {
     $sort = 'lastname';
 }
 
-if ($order != 'ASC' and $order != 'DESC') {
+if ($order != 'ASC' && $order != 'DESC') {
     $order = 'ASC';
 }
 
@@ -72,8 +72,6 @@ $PAGE->set_url('/mod/kalmediares/access_logs.php', array('id' => $id, 'sort' => 
 $PAGE->set_title(get_string('access_logs', 'kalmediares') . ':' . format_string($kalmediares->name));
 $PAGE->set_heading($course->fullname);
 $PAGE->set_course($course);
-
-require_login();
 
 $coursenode = $PAGE->navigation->find($id, navigation_node::TYPE_ACTIVITY);
 $thingnode = $coursenode->add(get_string('access_logs', 'kalmediares'),

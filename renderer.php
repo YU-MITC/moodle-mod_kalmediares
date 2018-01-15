@@ -224,16 +224,14 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
             $query .= 'from {logstore_standard_log} ';
             $query .= 'where component=\'mod_kalmediares\' and action=\'played\' ';
             $query .= 'and contextinstanceid=:mid2 group by userid) p on v.userid=p.userid)) n on n.userid=m.id) ';
-            $query .= 'order by :sort :order';
+            $query .= 'order by ' . $sort . ' ' . $order;
 
             $studentlist = $DB->get_recordset_sql($query,
                                                   array(
                                                       'cid' => $coursecontext->id,
                                                       'rid' => $roleid,
                                                       'mid1' => $moduleid,
-                                                      'mid2' => $moduleid,
-                                                      'sort' => $sort,
-                                                      'order' => $order
+                                                      'mid2' => $moduleid
                                                   )
                                                  );
 
@@ -258,7 +256,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
                     $totalplays = $totalplays + $student->plays;
                     $totalviews = $totalviews + $student->views;
 
-                    if ($student->last != null and $student->last > 0) {
+                    if ($student->last != null and $student->last > 0 and $student->last > $recently) {
                         $recently = $student->last;
                     }
 
@@ -546,7 +544,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
         $resourcecount = 0;
 
-        if (!empty($modinfo) && !empty($modinfo->instances['kalmediares'])) {
+        if (!empty($modinfo) and !empty($modinfo->instances['kalmediares'])) {
             foreach ($modinfo->instances['kalmediares'] as $cm) {
                 if (!$cm->uservisible) {
                     continue;
@@ -555,7 +553,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
                 $resourcecount++;
 
                 $sectionname = '';
-                if ($usesections && $cm->sectionnum) {
+                if ($usesections and $cm->sectionnum) {
                     $sectionname = get_section_name($course, $sections[$cm->sectionnum]);
                 }
 

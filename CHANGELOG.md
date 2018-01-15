@@ -14,3 +14,5 @@ Version 1.1.1
 Version 1.1.2
 
 * added statements in README.md.
+* fixed last access timestamp and sort/order issue of access list (in renderer.php and export_excel.php).
+
