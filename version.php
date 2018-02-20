@@ -28,12 +28,12 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_kalmediares';
-$plugin->version = 2018012700;
-$plugin->release = 'YU Kaltura Media Resource 1.1.2';
+$plugin->version = 2018022000;
+$plugin->release = 'YU Kaltura Media Resource 1.1.3';
 $plugin->requires = 2015051100;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->cron = 0;
 $plugin->dependencies = array(
-    'local_yukaltura' => 2018012700,
-    'local_yumymedia' => 2018012700
+    'local_yukaltura' => 2018022000,
+    'local_yumymedia' => 2018022000
 );

@@ -16,3 +16,7 @@ Version 1.1.2
 * added statements in README.md.
 * fixed last access timestamp and sort/order issue of access list (in renderer.php and export_excel.php).
 
+Versiuon 1.1.3
+
+* supported "Chrome OS" for recording view/play logs.
+

@@ -57,6 +57,8 @@ define(['jquery'], function($) {
                     os = "Windows";
                 } else if (ua.match(/Mac|PPC/)) {
                     os = "Mac OS";
+                } else if (ua.match(/CrOS/)) {
+                    os = "Chrome OS";
                 } else {
                     os = "Other";
                 }
@@ -189,7 +191,7 @@ define(['jquery'], function($) {
                 var mobile = false;
                 var os = getOperatingSystem();
 
-                if (os == 'iOS' || os == 'Android') {
+                if (os == 'iOS' || os == 'Android' || os == 'Chrome OS') {
                     mobile = true;
                 }
 
