@@ -50,7 +50,6 @@ script:
   - moodle-plugin-ci validate
   - moodle-plugin-ci savepoints
   - moodle-plugin-ci mustache
-  - moodle-plugin-ci grunt --force --tasks amd
-  - moodle-plugin-ci grunt --force --tasks gherkinlint
+  - moodle-plugin-ci grunt
   - moodle-plugin-ci phpunit
   - moodle-plugin-ci behat
