@@ -60,8 +60,10 @@ class mod_kalmediares_mod_form extends moodleform_mod {
             $loginsession = $connection->getKs();
         }
 
-        $PAGE->requires->css('/mod/kalmediares/css/kalmediares.css');
-        $PAGE->requires->css('/local/yukaltura/css/simple_selector.css');
+        if (strpos($PAGE->url, 'modedit.php') !== false ) {
+            $PAGE->requires->css('/mod/kalmediares/css/kalmediares.css');
+            $PAGE->requires->css('/local/yukaltura/css/simple_selector.css');
+        }
 
         /*
          * This line is needed to avoid a PHP warning when the form is submitted.
