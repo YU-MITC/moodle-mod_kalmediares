@@ -25,3 +25,7 @@ Version 1.1.4
 * fixed issue that an error occurs in the "Administration->Course completion".
 * supports auto completion tracking.
 
+Version 1.1.5
+
+* added statements in README.md.
+
