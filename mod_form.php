@@ -147,7 +147,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
          $this->add_access_definition($mform);
 
          $mform->addElement('header', 'access_log', get_string('publish_access_log_hdr', 'kalmediares'));
-         $this->add_view_access_log_definition($mform);
+         $this->add_publish_access_log_definition($mform);
 
         $this->standard_coursemodule_elements();
 
@@ -180,7 +180,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
      * This function add "Access Log" part to module form.
      * @param object $mform - form object.
      */
-    private function add_view_access_log_definition($mform) {
+    private function add_publish_access_log_definition($mform) {
         $accessgroup = array();
         $options = array('0' => 'No', '1' => 'Yes');
         $select = $mform->addElement('select', 'publish_access_log', get_string('publish_access_log', 'mod_kalmediares'), $options);

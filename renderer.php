@@ -174,19 +174,6 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
             $plays = 0;
             $views = 0;
 
-            $sql = 'select count(*) as views from {logstore_standard_log} ';
-            $sql .= 'where component=\'mod_kalmediares\' and contextinstanceid = :mid and ';
-            $sql .= 'action = \'viewed\' and userid = :uid and timecreated <= :stamp';
-            $result = $DB->get_record_sql($sql, array('mid' => $id, 'uid' => $USER->id, 'stamp' => $stamp));
-
-            if (!empty($result)) {
-                $attr = array('align' => 'center');
-                $output .= html_writer::start_tag('div', $attr);
-                $views = $result->views;
-                $output .= get_string('your_views', 'kalmediares', $views);
-                $output .= html_writer::end_tag('div');
-            }
-
             $sql = 'select count(*) as plays from {logstore_standard_log} ';
             $sql .= 'where component=\'mod_kalmediares\' and contextinstanceid = :mid and ';
             $sql .= 'action = \'played\' and userid = :uid and timecreated <= :stamp';
@@ -197,6 +184,19 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
                 $output .= html_writer::start_tag('div', $attr);
                 $plays = $result->plays;
                 $output .= get_string('your_plays', 'kalmediares', $plays);
+                $output .= html_writer::end_tag('div');
+            }
+
+            $sql = 'select count(*) as views from {logstore_standard_log} ';
+            $sql .= 'where component=\'mod_kalmediares\' and contextinstanceid = :mid and ';
+            $sql .= 'action = \'viewed\' and userid = :uid and timecreated <= :stamp';
+            $result = $DB->get_record_sql($sql, array('mid' => $id, 'uid' => $USER->id, 'stamp' => $stamp));
+
+            if (!empty($result)) {
+                $attr = array('align' => 'center');
+                $output .= html_writer::start_tag('div', $attr);
+                $views = $result->views;
+                $output .= get_string('your_views', 'kalmediares', $views);
                 $output .= html_writer::end_tag('div');
             }
 
