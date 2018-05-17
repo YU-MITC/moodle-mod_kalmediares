@@ -29,3 +29,7 @@ Version 1.1.5
 
 * added statements in README.md.
 
+Version 1.1.6
+
+* added functions for course reset in lib.php. Actually, these functions do nothing.
+* fixed statements about "How to use" in README.md.

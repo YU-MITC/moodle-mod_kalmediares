@@ -149,6 +149,72 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
     }
 
     /**
+     * This function return HTML markup to display play/view counts.
+     * @param int $id - module id.
+     * @param object $kalmediares - instance object of YU Kaltura Media Resource.
+     * @return string - HTML markup to display link to access status page.
+     */
+    public function create_student_playsviews_markup($id, $kalmediares) {
+        global $COURSE, $USER, $DB;
+
+        $output = '';
+        $student = false;
+
+        $coursecontext = context_course::instance($COURSE->id);
+        $roles = get_user_roles($coursecontext, $USER->id);
+        foreach ($roles as $role) {
+            if ($role->shortname == 'student') {
+                $student = true;
+            }
+        }
+
+        if ($student == true) {
+            $stamp = time() - 3600 * $kalmediares->exclusion_time;
+
+            $plays = 0;
+            $views = 0;
+
+            $sql = 'select count(*) as views from {logstore_standard_log} ';
+            $sql .= 'where component=\'mod_kalmediares\' and contextinstanceid = :mid and ';
+            $sql .= 'action = \'viewed\' and userid = :uid and timecreated <= :stamp';
+            $result = $DB->get_record_sql($sql, array('mid' => $id, 'uid' => $USER->id, 'stamp' => $stamp));
+
+            if (!empty($result)) {
+                $attr = array('align' => 'center');
+                $output .= html_writer::start_tag('div', $attr);
+                $views = $result->views;
+                $output .= get_string('your_views', 'kalmediares', $views);
+                $output .= html_writer::end_tag('div');
+            }
+
+            $sql = 'select count(*) as plays from {logstore_standard_log} ';
+            $sql .= 'where component=\'mod_kalmediares\' and contextinstanceid = :mid and ';
+            $sql .= 'action = \'played\' and userid = :uid and timecreated <= :stamp';
+            $result = $DB->get_record_sql($sql, array('mid' => $id, 'uid' => $USER->id, 'stamp' => $stamp));
+
+            if (!empty($result)) {
+                $attr = array('align' => 'center');
+                $output .= html_writer::start_tag('div', $attr);
+                $plays = $result->plays;
+                $output .= get_string('your_plays', 'kalmediares', $plays);
+                $output .= html_writer::end_tag('div');
+            }
+
+            if ($kalmediares->exclusion_time > 0) {
+                $attr = array('align' => 'center');
+                $output .= html_writer::start_tag('div', $attr);
+                $output .= html_writer::start_tag('font', array('color' => 'red'));
+                $output .= get_string('delay_stats_desc', 'mod_kalmediares', $kalmediares->exclusion_time);
+                $output .= html_writer::end_tag('font');
+                $output .= html_writer::end_tag('div');
+            }
+
+        }
+
+        return $output;
+    }
+
+    /**
      * This function return HTML markup to display paging bar.
      * @param int $page - page number.
      * @return string - HTML markup to display paging bar.

@@ -142,6 +142,10 @@ if ($kalmediares->internal == 1 and !local_yukaltura_check_internal($clientipadd
         }
     }
 
+    if ($student == true && $kalmediares->publish_access_log == 1) {
+        echo $renderer->create_student_playsviews_markup($cm->id, $kalmediares);
+    }
+
     if ($teacher == true || $admin == true) {
         echo $renderer->create_access_link_markup($cm->id);
     }

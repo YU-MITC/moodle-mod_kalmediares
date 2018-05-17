@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/kalmediares/db" VERSION="2018011500" COMMENT="XMLDB file for Moodle mod/newmodule"
+<XMLDB PATH="mod/kalmediares/db" VERSION="2018051400" COMMENT="XMLDB file for Moodle mod/newmodule"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -17,8 +17,10 @@
         <FIELD NAME="widescreen" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Video playback dimensions widescreen or normal" PREVIOUS="uiconf_id" NEXT="height"/>
         <FIELD NAME="height" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Video height" PREVIOUS="widescreen" NEXT="width"/>
         <FIELD NAME="width" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Video playback width" PREVIOUS="height" NEXT="internal"/>
-        <FIELD NAME="internal" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="width" NEXT="timemodified" />
-        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Time modified" PREVIOUS="access" NEXT="timecreated"/>
+        <FIELD NAME="internal" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="width" NEXT="view_access_log" />
+        <FIELD NAME="publish_access_log" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="internal" NEXT="exclusion_time" />
+        <FIELD NAME="exclusion_time" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="plublish_access_log" NEXT="timemodified" />
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Time modified" PREVIOUS="view_access_log" NEXT="timecreated"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Time created" PREVIOUS="timemodified"/>
       </FIELDS>
       <KEYS>
