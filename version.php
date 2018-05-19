@@ -28,7 +28,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_kalmediares';
-$plugin->version = 2018051700;
+$plugin->version = 2018051701;
 $plugin->release = 'YU Kaltura Media Resource 1.1.6';
 $plugin->requires = 2015051100;
 $plugin->maturity = MATURITY_STABLE;

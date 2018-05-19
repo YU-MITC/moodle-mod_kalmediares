@@ -50,7 +50,6 @@ $string['publish_access_log'] = 'Publish access log to students';
 $string ['publish_access_log_help'] = 'If this property is set to "Yes", student can view own statistics (number of "media plays" and "page views").';
 $string['exclusion_time'] = 'Exclusion time (hours)';
 $string['exclusion_time_help'] = 'Exclude the access log of the last few hours from the statistics presented to the students.';
-$string['exclusion_time_help'] .= 'This property is used to hide mechanism of update the number of "plays" and "views" from students.';
 $string['previewmedia'] = 'Preview';
 $string['event_media_resource_viewed'] = 'Media resource viewed';
 $string['event_media_resource_played'] = 'Media resource played';
