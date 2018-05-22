@@ -33,6 +33,14 @@ Requirements
 * Web browsers must support the JavaScript and HTML5.
 * "local_yukaltura" and "local_yumymedia" plugins.
 
+Supported themes
+-----
+
+* Clean
+* Boost (version 1.1.7 and later)
+
+This plugin package might be able to work with other themes.
+
 Installation
 ------
 
