@@ -38,3 +38,7 @@ Version 1.1.7
 
 * added statements about "Supported themes" in README.md.
 
+Version 1.1.8
+
+* fixed some statements for support "Boost" theme in kalmediares.css.
+
