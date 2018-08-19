@@ -40,5 +40,5 @@ Version 1.1.7
 
 Version 1.1.8
 
-* fixed some statements for support "Boost" theme in kalmediares.css.
-
+* added statements about "Requirements" in README.md.
+* fixed copyright statements in all scripts.
