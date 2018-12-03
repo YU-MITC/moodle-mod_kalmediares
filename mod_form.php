@@ -260,11 +260,13 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
         if (get_config(KALTURA_PLUGIN_NAME, 'kalmediares_upload') == 1 && local_yukaltura_get_mymedia_permission()) {
             $mediagroup = array();
-            $mediagroup[] =& $mform->createElement('button', 'upload_media',
-                                                   get_string('simple_upload', 'local_yumymedia'), array());
+                $str = get_string('simple_upload', 'local_yumymedia');
+                $str .= ' (' . get_string('pc_recommended', 'local_yumymedia') . ')';
+            $mediagroup[] =& $mform->createElement('button', 'upload_media', $str, array());
             if (get_config(KALTURA_PLUGIN_NAME, 'enable_webcam') == 1) {
-                $mediagroup[] =& $mform->createElement('button', 'record_media',
-                                                       get_string('webcam_upload', 'local_yumymedia') . ' (' . get_string('pc_only', 'local_yumymedia') . ')', array());
+                $str = get_string('webcam_upload', 'local_yumymedia');
+                $str .= ' (' . get_string('pc_only', 'local_yumymedia') . ')';
+                $mediagroup[] =& $mform->createElement('button', 'record_media', $str, array());
             }
             $mform->addGroup($mediagroup, 'media_group2', '&nbsp;', '&nbsp;', false);
         }
@@ -520,7 +522,6 @@ class mod_kalmediares_mod_form extends moodleform_mod {
                             break;
                         }
 
-                        // if (0 == strcmp('pres_info', $data2->_attributes['name'])) {
                         if (0 == strcmp('res_info', $data2->_attributes['name'])) {
                             $mform->_elements[$key]->_elements[$key2]->setValue('');
                             break;
