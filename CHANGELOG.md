@@ -42,3 +42,8 @@ Version 1.1.8
 
 * added statements about "Requirements" in README.md.
 * fixed copyright statements in all scripts.
+
+Version 1.2.0
+
+* fixed some statements in view.php, in order to permit teachers to upload/record new movie in editing page of resource module (In order to permit upload/record, administrators must set some items in configuration page of local_yukaltura).
+* fixed some statements in media_resource_played.php, and media_resource_viewed.php, in order to respond to backup and restore mechanisms in recently versions of Moodle.

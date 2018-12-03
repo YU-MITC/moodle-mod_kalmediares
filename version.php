@@ -20,20 +20,20 @@
  * Setting the $plugin->version to 0 prevents the plugin from being installed.
  * See https://docs.moodle.org/dev/version.php for more info.
  *
- * @package   mod_kalmediares
- * @copyright (C) 2016-2018 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    mod_kalmediares
+ * @copyright  (C) 2016-2018 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_kalmediares';
-$plugin->version = 2018082000;
-$plugin->release = 'YU Kaltura Media Resource 1.1.8';
+$plugin->version = 2018120300;
+$plugin->release = 'YU Kaltura Media Resource 1.2.0';
 $plugin->requires = 2015051100;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->cron = 0;
 $plugin->dependencies = array(
-    'local_yukaltura' => 2018082000,
-    'local_yumymedia' => 2018082000
+    'local_yukaltura' => 2018120300,
+    'local_yumymedia' => 2018120300
 );

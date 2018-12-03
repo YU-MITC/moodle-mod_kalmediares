@@ -16,10 +16,10 @@
 
 /**
  * Backup step script.
- * @package   mod_kalmediares
- * @copyright (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
- * @copyright (C) 2016-2018 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    mod_kalmediares
+ * @copyright  (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
+ * @copyright  (C) 2016-2018 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/config.php');
@@ -38,10 +38,10 @@ require_login();
 
 /**
  * Define the complete kalmediares structure for backup, with file and id annotations.
- * @package   mod_kalmediares
- * @copyright (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
- * @copyright (C) 2016-2018 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    mod_kalmediares
+ * @copyright  (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
+ * @copyright  (C) 2016-2018 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_kalmediares_activity_structure_step extends backup_activity_structure_step {
 

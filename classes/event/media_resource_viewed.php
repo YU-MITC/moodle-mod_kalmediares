@@ -77,4 +77,13 @@ class media_resource_viewed extends \core\event\base {
         return array($this->courseid, 'kalmediares', 'view media resource',
             $this->get_url(), $this->objectid, $this->contextinstanceid);
     }
+
+    /**
+     * Return objectid mapping.
+     *
+     * @return array - object mapping.
+     */
+    public static function get_objectid_mapping() {
+        return array('db' => 'kalmediares', 'restore' => 'kalmediares');
+    }
 }

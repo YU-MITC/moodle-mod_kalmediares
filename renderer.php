@@ -34,9 +34,9 @@ require_login();
 
 /**
  * Renderer class of YU Kaltura media resource.
- * @package   mod_kalmediares
- * @copyright (C) 2016-2018 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    mod_kalmediares
+ * @copyright  (C) 2016-2018 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_kalmediares_renderer extends plugin_renderer_base {
 

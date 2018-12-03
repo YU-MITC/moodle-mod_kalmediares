@@ -36,8 +36,8 @@ require_login();
 
 /**
  * class of YU Kaltura Media resource setting form.
- * @package mod_kalmediares
- * @copyright  (C) 2016-2017 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @package    mod_kalmediares
+ * @copyright  (C) 2016-2018 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_kalmediares_mod_form extends moodleform_mod {
@@ -63,6 +63,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         if (strpos($PAGE->url, 'modedit.php') !== false ) {
             $PAGE->requires->css('/mod/kalmediares/css/kalmediares.css');
             $PAGE->requires->css('/local/yukaltura/css/simple_selector.css');
+            $PAGE->requires->css('/local/yumymedia/css/module_uploader.css');
         }
 
         /*
@@ -78,6 +79,10 @@ class mod_kalmediares_mod_form extends moodleform_mod {
                                                get_string('replace_media', 'mod_kalmediares')));
             $PAGE->requires->js_call_amd('local_yukaltura/properties', 'init',
                                          array($CFG->wwwroot . "/local/yukaltura/media_properties.php"));
+            $PAGE->requires->js_call_amd('local_yumymedia/loaduploader', 'init',
+                                         array($CFG->wwwroot . "/local/yumymedia/module_uploader.php"));
+            $PAGE->requires->js_call_amd('local_yumymedia/loadrecorder', 'init',
+                                         array($CFG->wwwroot . "/local/yumymedia/module_recorder.php"));
             $uiconfid = local_yukaltura_get_player_uiconf('player_resource');
         }
 
@@ -93,6 +98,10 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         $attr = array('id' => 'entry_id');
         $mform->addElement('hidden', 'entry_id', '', $attr);
         $mform->setType('entry_id', PARAM_NOTAGS);
+
+        $attr = array('id' => 'partner_id');
+        $mform->addElement('hidden', 'partner_id', local_yukaltura_get_partner_id(), $attr);
+        $mform->setType('partner_id', PARAM_NOTAGS);
 
         $attr = array('id' => 'media_title');
         $mform->addElement('hidden', 'media_title', '', $attr);
@@ -135,9 +144,9 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         if (local_yukaltura_login(true, '')) {
             $mform->addElement('header', 'video', get_string('media_hdr', 'kalmediares'));
             if (empty($this->current->entry_id)) {
-                $this->add_media_definition($mform, null);
+                $this->add_media_definition($mform, $connection, null);
             } else {
-                $this->add_media_definition($mform, $this->current->entry_id);
+                $this->add_media_definition($mform, $connection, $this->current->entry_id);
             }
         } else {
             $mform->addElement('static', 'connection_fail', get_string('conn_failed_alt', 'local_yukaltura'));
@@ -213,11 +222,12 @@ class mod_kalmediares_mod_form extends moodleform_mod {
     /**
      * This function add "Media" part to module form.
      * @param object $mform - form object.
+     * @param object $connection - kaltura connection object.
      * @param string $entryid - id of media entry.
      */
-    private function add_media_definition($mform, $entryid) {
+    private function add_media_definition($mform, $connection, $entryid) {
 
-        $thumbnail = $this->get_thumbnail_markup($entryid);
+        $thumbnail = $this->get_thumbnail_markup($connection, $entryid);
 
         $mform->addElement('static', 'add_media_thumb', '&nbsp;', $thumbnail);
 
@@ -226,7 +236,16 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         }
 
         $mediagroup = array();
-        $mediagroup[] =& $mform->createElement('button', 'add_media', get_string('add_media', 'kalmediares'), array());
+
+        if (local_yukaltura_get_mymedia_permission()) {
+            if ($entryid == null || $entryid == '') {
+                $mediagroup[] =& $mform->createElement('button', 'add_media',
+                                                       get_string('add_media', 'kalmediares'), array());
+            } else {
+                $mediagroup[] =& $mform->createElement('button', 'add_media',
+                                                       get_string('replace_media', 'kalmediares'), array());
+            }
+        }
 
         $prop = array();
 
@@ -237,8 +256,18 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         $mediagroup[] =& $mform->createElement('button', 'media_properties',
                                                get_string('media_properties', 'local_yukaltura'), $prop);
 
-        $mform->addGroup($mediagroup, 'media_group', '&nbsp;', '&nbsp;', false);
+        $mform->addGroup($mediagroup, 'media_group1', '&nbsp;', '&nbsp;', false);
 
+        if (get_config(KALTURA_PLUGIN_NAME, 'kalmediares_upload') == 1 && local_yukaltura_get_mymedia_permission()) {
+            $mediagroup = array();
+            $mediagroup[] =& $mform->createElement('button', 'upload_media',
+                                                   get_string('simple_upload', 'local_yumymedia'), array());
+            if (get_config(KALTURA_PLUGIN_NAME, 'enable_webcam') == 1) {
+                $mediagroup[] =& $mform->createElement('button', 'record_media',
+                                                       get_string('webcam_upload', 'local_yumymedia') . ' (' . get_string('pc_only', 'local_yumymedia') . ')', array());
+            }
+            $mform->addGroup($mediagroup, 'media_group2', '&nbsp;', '&nbsp;', false);
+        }
     }
 
     /**
@@ -281,13 +310,15 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
     /**
      * This function return HTML markup to display thumbnail.
+     * @param object $connection - kaltura connection object.
      * @param string $entryid - id of media entry.
      * @return string - HTML markup to display thumbnail.
      */
-    private function get_thumbnail_markup($entryid) {
+    private function get_thumbnail_markup($connection, $entryid) {
         global $CFG;
 
         $source = '';
+        $output = '';
 
         /*
          * tabindex -1 is required in order for the focus event to be capture
@@ -296,16 +327,14 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         $attr = array('id' => 'notification',
                       'class' => 'notification',
                       'tabindex' => '-1');
-        $output = html_writer::tag('div', '', $attr);
+        $output .= html_writer::tag('div', '', $attr);
 
         $source = $CFG->wwwroot . '/local/yukaltura/pix/vidThumb.png';
-        $alt    = get_string('add_media', 'kalmediares');
-        $title  = get_string('add_media', 'kalmediares');
+        $alt = get_string('add_media', 'kalmediares');
+        $title = get_string('add_media', 'kalmediares');
 
-        if (!empty($entryid)) {
-
-            $entryobj = KalturaStaticEntries::get_entry($entryid, null, false);
-
+        if ($entryid !== null && $entryid != '' && $connection !== null) {
+            $entryobj = $connection->media->get($entryid);
             if (isset($entryobj->thumbnailUrl)) {
                 $source = $entryobj->thumbnailUrl;
                 $alt    = $entryobj->name;
@@ -322,7 +351,6 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         $output .= html_writer::empty_tag('img', $attr);
 
         return $output;
-
     }
 
 
@@ -369,7 +397,6 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         }
 
         return array($choices, $defaultplayerid);
-
     }
 
     /**
@@ -493,7 +520,8 @@ class mod_kalmediares_mod_form extends moodleform_mod {
                             break;
                         }
 
-                        if (0 == strcmp('pres_info', $data2->_attributes['name'])) {
+                        // if (0 == strcmp('pres_info', $data2->_attributes['name'])) {
+                        if (0 == strcmp('res_info', $data2->_attributes['name'])) {
                             $mform->_elements[$key]->_elements[$key2]->setValue('');
                             break;
                         }
