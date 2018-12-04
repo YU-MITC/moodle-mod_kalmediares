@@ -23,6 +23,7 @@ YU Kaltura Media Resource for Moodle
 This is a resource module.
 Teachers can create media play page (embed media) in their courses, and can view students' play/view status.
 Teachers can choose a media player from Kaltura players, and can set player's size (dimension).
+Aditionally, the teacher can upload and record new media in resource editing page.
 Students can play the embedded media.
 This plugin is updated with stable releases. To follow active development on GitHub, click [here](https://github.com/YU-MITC/moodle-mod_kalmediares/).
 
