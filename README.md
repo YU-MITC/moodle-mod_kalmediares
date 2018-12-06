@@ -23,6 +23,7 @@ YU Kaltura Media Resource for Moodle
 This is a resource module.
 Teachers can create media play page (embed media) in their courses, and can view students' play/view status.
 Teachers can choose a media player from Kaltura players, and can set player's size (dimension).
+Aditionally, the teacher can upload and record new media in resource editing page.
 Students can play the embedded media.
 This plugin is updated with stable releases. To follow active development on GitHub, click [here](https://github.com/YU-MITC/moodle-mod_kalmediares/).
 
@@ -32,6 +33,8 @@ Requirements
 * PHP5.3 or greater.
 * Web browsers must support the JavaScript and HTML5.
 * System administrators must use the same communication protocol for all routes (between the web browser and the Moodle, between the Moodle and the Kaltura, and between the web browser and the Kaltura). It is better to use HTTPS as the communication protocol.
+* Administrators must not delete "Default" access control profile from their Kaltura server. If they delete the "Default" profile, they must create new profile named "Default" before install our plugins.
+* These plugins do not support Flash players. Therefore, please use HTML5 players.
 * "local_yukaltura" and "local_yumymedia" plugins.
 
 Supported themes
