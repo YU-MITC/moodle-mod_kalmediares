@@ -1,6 +1,4 @@
-# YU Kaltura Media Resource
-
-Change log
+Change log of YU Kaltura Media Resource
 ------
 
 Version 1.1.0
@@ -47,3 +45,7 @@ Version 1.2.0
 
 * fixed some statements in view.php, in order to permit teachers to upload/record new movie in editing page of resource module (In order to permit upload/record, administrators must set some items in configuration page of local_yukaltura).
 * fixed some statements in media_resource_played.php, and media_resource_viewed.php, in order to respond to backup and restore mechanisms in recently versions of Moodle.
+
+Version 1.2.1
+
+* executed minimization to playtrigger.js, base on JSDoc warnings.
