@@ -1,6 +1,11 @@
 Change log of YU Kaltura Media Resource
 ------
 
+Version 1.2.1
+
+* fixed some statements in renderer.php, according to changes of local plugin (local_yukaltura).
+* executed minimization to playtrigger.js, base on JSDoc warnings.
+
 Version 1.2.0
 
 * fixed some statements in view.php, in order to permit teachers to upload/record new movie in editing page of resource module (In order to permit upload/record, administrators must set some items in configuration page of local_yukaltura).

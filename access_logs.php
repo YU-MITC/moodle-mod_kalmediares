@@ -30,6 +30,9 @@ require_once(dirname(dirname(dirname(__FILE__))) . '/local/yukaltura/locallib.ph
 
 defined('MOODLE_INTERNAL') || die();
 
+header('Access-Control-Allow-Origin: *');
+header('Cache-Control: no-cache');
+
 global $SESSION, $CFG, $USER, $COURSE, $DB;
 
 $id = optional_param('id', 0, PARAM_INT);                // Course Module ID.

@@ -18,7 +18,7 @@
  * Kaltura media resource renderer class
  *
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2018 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2019 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,7 +35,7 @@ require_login();
 /**
  * Renderer class of YU Kaltura media resource.
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2018 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2019 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_kalmediares_renderer extends plugin_renderer_base {
@@ -59,9 +59,10 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
     /**
      * This function return HTML markup to embed media.
      * @param object $kalmediares - object of Kaltura Media resource.
+     * @param object $connection - object of Kaltura connection.
      * @return string - HTML markup to embed media.
      */
-    public function embed_media($kalmediares) {
+    public function embed_media($kalmediares, $connection) {
 
         $output = '';
         $entryobj = local_yukaltura_get_ready_entry_object($kalmediares->entry_id);
@@ -75,7 +76,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
             }
 
             // Set the session.
-            $session = local_yukaltura_generate_kaltura_session(array($entryobj->id));
+            $session = local_yukaltura_generate_kaltura_session(true, array($entryobj->id));
 
             // Determine if the mobile theme is being used.
             $theme = core_useragent::get_device_type_theme();
@@ -96,6 +97,12 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
             $output .= html_writer::start_tag('center');
             $output .= html_writer::tag('div', $markup);
+
+            $accesscontrol = local_yukaltura_get_internal_access_control($connection);
+            if ($entryobj != null && $accesscontrol != null && $entryobj->accessControlId == $accesscontrol->id) {
+                $output .= html_writer::tag('div', get_string('internal', 'kalmediares'));
+            }
+
             $output .= html_writer::end_tag('center');
         } else {
             $output = get_string('media_converting', 'kalmediares');

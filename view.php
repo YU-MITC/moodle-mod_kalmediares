@@ -21,7 +21,7 @@
  * if you like, and it can span multiple lines.
  *
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2018 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2019 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,6 +29,9 @@ require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once(dirname(dirname(dirname(__FILE__))) . '/local/yukaltura/locallib.php');
 
 defined('MOODLE_INTERNAL') || die();
+
+header('Access-Control-Allow-Origin: *');
+header('Cache-Control: no-cache');
 
 $id = optional_param('id', 0, PARAM_INT);  // Course Module ID.
 
@@ -133,7 +136,7 @@ if ($kalmediares->internal == 1 and !local_yukaltura_check_internal($clientipadd
             $media = $connection->media->get($kalmediares->entry_id);
 
             if ($media !== null) {
-                echo $renderer->embed_media($kalmediares);
+                echo $renderer->embed_media($kalmediares, $connection);
             }
         } catch (Exception $ex) {
             echo '<p>';
