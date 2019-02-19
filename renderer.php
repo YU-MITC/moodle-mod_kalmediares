@@ -70,7 +70,8 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
         if (!empty($entryobj)) {
 
             // Check if player selection is globally overridden.
-            if (local_yukaltura_get_player_override()) {
+            if (local_yukaltura_get_player_override() &&
+                $kalmediares->uiconf_id != local_yukaltura_get_player_uiconf('player_resource')) {
                 $newplayer = local_yukaltura_get_player_uiconf('player_resource');
                 $kalmediares->uiconf_id = $newplayer;
             }

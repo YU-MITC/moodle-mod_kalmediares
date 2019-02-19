@@ -88,6 +88,11 @@ Warning
 Change log of YU Kaltura Media Resource
 ------
 
+Version 1.2.2
+
+* fixed some statements (about UIConf ID) in view.php, in order to solve a problem that unnecessary javascript codes are loaded.
+* fixed some statements in lib.php and mod_form.php, in order to display module's introduction on a moodle course page.
+
 Version 1.2.1
 
 * fixed some statements in renderer.php, according to changes of local plugin (local_yukaltura).

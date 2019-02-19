@@ -28,6 +28,7 @@ $string['modulename_help'] = 'The Kaltura Media Resource enables a teacher to cr
 $string['pluginadministration'] = 'Kaltura Media Resource';
 $string['pluginname'] = 'Kaltura Media Resource';
 $string['name'] = 'Name';
+$string['description'] = 'Description';
 $string['media_hdr'] = 'Media';
 $string['add_media'] = 'Add Media';
 $string['upload_successful'] = 'Upload Successful';

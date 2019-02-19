@@ -141,8 +141,9 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         }
 
         $mform->addRule('name', null, 'required', null, 'client');
+        $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
 
-        $this->standard_intro_elements();
+        $this->standard_intro_elements(get_string('description', 'kalmediares'));
 
         if (local_yukaltura_login(true, '')) {
             $mform->addElement('header', 'video', get_string('media_hdr', 'kalmediares'));

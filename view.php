@@ -71,7 +71,12 @@ $connection = $kaltura->get_connection(true, KALTURA_SESSION_LENGTH);
 if ($connection) {
     if (local_yukaltura_has_mobile_flavor_enabled() && local_yukaltura_get_enable_html5()) {
         $uiconfid = local_yukaltura_get_player_uiconf('player_resource');
-        $url = new moodle_url(local_yukaltura_html5_javascript_url($uiconfid));
+
+        if (empty($kalmediares->uiconf_id)) {
+            $url = new moodle_url(local_yukaltura_html5_javascript_url($uiconfid));
+        } else {
+             $url = new moodle_url(local_yukaltura_html5_javascript_url($kalmediares->uiconf_id));
+        }
         $PAGE->requires->js($url, true);
         $url = new moodle_url('/local/yukaltura/js/frameapi.js');
         $PAGE->requires->js($url, true);
