@@ -123,28 +123,33 @@ if (($admin == true || ($userrole != 'student' && $userrole != 'guest')) && !emp
 
         $coursecontext = context_course::instance($COURSE->id);
 
-        $query = 'select m.id, m.username, m.firstname, m.lastname, n.plays, n.views, n.first, n.last ';
-        $query .= 'from ((select distinct u.id, u.username, u.firstname, u.lastname from {role_assignments} a join {user} u ';
-        $query .= 'on u.id=a.userid and a.contextid=:cid and a.roleid=:rid ';
-        $query .= 'group by u.username) m ';
-        $query .= 'left join (select v.userid, plays, views, least(firstview,ifnull(firstplay, firstview)) ';
-        $query .= 'first, greatest(ifnull(firstplay,firstview),ifnull(lastplay,lastview)) last ';
-        $query .= 'from ((select userid,count(timecreated) views, min(timecreated) firstview, max(timecreated) lastview ';
-        $query .= 'from {logstore_standard_log} ';
-        $query .= 'where component=\'mod_kalmediares\' and action=\'viewed\' and contextinstanceid=:mid1 group by userid) v ';
-        $query .= 'left join (select userid,count(timecreated) plays, min(timecreated) firstplay, max(timecreated) lastplay ';
-        $query .= 'from {logstore_standard_log} where component=\'mod_kalmediares\' and action=\'played\' and ';
-        $query .= 'contextinstanceid=:mid2 group by userid) p on v.userid=p.userid)) n on n.userid=m.id) ';
-        $query .= 'order by ' . $sort . ' ' . $order;
+        $mdata = $DB->get_records('course_modules', array('id' => $id));
+        foreach ($mdata as $row) {
+            $instanceid = $row->instance;
+        }
 
-        $userdata = $DB->get_recordset_sql($query,
-                                           array(
-                                               'cid' => $coursecontext->id,
-                                               'rid' => $roleid,
-                                               'mid1' => $id,
-                                               'mid2' => $id
-                                           )
-                                          );
+        try {
+
+            $query = 'select m.id, m.username, m.firstname, m.lastname, n.plays, n.views, n.first, n.last ';
+            $query .= 'from ((select distinct u.id, u.username, picture, u.firstname, u.lastname, ';
+            $query .= 'u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email ';
+            $query .= 'from {role_assignments} a join {user} u ';
+            $query .= 'on u.id=a.userid and a.contextid=:cid and a.roleid=:rid) m ';
+            $query .= 'left join ';
+            $query .= '(select userid, plays, views, first, last from {kalmediares_log} ';
+            $query .= 'where instanceid=:instanceid) n on n.userid=m.id) ';
+            $query .= 'order by ' . $sort . ' ' . $order;
+
+            $userdata = $DB->get_recordset_sql($query,
+                                               array(
+                                                   'cid' => $coursecontext->id,
+                                                   'rid' => $roleid,
+                                                   'instanceid' => $kalmediares->id
+                                               )
+                                              );
+        } catch (Exception $ex) {
+            print_error($ex->getMessage());
+        }
 
         $worksheet[0]->write_string(0, 0, get_string('username', 'moodle'));
         $worksheet[0]->write_string(0, 1, get_string('lastname', 'moodle'));

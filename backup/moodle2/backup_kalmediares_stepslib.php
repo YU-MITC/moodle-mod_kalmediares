@@ -54,7 +54,8 @@ class backup_kalmediares_activity_structure_step extends backup_activity_structu
         // Define each element separated.
         $kalmediares = new backup_nested_element('kalmediares', array('id'), array(
             'name', 'intro', 'introformat', 'entry_id', 'media_title',
-            'uiconf_id', 'widescreen', 'height', 'width', 'timemodified', 'timecreated'));
+            'uiconf_id', 'widescreen', 'height', 'width', 'internal', 'publish_access_log',
+            'exclusion_time', 'timemodified', 'timecreated'));
 
         // Define sources.
         $kalmediares->set_source_table('kalmediares', array('id' => backup::VAR_ACTIVITYID));

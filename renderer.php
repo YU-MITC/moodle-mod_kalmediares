@@ -283,29 +283,27 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
             $coursecontext = context_course::instance($COURSE->id);
 
-            $query = 'select m.id, picture, m.firstname, m.lastname, m.firstnamephonetic, m.lastnamephonetic, m.middlename, ';
-            $query .= 'm.alternatename, m.imagealt, m.email, n.plays, n.views, n.first, n.last ';
-            $query .= 'from ((select distinct u.id, picture, u.firstname, u.lastname, u.firstnamephonetic, u.lastnamephonetic, ';
-            $query .= 'u.middlename, u.alternatename, u.imagealt, u.email ';
+            $mdata = $DB->get_records('course_modules', array('id' => $moduleid));
+
+            foreach ($mdata as $row) {
+                $instanceid = $row->instance;
+            }
+
+            $query = 'select m.id, picture, m.firstname, m.lastname, m.firstnamephonetic, m.lastnamephonetic, ';
+            $query .= 'm.middlename, m.alternatename, m.imagealt, m.email, n.plays, n.views, n.first, n.last ';
+            $query .= 'from ((select distinct u.id, picture, u.firstname, u.lastname, u.firstnamephonetic, ';
+            $query .= 'u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email ';
             $query .= 'from {role_assignments} a join {user} u ';
             $query .= 'on u.id=a.userid and a.contextid=:cid and a.roleid=:rid) m ';
-            $query .= 'left join (select v.userid, plays, views, least(firstview,ifnull(firstplay, firstview)) first, ';
-            $query .= 'greatest(ifnull(firstplay,firstview), ifnull(lastplay,lastview)) last ';
-            $query .= 'from ((select userid,count(timecreated) views, min(timecreated) firstview, max(timecreated) lastview ';
-            $query .= 'from {logstore_standard_log} where component=\'mod_kalmediares\' and ';
-            $query .= 'action=\'viewed\' and contextinstanceid=:mid1 group by userid) v ';
-            $query .= 'left join (select userid,count(timecreated) plays, min(timecreated) firstplay, max(timecreated) lastplay ';
-            $query .= 'from {logstore_standard_log} ';
-            $query .= 'where component=\'mod_kalmediares\' and action=\'played\' ';
-            $query .= 'and contextinstanceid=:mid2 group by userid) p on v.userid=p.userid)) n on n.userid=m.id) ';
+            $query .= 'left join ';
+            $query .= '(select userid, plays, views, first, last from {kalmediares_log} ';
+            $query .= 'where instanceid=:instanceid) n on n.userid=m.id) ';
             $query .= 'order by ' . $sort . ' ' . $order;
 
             $studentlist = $DB->get_recordset_sql($query,
-                                                  array(
-                                                      'cid' => $coursecontext->id,
-                                                      'rid' => $roleid,
-                                                      'mid1' => $moduleid,
-                                                      'mid2' => $moduleid
+                                                  array('cid' => $coursecontext->id,
+                                                        'rid' => $roleid,
+                                                         'instanceid' => $instanceid
                                                   )
                                                  );
 
@@ -386,7 +384,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
                             $output .= html_writer::end_tag('th');
 
-                            $attr = array('class' => 'header c3');
+                            $attr = array('class' => 'header c3', 'align' => 'center');
 
                             $output .= html_writer::start_tag('th', $attr);
 
@@ -405,7 +403,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
                             $output .= html_writer::end_tag('th');
 
-                            $attr = array('class' => 'header c4');
+                            $attr = array('class' => 'header c4', 'align' => 'center');
 
                             $output .= html_writer::start_tag('th', $attr);
 
@@ -481,12 +479,12 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
                         $output .= '<a href= "' . $link . '">' . $student->lastname . ' ' . $student->firstname . '</a>';
                         $output .= html_writer::end_tag('td');
 
-                        $attr = array('class' => 'cell c3', 'align' => 'right');
+                        $attr = array('class' => 'cell c3', 'align' => 'center');
                         $output .= html_writer::start_tag('td', $attr);
                         $output .= $student->plays;
                         $output .= html_writer::end_tag('td');
 
-                        $attr = array('class' => 'cell c4', 'align' => 'right');
+                        $attr = array('class' => 'cell c4', 'align' => 'center');
                         $output .= html_writer::start_tag('td', $attr);
                         $output .= $student->views;
                         $output .= html_writer::end_tag('td');

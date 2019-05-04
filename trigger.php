@@ -33,6 +33,7 @@ defined('MOODLE_INTERNAL') || die();
 $referer = $_SERVER['HTTP_REFERER'];
 
 $id = optional_param('id', 0, PARAM_INT); // Course Module ID.
+// $action = optional_param('action', 0, PARAM_RAW); // Action name.
 
 // Retrieve module instance.
 if (empty($id)) {
@@ -88,4 +89,21 @@ if ($student == true) {
         'context' => context_module::instance($cm->id)
     ));
     $event->trigger();
+
+    try {
+        $kalmediareslog = $DB->get_record('kalmediares_log',
+                                          array('instanceid' => $cm->instance, 'userid' => $USER->id));
+        $now = time();
+        if (empty($kalmediareslog)) {
+            $objectdata = array('instanceid' => $cm->instance, 'userid' => $USER->id, 'plays' => 1, 'views' => 1,
+                                'first' => $now, 'last' => $now);
+            $DB->insert_record('kalmediares_log', $objectdata);
+        } else {
+            $kalmediareslog->last = $now;
+            $kalmediareslog->plays = $kalmediareslog->plays + 1;
+            $DB->update_record('kalmediares_log', $kalmediareslog, false);
+        }
+    } catch (Exception $ex) {
+        print_error($ex->getMessage());
+    }
 }

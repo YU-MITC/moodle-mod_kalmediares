@@ -59,9 +59,9 @@ function xmldb_kalmediares_upgrade($oldversion) {
         $table = new xmldb_table('kalmediares');
         $field = new xmldb_field('internal');
         if (!$dbman->field_exists($table, $field)) {
-             $field->set_attributes(XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'width');
-             $field->setDefault('0');
-             $dbman->add_field($table, $field);
+            $field->set_attributes(XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'width');
+            $field->setDefault('0');
+            $dbman->add_field($table, $field);
         }
 
         // Plugin kalmediares savepoint reached.
@@ -72,19 +72,68 @@ function xmldb_kalmediares_upgrade($oldversion) {
         $table = new xmldb_table('kalmediares');
         $field = new xmldb_field('publish_access_log');
         if (!$dbman->field_exists($table, $field)) {
-             $field->set_attributes(XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'internal');
-             $field->setDefault('0');
-             $dbman->add_field($table, $field);
+            $field->set_attributes(XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'internal');
+            $field->setDefault('0');
+            $dbman->add_field($table, $field);
         }
         $field = new xmldb_field('exclusion_time');
         if (!$dbman->field_exists($table, $field)) {
-             $field->set_attributes(XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'publish_access_log');
-             $field->setDefault('0');
-             $dbman->add_field($table, $field);
+            $field->set_attributes(XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'publish_access_log');
+            $field->setDefault('0');
+            $dbman->add_field($table, $field);
         }
 
         // Plugin kalmediares savepoint reached.
         upgrade_mod_savepoint(true, 2018051400, 'kalmediares');
+    }
+
+    if ($oldversion < 2019050400) {
+        $table = new xmldb_table('kalmediares_log');
+        if (!$dbman->table_exists($table)) {
+            $field1 = new xmldb_field('id');
+            $field1->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+
+            $field2 = new xmldb_field('instanceid');
+            $field2->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, 0, 'id');
+            $field2->setDefault('0');
+
+            $field3 = new xmldb_field('userid');
+            $field3->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, 0, 'instanceid');
+            $field3->setDefault('0');
+
+            $field4 = new xmldb_field('plays');
+            $field4->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, 0, 'userid');
+            $field4->setDefault('0');
+
+            $field5 = new xmldb_field('views');
+            $field5->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, 0, 'plays');
+            $field5->setDefault('0');
+
+            $field6 = new xmldb_field('first');
+            $field6->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, 0, 'views');
+            $field6->setDefault('0');
+
+            $field7 = new xmldb_field('last');
+            $field7->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, 0, 'first');
+            $field7->setDefault('0');
+
+            $key = new xmldb_key('primary');
+            $key->set_attributes(XMLDB_KEY_PRIMARY, array('id'), null, null);
+
+            $table->addField($field1);
+            $table->addField($field2);
+            $table->addField($field3);
+            $table->addField($field4);
+            $table->addField($field5);
+            $table->addField($field6);
+            $table->addField($field7);
+            $table->addKey($key);
+
+            $dbman->create_table($table);
+        }
+
+        // Plugin kalmediares savepoint reached.
+        upgrade_mod_savepoint(true, 2019050400, 'kalmediares');
     }
 
     return true;

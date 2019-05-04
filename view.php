@@ -110,6 +110,23 @@ if ($student == true) {
     ));
     $event->trigger();
 
+    try {
+        $kalmediareslog = $DB->get_record('kalmediares_log',
+                                          array('instanceid' => $cm->instance, 'userid' => $USER->id));
+        $now = time();
+        if (empty($kalmediareslog)) {
+            $objectdata = array('instanceid' => $cm->instance, 'userid' => $USER->id, 'plays' => 0, 'views' => 1,
+                                'first' => $now, 'last' => $now);
+            $DB->insert_record('kalmediares_log', $objectdata);
+        } else {
+            $kalmediareslog->last = $now;
+            $kalmediareslog->views = $kalmediareslog->views + 1;
+            $DB->update_record('kalmediares_log', $kalmediareslog, false);
+        }
+    } catch (Exception $ex) {
+        print_error($ex->getMessage());
+    }
+
     $url = $CFG->wwwroot . '/mod/kalmediares/trigger.php';
     $PAGE->requires->js_call_amd('mod_kalmediares/playtrigger', 'init', array($url, $id));
 }

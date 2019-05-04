@@ -21,19 +21,19 @@
  * See https://docs.moodle.org/dev/version.php for more info.
  *
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2018 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2019 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_kalmediares';
-$plugin->version = 2019022000;
-$plugin->release = 'YU Kaltura Media Resource 1.2.2';
+$plugin->version = 2019050400;
+$plugin->release = 'YU Kaltura Media Resource 1.3.0';
 $plugin->requires = 2015051100;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->cron = 0;
 $plugin->dependencies = array(
-    'local_yukaltura' => 2019022000,
-    'local_yumymedia' => 2019022000
+    'local_yukaltura' => 2019050400,
+    'local_yumymedia' => 2019050400
 );

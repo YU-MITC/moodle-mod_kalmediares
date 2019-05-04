@@ -90,6 +90,8 @@ function kalmediares_delete_instance($id) {
 
     $DB->delete_records('kalmediares', array('id' => $kalmediares->id));
 
+    $DB->delete_records('kalmediares_log', array('instanceid' => $kalmediares->id));
+
     return true;
 }
 
