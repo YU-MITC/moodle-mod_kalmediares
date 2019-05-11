@@ -87,7 +87,7 @@ function xmldb_kalmediares_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2018051400, 'kalmediares');
     }
 
-    if ($oldversion < 2019050400) {
+    if ($oldversion < 2019051100) {
         $table = new xmldb_table('kalmediares_log');
         if (!$dbman->table_exists($table)) {
             $field1 = new xmldb_field('id');
@@ -133,7 +133,7 @@ function xmldb_kalmediares_upgrade($oldversion) {
         }
 
         // Plugin kalmediares savepoint reached.
-        upgrade_mod_savepoint(true, 2019050400, 'kalmediares');
+        upgrade_mod_savepoint(true, 2019051100, 'kalmediares');
     }
 
     return true;
