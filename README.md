@@ -52,7 +52,7 @@ Installation
 Unzip this plugin, and copy the directory (mod/kalmediares) under moodle root directory (ex. /moodle).
 Installation will be completed after you log in as an administrator and access the notification menu.
 
-After upgrading the plugin from version 1.2.x to 1.3.x (or later version), the administrators must execute the following command:
+After upgrading the plugin from version 1.1.x/1.2.x to 1.3.x (or later version), the administrators must execute the following command:
 
 php /path/to/moodle/mod/kalmediares/cli/log_migration_1.2to1.3.php
 
