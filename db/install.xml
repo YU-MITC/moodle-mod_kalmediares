@@ -4,7 +4,7 @@
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="kalmediares" COMMENT="Kaltura media resource module instances are stored here">
+    <TABLE NAME="kalmediares" COMMENT="Kaltura media resource module instances are stored here" NEXT="kalmediares_log">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="course"/>
         <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="id" NEXT="name"/>
@@ -27,7 +27,7 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="kalmediares_log" COMMENT="Access logs for kaltura media resource">
+    <TABLE NAME="kalmediares_log" COMMENT="Access logs for kaltura media resource" PREVIOUS="kalmediares">
       <FIELDS>  
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="instanceid"/>
         <FIELD NAME="instanceid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Instance ID of Kaltura media resource" PREVIOUS="id" NEXT="userid"/>
