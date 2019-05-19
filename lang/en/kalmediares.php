@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['modulenameplural'] = 'Kaltura Media Resource';
+$string['modulenameplural'] = 'Kaltura Media Resources';
 $string['modulename'] = 'Kaltura Media Resource';
 $string['modulename_help'] = 'The Kaltura Media Resource enables a teacher to create a resource using a Kaltura media.';
 $string['pluginadministration'] = 'Kaltura Media Resource';
