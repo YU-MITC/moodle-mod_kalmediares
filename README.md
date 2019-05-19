@@ -1,6 +1,6 @@
 # YU Kaltura Media Package
 
-"YU Kaltura Media Package" is a third-party's Kaltura plugin package for Moodle 2.9 or later.
+"YU Kaltura Media Package" is a third-party's Kaltura plugin package (a series of plugins) for Moodle 2.9 or later.
 This package is developed by the Media and Information Technology Center, Yamaguchi University.
 By using this package, users can upload media to the Kaltura server, and easily embed the media in Moodle courses.
 Moreover, this package provides some useful functions.
