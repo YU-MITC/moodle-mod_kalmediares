@@ -98,6 +98,11 @@ Warning
 Change log of YU Kaltura Media Resource
 ------
 
+Version 1.3.1
+
+* fixed README.md, in order to support sub-plugin of Atto text editor.
+* fixed some statements in view.php, 
+
 Version 1.3.0
 
 * fixed statements in lib.php, renderer.php, export_excel.php, view.php, trigger.php, install.xml and upgrade.php, in order to reduce a time it takes to display students' access logs.
