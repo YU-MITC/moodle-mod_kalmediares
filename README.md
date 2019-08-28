@@ -9,8 +9,9 @@ Since this package does not require Kaltura Application Framework (KAF), can wor
 In order to use this package, administrators must install "[YU Kaltura Media Local Libraries](https://moodle.org/plugins/local_yukaltura)" and "[YU Kaltura Media Gallery](https://moodle.org/plugins/local_yumymedia)".
 These plugins provide functions such as uploading, playing back and deleting media files to users.
 
-In addition, the administrators can install "[YU Kaltura Media Assignment](https://moodle.org/plugins/mod_kalmediaassign)" and "[YU Kaltura Media Resource](https://moodle.org/plugins/mod_kalmediares)".
+In addition, the administrators can install "[YU Kaltura Media Assignment](https://moodle.org/plugins/mod_kalmediaassign)", "[YU Kaltura Media Resource](https://moodle.org/plugins/mod_kalmediares)", and "[YU Kaltura Media for Atto](https://moodle.org/plugins/atto_yukaltura)".
 These plugins provide teachers ability of creating resource and activity modules which use kaltura media in their Moodle courses.
+And, user can embed his/her media into text area (introduction or page content) through the Atto text editor.
 
 Please note that there is a chance this module will not work on some Moodle environment.
 Also, this package is only available in English and Japanese. Stay tuned to future versions for other language supports.
