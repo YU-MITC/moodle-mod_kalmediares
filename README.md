@@ -100,7 +100,7 @@ Change log of YU Kaltura Media Resource
 
 Version 1.3.1
 
-* fixed README.md, in order to support sub-plugin of Atto text editor.
+* fixed README.md, in order to support sub-plugin of Atto HTML editor.
 * fixed some statements in view.php, 
 
 Version 1.3.0
