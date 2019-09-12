@@ -92,6 +92,10 @@ function kalmediares_delete_instance($id) {
 
     $DB->delete_records('kalmediares_log', array('instanceid' => $kalmediares->id));
 
+    if (! $DB->delete_records('event', array('modulename' => 'kalmediares', 'instance' => $kalmediares->id))) {
+        $result = false;
+    }
+
     return true;
 }
 

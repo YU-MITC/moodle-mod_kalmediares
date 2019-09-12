@@ -39,6 +39,7 @@ $string['widescreen'] = 'Widescreen';
 $string['media_preview_header'] = 'Preview';
 $string['invalidid'] = 'Invalid ID';
 $string['invalidaccess'] = 'Invalid Access';
+$string['cannot_view'] = 'You cannot view this page.';
 $string['replace_media'] = 'Replace media';
 $string['custom_player'] = 'Custom player';
 $string['kalmediares:addinstance'] = 'Add a Kaltura Media Resource';

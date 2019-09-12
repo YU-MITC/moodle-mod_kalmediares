@@ -35,10 +35,10 @@ header('Cache-Control: no-cache');
 
 global $SESSION, $CFG, $USER, $COURSE, $DB;
 
-$id = optional_param('id', 0, PARAM_INT);                // Course Module ID.
-$page = optional_param('page', 0, PARAM_INT);            // Mymedia Page ID.
-$sort = optional_param('sort', 'lastname', PARAM_TEXT);  // Sorting Key.
-$order = optional_param('order', 'ASC', PARAM_TEXT);     // Sorting Order (ASC or DESC).
+$id = optional_param('id', 0, PARAM_INT);               // Course Module ID.
+$page = optional_param('page', 0, PARAM_INT);           // Mymedia Page ID.
+$sort = optional_param('sort', 'lastname', PARAM_TEXT); // Sorting Key.
+$order = optional_param('order', 'ASC', PARAM_TEXT);    // Sorting Order (ASC or DESC).
 
 if ($sort != 'lastname' && $sort != 'firstname' && $sort != 'last' && $sort != 'plays' && $sort != 'views') {
     $sort = 'lastname';
@@ -105,7 +105,7 @@ foreach ($roles as $role) {
 }
 
 if ($admin == false && $teacher == false) {
-    echo 'You cannot view this page.<br>';
+    echo get_string('cannot_view', 'kalmediares') . '<br>';
 } else {
     echo '<h3>' . get_string('access_logs', 'kalmediares') . '</h3>';
 

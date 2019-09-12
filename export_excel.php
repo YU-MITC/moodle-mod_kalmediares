@@ -129,15 +129,13 @@ if (($admin == true || ($userrole != 'student' && $userrole != 'guest')) && !emp
         }
 
         try {
-
-            $query = 'select m.id, m.username, m.firstname, m.lastname, n.plays, n.views, n.first, n.last ';
-            $query .= 'from ((select distinct u.id, u.username, picture, u.firstname, u.lastname, ';
-            $query .= 'u.firstnamephonetic, u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email ';
-            $query .= 'from {role_assignments} a join {user} u ';
-            $query .= 'on u.id=a.userid and a.contextid=:cid and a.roleid=:rid) m ';
-            $query .= 'left join ';
-            $query .= '(select userid, plays, views, first, last from {kalmediares_log} ';
-            $query .= 'where instanceid=:instanceid) n on n.userid=m.id) ';
+            $query = 'select b.id, b.username, b.firstname, b.lastname, c.plays, c.views, c.first, c.last ';
+            $query .= 'from (select u.id, u.username, u.picture, u.firstname, u.lastname, u.firstnamephonetic, ';
+            $query .= 'u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email ';
+            $query .= 'from (select userid from {role_assignments} where contextid=:cid and roleid=:rid) a ';
+            $query .= 'inner join {user} u on a.userid=u.id) b ';
+            $query .= 'left join (select userid, plays, views, first, last from {kalmediares_log} ';
+            $query .= 'where instanceid=:instanceid) c on b.id=c.userid ';
             $query .= 'order by ' . $sort . ' ' . $order;
 
             $userdata = $DB->get_recordset_sql($query,

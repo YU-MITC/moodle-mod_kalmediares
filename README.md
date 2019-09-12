@@ -98,6 +98,12 @@ Warning
 Change log of YU Kaltura Media Resource
 ------
 
+Version 1.3.2
+
+* fixed some statements in access_logs.php, and kalmediares.php, in order to use language strings.
+* fixed  backup and restore scripts, in order to backup/restore process in Moodle 3.x.
+* fixed some statements in lib.php, backup_kalmediares_stepslib.php, and restore_kalmediares_stepslib.php, in order to backup/resotore mdl_kalmediares_log table.
+
 Version 1.3.1
 
 * fixed README.md, in order to support sub-plugin of Atto HTML editor.

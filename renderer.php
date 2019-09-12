@@ -289,15 +289,14 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
                 $instanceid = $row->instance;
             }
 
-            $query = 'select m.id, picture, m.firstname, m.lastname, m.firstnamephonetic, m.lastnamephonetic, ';
-            $query .= 'm.middlename, m.alternatename, m.imagealt, m.email, n.plays, n.views, n.first, n.last ';
-            $query .= 'from ((select distinct u.id, picture, u.firstname, u.lastname, u.firstnamephonetic, ';
+            $query = 'select b.id, b.picture, b.firstname, b.lastname, b.firstnamephonetic, b.lastnamephonetic, ';
+            $query .= 'b.middlename, b.alternatename, b.imagealt, b.email, c.plays, c.views, c.first, c.last ';
+            $query .= 'from (select u.id, u.picture, u.firstname, u.lastname, u.firstnamephonetic, ';
             $query .= 'u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email ';
-            $query .= 'from {role_assignments} a join {user} u ';
-            $query .= 'on u.id=a.userid and a.contextid=:cid and a.roleid=:rid) m ';
-            $query .= 'left join ';
-            $query .= '(select userid, plays, views, first, last from {kalmediares_log} ';
-            $query .= 'where instanceid=:instanceid) n on n.userid=m.id) ';
+            $query .= 'from (select userid from {role_assignments} where contextid=:cid and roleid=:rid) a ';
+            $query .= 'inner join {user} u on a.userid=u.id) b ';
+            $query .= 'left join (select userid, plays, views, first, last from {kalmediares_log} ';
+            $query .= 'where instanceid=:instanceid) c on b.id=c.userid ';
             $query .= 'order by ' . $sort . ' ' . $order;
 
             $studentlist = $DB->get_recordset_sql($query,
