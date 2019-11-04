@@ -16,7 +16,7 @@
 
 /**
  * Backup step script.
- * @package    moodlecore
+ * @package    mod_kalmediares
  * @subpackage backup-moodle2
  * @copyright  (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @copyright  (C) 2016-2019 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Define the complete kalmediares structure for backup, with file and id annotations.
- * @package    moodlecore
+ * @package    mod_kalmediares
  * @subpackage backup-moodle2
  * @copyright  (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @copyright  (C) 2016-2018 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>

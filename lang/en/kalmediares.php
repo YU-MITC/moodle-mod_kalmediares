@@ -69,3 +69,12 @@ $string['no_media'] = 'Media (id = {$a}) is not avctive.<br>This media may have 
 $string['your_views'] = 'Page viewing: {$a} times before';
 $string['your_plays'] = 'Media playing: {$a} times before';
 $string['delay_stats_desc'] = 'Remarks : Your actions will be added to the statistics after about {$a} hours.';
+
+// Privacy strings.
+$string['privacy:metadata:kalmediares_log'] = 'Information about the access logs to Kaltura media resources. This includes number of plays, numver of page views, first access time, and last access time.';
+$string['privacy:metadata:kalmediares_log:instanceid'] = 'The ID of instance of Kaltura media resource.';
+$string['privacy:metadata:kalmediares_log:userid'] = 'The ID of the user with the media resource.';
+$string['privacy:metadata:kalmediares_log:plays'] = 'The number of plays to the Kaltura media resource';
+$string['privacy:metadata:kalmediares_log:views'] = 'The number of page (resource) views to the Kaltura media resource.';
+$string['privacy:metadata:kalmediares_log:first'] = 'The first acess time to the Kaltura media resource.';
+$string['privacy:metadata:kalmediares_log:last'] = 'The last access time to the Kaltura media resource.';
