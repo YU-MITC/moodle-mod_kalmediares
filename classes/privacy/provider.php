@@ -27,9 +27,15 @@ namespace mod_kalmediares\privacy;
 defined('MOODLE_INTERNAL') || die();
 
 if (interface_exists('\core_privacy\local\request\userlist')) {
-    interface my_inserface extends
-        \core_privacy\local\request\userlist,
+    interface my_interface extends
         \core_privacy\local\metadata\provider,
+        \core_privacy\local\request\userlist,
+        \core_privacy\local\request\plugin\provider {
+    };
+} else if (interface_exists('\core_privacy\local\request\core_userlist_provider')) {
+    interface my_interface extends
+        \core_privacy\local\metadata\provider,
+        \core_privacy\local\request\core_userlist_provider,
         \core_privacy\local\request\plugin\provider {
     };
 } else {
@@ -39,12 +45,18 @@ if (interface_exists('\core_privacy\local\request\userlist')) {
     };
 }
 
-use \core_privacy\local\request\approved_contextlist;
-use \core_privacy\local\request\deletion_criteria;
-use \core_privacy\local\request\writer;
-use \core_privacy\local\request\helper;
+use context;
+use context_helper;
+use context_module;
+use stdClass;
 use \core_privacy\local\metadata\collection;
+use \core_privacy\local\request\approved_contextlist;
+use \core_privacy\local\request\approved_userlist;
+use \core_privacy\local\request\contextlist;
+use \core_privacy\local\request\helper;
 use \core_privacy\local\request\transform;
+use \core_privacy\local\request\userlist;
+use \core_privacy\local\request\writer;
 
 /**
  * Privacy Subsystem for mod_kalmediares implementing provider.
@@ -61,7 +73,7 @@ class provider implements my_interface
 
     /**
      * This function returns meta data about this system.
-     * @param collection $collection - collection object for metadata.
+     * @param collection $items - collection object for metadata.
      * @return collection - modified collection object.
      */
     public static function _get_metadata($items) {
@@ -80,7 +92,6 @@ class provider implements my_interface
 
     /**
      * This function gets the list of contexts that contain user information for the specified user.
-     *
      * @param int $userid - The user to search.
      * @return contextlist $contextlist - The list of contexts used in this plugin.
      */
@@ -100,6 +111,14 @@ class provider implements my_interface
         $contextlist->add_from_sql($sql, $params);
 
         return $contextlist;
+    }
+
+    /**
+     * This function calls _get_users_in_context().
+     * @param userlist $userlist - The user list containing the list of users who have data in this context/plugin combination.
+     */
+    public static function get_users_in_context($userlist) {
+        _get_users_in_context($userlist);
     }
 
     /**
@@ -124,48 +143,7 @@ class provider implements my_interface
     }
 
     /**
-     * Delete all data for all users in the specified context.
-     * @param context $context - The specific context to delete data for.
-     */
-    public static function _delete_data_for_all_users_in_context($context) {
-        global $DB;
-
-        // Check that this is a context_module.
-        if (!$context instanceof \context_module) {
-            return;
-        }
-
-        // Get the course module.
-        if (!$cm = get_coursemodule_from_id('kalmediares', $context->instanceid)) {
-            return;
-        }
-
-        $resourceid = $cm->instance;
-
-        $DB->delete_records('kalemdires_log', ['instanceid' => $resourceid]);
-    }
-
-    /**
-     * Delete all user data for the specified user, in the specified contexts.
-     *
-     * @param approved_contextlist $contextlist -The approved contexts and user information to delete information for.
-     */
-    public static function _delete_data_for_user($contextlist) {
-        global $DB;
-        $user = $contextlist->get_user();
-        $userid = $user->id;
-        foreach ($contextlist as $context) {
-            // Get the course module.
-            $cm = $DB->get_record('course_modules', ['id' => $context->instanceid]);
-            $DB->delete_records('kalmediares_log',
-                                ['instanceid' => $cm->instance,
-                                 'userid' => $userid]);
-        }
-    }
-
-    /**
      * Export all user data for the specified user, in the specified contexts.
-     *
      * @param approved_contextlist $contextlist - The approved contexts to export information for.
      */
     public static function _export_user_data($contextlist) {
@@ -195,5 +173,70 @@ class provider implements my_interface
                 $instance->export_data(null, $data);
             }
         }
+    }
+
+    /**
+     * Delete all data for all users in the specified context.
+     * @param context $context - The specific context to delete data for.
+     */
+    public static function _delete_data_for_all_users_in_context(context $context) {
+        global $DB;
+
+        // Check that this is a context_module.
+        if (!$context instanceof \context_module) {
+            return;
+        }
+
+        // Get the course module.
+        if (!$cm = get_coursemodule_from_id('kalmediares', $context->instanceid)) {
+            return;
+        }
+
+        $resourceid = $cm->instance;
+
+        $DB->delete_records('kalemdires_log', ['instanceid' => $resourceid]);
+    }
+
+    /**
+     * Delete all user data for the specified user, in the specified contexts.
+     * @param approved_contextlist $contextlist - The approved contexts and user information to delete information for.
+     */
+    public static function _delete_data_for_user($contextlist) {
+        global $DB;
+        $user = $contextlist->get_user();
+        $userid = $user->id;
+        foreach ($contextlist as $context) {
+            // Get the course module.
+            $cm = $DB->get_record('course_modules', ['id' => $context->instanceid]);
+            $DB->delete_records('kalmediares_log',
+                                ['instanceid' => $cm->instance,
+                                 'userid' => $userid]);
+        }
+    }
+
+    /**
+     * This function calls _delete_data_for_users().
+     * @param approved_userlist $userlist - The approved context and user information to delete information for.
+     */
+    public static function delete_data_for_users($userlist) {
+        _delete_data_for_users($userlist);
+    }
+
+    /**
+     * Delete multiple users within a single context.
+     * @param approved_userlist $userlist - The approved context and user information to delete information for.
+     */
+    public static function _delete_data_for_users($userlist) {
+        global $DB;
+
+        $context = $userlist->get_context();
+        $cm = $DB->get_record('course_modules', ['id' => $context->instanceid]);
+        $resource = $DB->get_record('kalmediares', ['id' => $cm->instance]);
+
+        list($userinsql, $userinparams) = $DB->get_in_or_equal($userlist->get_userids(), SQL_PARAMS_NAMED);
+        $params = array_merge(['resourceid' => $resource->id], $userinparams);
+        $sql = "instanceid = :resourceid and userid {$userinsql}";
+
+        $DB->delete_records_select('kalmediares_log', $sql, $params);
     }
 }
