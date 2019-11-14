@@ -33,8 +33,6 @@ require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
 defined('MOODLE_INTERNAL') || die();
 
-require_login();
-
 /**
  * Given an object containing all the necessary data,
  * (defined by the form in mod_form.php) this function
