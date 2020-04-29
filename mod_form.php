@@ -21,7 +21,7 @@
  * visit: http://docs.moodle.org/en/Development:lib/formslib.php
  *
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2019 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2020 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -40,7 +40,7 @@ require_login();
 /**
  * class of YU Kaltura Media resource setting form.
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2018 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2020 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_kalmediares_mod_form extends moodleform_mod {
@@ -55,7 +55,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         global $CFG, $PAGE;
 
         $kaltura = new yukaltura_connection();
-        $connection = $kaltura->get_connection(true, KALTURA_SESSION_LENGTH);
+        $connection = $kaltura->get_connection(false, true, KALTURA_SESSION_LENGTH);
 
         $loginsession = '';
 
@@ -145,7 +145,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
         $this->standard_intro_elements(get_string('description', 'kalmediares'));
 
-        if (local_yukaltura_login(true, '')) {
+        if (local_yukaltura_login(false, true, '')) {
             $mform->addElement('header', 'video', get_string('media_hdr', 'kalmediares'));
             if (empty($this->current->entry_id)) {
                 $this->add_media_definition($mform, $connection, null);

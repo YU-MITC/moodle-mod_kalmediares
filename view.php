@@ -21,7 +21,7 @@
  * if you like, and it can span multiple lines.
  *
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2019 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2020 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -66,7 +66,7 @@ $context = $PAGE->context;
 
 // Try connection.
 $kaltura = new yukaltura_connection();
-$connection = $kaltura->get_connection(true, KALTURA_SESSION_LENGTH);
+$connection = $kaltura->get_connection(false, true, KALTURA_SESSION_LENGTH);
 
 if ($connection) {
     if (local_yukaltura_has_mobile_flavor_enabled() && local_yukaltura_get_enable_html5()) {

@@ -21,7 +21,7 @@
  * if you like, and it can span multiple lines.
  *
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2019 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2020 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -132,7 +132,7 @@ if (($admin == true || ($userrole != 'student' && $userrole != 'guest')) && !emp
             $query = 'select b.id, b.username, b.firstname, b.lastname, c.plays, c.views, c.first, c.last ';
             $query .= 'from (select u.id, u.username, u.picture, u.firstname, u.lastname, u.firstnamephonetic, ';
             $query .= 'u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email ';
-            $query .= 'from (select userid from {role_assignments} where contextid=:cid and roleid=:rid) a ';
+            $query .= 'from (select userid from {role_assignments} where contextid=:cid and roleid=:rid group by userid) a ';
             $query .= 'inner join {user} u on a.userid=u.id) b ';
             $query .= 'left join (select userid, plays, views, first, last from {kalmediares_log} ';
             $query .= 'where instanceid=:instanceid) c on b.id=c.userid ';

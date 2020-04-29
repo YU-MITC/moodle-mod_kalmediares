@@ -18,7 +18,7 @@
  * Kaltura media resource renderer class
  *
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2019 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2020 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,7 +35,7 @@ require_login();
 /**
  * Renderer class of YU Kaltura media resource.
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2019 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2020 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_kalmediares_renderer extends plugin_renderer_base {
@@ -293,7 +293,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
             $query .= 'b.middlename, b.alternatename, b.imagealt, b.email, c.plays, c.views, c.first, c.last ';
             $query .= 'from (select u.id, u.picture, u.firstname, u.lastname, u.firstnamephonetic, ';
             $query .= 'u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email ';
-            $query .= 'from (select userid from {role_assignments} where contextid=:cid and roleid=:rid) a ';
+            $query .= 'from (select userid from {role_assignments} where contextid=:cid and roleid=:rid group by userid) a ';
             $query .= 'inner join {user} u on a.userid=u.id) b ';
             $query .= 'left join (select userid, plays, views, first, last from {kalmediares_log} ';
             $query .= 'where instanceid=:instanceid) c on b.id=c.userid ';
