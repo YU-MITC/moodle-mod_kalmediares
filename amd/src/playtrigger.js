@@ -38,6 +38,7 @@ define(['jquery'], function($) {
 
             var videoTags;
             var trigger = false;
+            var scchange = "webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange";
 
             /**
              * This function retrieve os type.
@@ -59,6 +60,8 @@ define(['jquery'], function($) {
                     os = "Mac OS";
                 } else if (ua.match(/CrOS/)) {
                     os = "Chrome OS";
+                } else if (ua.match(/mobile|Mobile|MOBILE/)) {
+                    os = "Mobile";
                 } else {
                     os = "Other";
                 }
@@ -187,69 +190,75 @@ define(['jquery'], function($) {
                 }
             }
 
-            if (serviceURL !== null && serviceURL !== "") {
+            /**
+             * This function adds callback functions to video element.
+             * @param {object} element - element object for video tag.
+             */
+            function setCallback(element) {
                 var mobile = false;
                 var os = getOperatingSystem();
 
-                if (os == 'iOS' || os == 'Android' || os == 'Chrome OS') {
+                if (os == 'iOS' || os == 'Android' || os == 'Chrome OS' || os == 'Mobile') {
                     mobile = true;
                 }
 
-                $(window).on("load", function() {
-                    videoTags = $("video");
-                    if (videoTags !== null && videoTags.length >= 1) {
-                        videoTags.on("play", function() {
-                            arisePlay();
-                        });
-                        videoTags.on("playing", function() {
-                            arisePlaying();
-                        });
+                if (element !== null && element.length >= 1) {
+                    element.on("play", function() {
+                        arisePlay();
+                    });
+                    element.on("playing", function() {
+                        arisePlaying();
+                    });
 
-                        if (mobile === true) {
-                            videoTags.on("timeupdate", function() {
-                                ariseTimeupdate();
-                            });
-                            videoTags.on("seeked", function() {
-                                ariseSeeked();
-                            });
-                            videoTags.on("pause", function() {
-                                arisePause();
-                            });
-                            videoTags.on("ended", function() {
-                                ariseEnded();
-                            });
-                            videoTags.on("ratechange", function() {
-                                ariseRatechange();
-                            });
+                    if (mobile === true) {
+                        element.on("timeupdate", function() {
+                            ariseTimeupdate();
+                        });
+                        element.on("seeked", function() {
+                            ariseSeeked();
+                        });
+                        element.on("pause", function() {
+                           arisePause();
+                        });
+                        element.on("ended", function() {
+                            ariseEnded();
+                        });
+                        element.on("ratechange", function() {
+                            ariseRatechange();
+                        });
+                    }
+                }
+            }
+
+            if (serviceURL !== null && serviceURL !== "") {
+                $(window).on("load", function() {
+                    if (trigger === false) {
+                        videoTags = $("video");
+                        if (videoTags !== null && videoTags.length >= 1) {
+                            setCallback(videoTags);
                         }
                     }
                 });
 
                 $("iframe").on("load", function() {
-                    videoTags = $("iframe").eq(0).contents().find("video");
-                    if (videoTags !== null && videoTags.length >= 1) {
-                        videoTags.on("play", function() {
-                            arisePlay();
-                        });
-                        videoTags.on("playing", function() {
-                            arisePlaying();
-                        });
-                        if (mobile === true) {
-                            videoTags.on("timeupdate", function() {
-                                ariseTimeupdate();
-                            });
-                            videoTags.on("seeked", function() {
-                                ariseSeeked();
-                            });
-                            videoTags.on("pause", function() {
-                                arisePause();
-                            });
-                            videoTags.on("ended", function() {
-                                ariseEnded();
-                            });
-                            videoTags.on("ratechange", function() {
-                                ariseRatechange();
-                            });
+                    if (trigger === false) {
+                        videoTags = $("iframe").eq(0).contents().find("video");
+                        if (videoTags !== null && videoTags.length >= 1) {
+                            setCallback(videoTags);
+                        }
+                    }
+                });
+
+                $(window).on(scchange, function() {
+                    if (trigger === false) {
+                        videoTags = $("video");
+                        if (videoTags !== null && videoTags.length >= 1) {
+                            setCallback(videoTags);
+                        } else {
+                            videoTags = $("iframe").eq(0).contents().find("video");
+                            if (videoTags !== null && videoTags.length >= 1) {
+                                setCallback(videoTags);
+                            }
                         }
                     }
                 });
