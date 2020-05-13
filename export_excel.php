@@ -100,18 +100,11 @@ if (! $kalmediares = $DB->get_record('kalmediares', array('id' => $cm->instance)
 
 require_course_login($course->id, true, $cm);
 
-$context = $PAGE->context;
+$coursecontext = context_course::instance($COURSE->id);
 
-$admin = false;
+require_capability('mod/kalmediares:viewlog', $coursecontext, $USER);
 
-if (is_siteadmin()) {
-       $admin = true;
-} else {
-    $coursecontext = context_course::instance($course->id);
-    $userrole = current(get_user_roles($coursecontext, $USER->id))->shortname;
-}
-
-if (($admin == true || ($userrole != 'student' && $userrole != 'guest')) && !empty($kalmediares)) {
+if (has_capability('mod/kalmediares:viewlog', $coursecontext) && !empty($kalmediares)) {
     if (!empty($kalmediares->entry_id)) {
         $roleid = 0;
 

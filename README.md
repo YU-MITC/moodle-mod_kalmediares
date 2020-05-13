@@ -99,6 +99,10 @@ Warning
 Change log of YU Kaltura Media Resource
 ------
 
+Version 1.4.1R3
+
+* fixed acess_logs.php, export_excel.php, and access.php, in order to display access logs without errors.
+
 Version 1.4.1R2
 
 * fixed playtrigger.js, in order to detect playback events even in full-screen mode video.

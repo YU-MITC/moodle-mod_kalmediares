@@ -48,13 +48,13 @@ define(['jquery'], function($) {
                 var os;
                 var ua = navigator.userAgent;
 
-                if (ua.match(/iPhone|iPad|iPod/)) {
+                if (ua.match(/iPhone|iPad|iPod|IPHONE|IPAD|IPOD|iphone|ipad|ipod/)) {
                     os = "iOS";
-                } else if (ua.match(/Android|android/)) {
+                } else if (ua.match(/Android|android|ANDROID/)) {
                     os = "Android";
-                } else if (ua.match(/Linux|linux/)) {
+                } else if (ua.match(/Linux|linux|LINUX|ubuntu|Ubuntu|UBUNTU/)) {
                     os = "Linux";
-                } else if (ua.match(/Win(dows)/)) {
+                } else if (ua.match(/Win(dows)|WIN(DOWS)/)) {
                     os = "Windows";
                 } else if (ua.match(/Mac|PPC/)) {
                     os = "Mac OS";

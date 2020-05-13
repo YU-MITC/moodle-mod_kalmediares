@@ -43,6 +43,7 @@ $string['cannot_view'] = 'You cannot view this page.';
 $string['replace_media'] = 'Replace media';
 $string['custom_player'] = 'Custom player';
 $string['kalmediares:addinstance'] = 'Add a Kaltura Media Resource';
+$string['kalmediares:viewlog'] = 'View access logs of a Kaltura Media Resource';
 $string['media_select'] = 'Select media';
 $string['scr_loading'] = 'Loading...';
 $string['access_control_hdr'] = 'Access control';

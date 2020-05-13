@@ -62,8 +62,6 @@ $PAGE->set_url('/mod/kalmediares/view.php', array('id' => $id));
 $PAGE->set_title(format_string($kalmediares->name));
 $PAGE->set_heading($course->fullname);
 
-$context = $PAGE->context;
-
 // Try connection.
 $kaltura = new yukaltura_connection();
 $connection = $kaltura->get_connection(false, true, KALTURA_SESSION_LENGTH);

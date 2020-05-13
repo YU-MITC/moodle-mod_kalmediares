@@ -74,39 +74,22 @@ require_course_login($course->id, true, $cm);
 $PAGE->set_url('/mod/kalmediares/access_logs.php', array('id' => $id, 'sort' => $sort, 'order' => $order));
 $PAGE->set_title(get_string('access_logs', 'kalmediares') . ':' . format_string($kalmediares->name));
 $PAGE->set_heading($course->fullname);
-$PAGE->set_course($course);
 
 $coursenode = $PAGE->navigation->find($id, navigation_node::TYPE_ACTIVITY);
 $thingnode = $coursenode->add(get_string('access_logs', 'kalmediares'),
                               new moodle_url('/mod/kalmediares/access_logs.php' . '?id=' . $id));
 $thingnode->make_active();
 
-$context = $PAGE->context;
-
 $tablerows = 50;
 $perpage = 50;
 
 echo $OUTPUT->header();
 
-$admin = false;
-
-if (is_siteadmin()) {
-    $admin = true;
-}
-
-$teacher = false;
-
 $coursecontext = context_course::instance($COURSE->id);
-$roles = get_user_roles($coursecontext, $USER->id);
-foreach ($roles as $role) {
-    if ($role->shortname == 'teacher' || $role->shortname == 'editingteacher') {
-        $teacher = true;
-    }
-}
 
-if ($admin == false && $teacher == false) {
-    echo get_string('cannot_view', 'kalmediares') . '<br>';
-} else {
+require_capability('mod/kalmediares:viewlog', $coursecontext, $USER);
+
+if (has_capability('mod/kalmediares:viewlog', $coursecontext)) {
     echo '<h3>' . get_string('access_logs', 'kalmediares') . '</h3>';
 
     $renderer = $PAGE->get_renderer('mod_kalmediares');
@@ -124,6 +107,8 @@ if ($admin == false && $teacher == false) {
     echo $output;
     echo $renderer->create_pagingbar_markup($page);
 
+} else {
+    echo get_string('cannot_view', 'kalmediares') . '<br>';
 }
 
 echo $OUTPUT->footer();
