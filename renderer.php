@@ -263,7 +263,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
      * @return string - HTML markup to display link to access status page.
      */
     public function create_access_list_markup($kalmediares, $moduleid, $sort, $order, $page, $tablerows, $perpage, &$rows) {
-        global $CFG, $COURSE, $OUTPUT, $DB;
+        global $CFG, $COURSE, $DB;
 
         $url = new moodle_url('/mod/kalmediares/access_logs.php');
 
@@ -466,7 +466,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
                         $attr = array('class' => 'cell c1');
                         $output .= html_writer::start_tag('td');
-                        $output .= $OUTPUT->user_picture($student, $options);
+                        $output .= $this->output->user_picture($student, $options);
                         $output .= html_writer::end_tag('td');
 
                         $attr = array('class' => 'cell c2');
@@ -595,13 +595,13 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
      * @param object $course - The course odject.
      */
     public function display_kalmediaresources_table($course) {
-        global $CFG, $PAGE, $OUTPUT;
+        global $CFG;
 
         echo html_writer::start_tag('center');
 
         if (!get_coursemodules_in_course('kalmediares', $course->id)) {
             echo get_string('noresources', 'kalmediares');
-            echo $OUTPUT->continue_button($CFG->wwwroot.'/course/view.php?id='.$course->id);
+            echo $this->output->continue_button($CFG->wwwroot.'/course/view.php?id='.$course->id);
         }
 
         $strsectionname  = get_string('sectionname', 'format_'.$course->format);
@@ -633,7 +633,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
         }
 
         if ($resourcecount > 0) {
-            $pagerenderer = $PAGE->get_renderer('mod_kalmediares');
+            $pagerenderer = $this->page->get_renderer('mod_kalmediares');
             echo $pagerenderer->render($courseindexsummary);
         }
 
