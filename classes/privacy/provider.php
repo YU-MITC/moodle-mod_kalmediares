@@ -27,19 +27,19 @@ namespace mod_kalmediares\privacy;
 defined('MOODLE_INTERNAL') || die();
 
 if (interface_exists('\core_privacy\local\request\userlist')) {
-    interface my_interface extends
+    interface kalmediares_interface extends
         \core_privacy\local\metadata\provider,
         \core_privacy\local\request\userlist,
         \core_privacy\local\request\plugin\provider {
     };
 } else if (interface_exists('\core_privacy\local\request\core_userlist_provider')) {
-    interface my_interface extends
+    interface kalmediares_interface extends
         \core_privacy\local\metadata\provider,
         \core_privacy\local\request\core_userlist_provider,
         \core_privacy\local\request\plugin\provider {
     };
 } else {
-    interface my_interface extends
+    interface kalmediares_interface extends
         \core_privacy\local\metadata\provider,
         \core_privacy\local\request\plugin\provider {
     };
@@ -65,7 +65,7 @@ use \core_privacy\local\request\writer;
  * @copyright (C) 2016-2019 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements my_interface
+class provider implements kalmediares_interface
 {
 
     // To provide php 5.6 (33_STABLE) and up support.
