@@ -537,6 +537,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
         }
 
+        parent::definition_after_data();
     }
 
 }
