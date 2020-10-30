@@ -34,9 +34,9 @@ env:
 before_install:
   - phpenv config-rm xdebug.ini
   - nvm ls-remote
-  - nvm install v14.2
+  - nvm install v14.15
   - nvm use v14.2
-  - nvm alias default v14.2.0
+  - nvm alias default v14.15.0
   - node --version
   - cd ../..
   - composer create-project -n --no-dev --prefer-dist blackboard-open-source/moodle-plugin-ci ci ^2
