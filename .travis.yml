@@ -1,6 +1,6 @@
 language: php
 
-sudo: true
+os: linux
 
 addons:
   firefox: "57.0.1"
@@ -27,7 +27,7 @@ env:
  global:
  - MOODLE_BRANCH=MOODLE_35_STABLE
   - JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
- matrix:
+ jobs:
   - DB=pgsql
   - DB=mysqli
 
@@ -35,7 +35,7 @@ before_install:
   - phpenv config-rm xdebug.ini
   - nvm ls-remote
   - nvm install v14.15
-  - nvm use v14.2
+  - nvm use v14.15
   - nvm alias default v14.15.0
   - node --version
   - cd ../..
