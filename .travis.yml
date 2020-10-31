@@ -32,6 +32,7 @@ env:
   - DB=mysqli
 
 before_install:
+  - composer self-update --2
   - phpenv config-rm xdebug.ini
   - nvm ls-remote
   - nvm install v14.15
