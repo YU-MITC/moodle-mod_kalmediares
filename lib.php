@@ -157,8 +157,6 @@ function kalmediares_user_complete($course, $user, $mod, $kalmediares) {
  */
 function kalmediares_view($kalemdiares, $course, $cm, $context) {
     // Completion.
-    //$completion = new completion_info($course);
-    //$completion->set_module_viewed($cm);
 }
 
 /**
