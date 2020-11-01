@@ -129,8 +129,10 @@ if ($student == true) {
     $PAGE->requires->js_call_amd('mod_kalmediares/playtrigger', 'init', array($url, $id));
 }
 
-$completion = new completion_info($course);
-$completion->set_module_viewed($cm);
+if ($teacher == true && $student == false && $admin == false) {
+    $completion = new completion_info($course);
+    $completion->set_module_viewed($cm);
+}
 
 echo $OUTPUT->header();
 
