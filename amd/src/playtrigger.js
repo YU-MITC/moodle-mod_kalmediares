@@ -218,7 +218,7 @@ define(['jquery'], function($) {
                             ariseSeeked();
                         });
                         element.on("pause", function() {
-                           arisePause();
+                            arisePause();
                         });
                         element.on("ended", function() {
                             ariseEnded();

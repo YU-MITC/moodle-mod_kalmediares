@@ -69,7 +69,7 @@ How to use
 Targeted Moodle versions
 ------
 
-Moodle 2.9, 3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9
+Moodle 2.9, 3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 3.10
 
 Branches
 ------
@@ -85,6 +85,7 @@ Branches
 * MOODLE_37_STABLE -> Moodle3.7 branch
 * MOODLE_38_STABLE -> Moodle3.8 branch
 * MOODLE_39_STABLE -> Moodle3.9 branch
+* MOODLE_310_STABLE -> Moodle3.10 branch
 
 First clone the repository with "git clone", then "git checkout MOODLE_29_STABLE(branch name)" to switch branches.
 
@@ -100,10 +101,15 @@ Warning
 Change log of YU Kaltura Media Resource
 ------
 
+Version 1.5.0
+
+* fixed lib.php, trigger.php, and view.php, in order to support completion trackings.
+* fixed README.md, in order to support the Moodle 3.10.
+
 Version 1.4.2
 
 * fixed provider.php, renderer.php, and restore_kalmediares_activity_task.class.php, in order to corresponding to Moodle coding style.
-* fixed README.md in order to support the Moodle 3.9.
+* fixed README.md, in order to support the Moodle 3.9.
 
 Version 1.4.1R3
 
