@@ -82,17 +82,17 @@ function kalmediares_update_instance($kalmediares) {
 function kalmediares_delete_instance($id) {
     global $DB;
 
-    if (! $kalmediares = $DB->get_record('kalmediares', array('id' => $id))) {
-        return false;
+    $cm = get_coursemodule_from_instance('kalmediares', $id, 0, false, MUST_EXIST);
+
+    if (!empty($cm)) {
+        $DB->delete_records('course_modules_completion', array('coursemoduleid' => $cm->id));
     }
 
-    $DB->delete_records('kalmediares', array('id' => $kalmediares->id));
+    $DB->delete_records('kalmediares', array('id' => $id));
 
-    $DB->delete_records('kalmediares_log', array('instanceid' => $kalmediares->id));
+    $DB->delete_records('kalmediares_log', array('instanceid' => $id));
 
-    if (! $DB->delete_records('event', array('modulename' => 'kalmediares', 'instance' => $kalmediares->id))) {
-        $result = false;
-    }
+    $DB->delete_records('event', array('modulename' => 'kalmediares', 'instance' => $id));
 
     return true;
 }
@@ -149,13 +149,13 @@ function kalmediares_user_complete($course, $user, $mod, $kalmediares) {
 /**
  * Mark the activity completed (if required) and trigger the course_module_viewed event.
  *
- * @param stdClass $kalemdiares - media resource object.
+ * @param stdClass $kalmediares - media resource object.
  * @param stdClass $course - course object.
  * @param stdClass $cm - course module object.
  * @param stdClass $context - context object.
  * @since Moodle 3.0
  */
-function kalmediares_view($kalemdiares, $course, $cm, $context) {
+function kalmediares_view($kalmediares, $course, $cm, $context) {
     // Completion.
 }
 

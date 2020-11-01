@@ -103,7 +103,7 @@ Change log of YU Kaltura Media Resource
 
 Version 1.5.0
 
-* fixed lib.php, view.php, and trigger.php, in order to support completion trackings.
+* fixed lib.php, trigger.php, and view.php, in order to support completion trackings.
 * fixed README.md, in order to support the Moodle 3.10.
 
 Version 1.4.2
