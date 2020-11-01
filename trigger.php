@@ -107,3 +107,6 @@ if ($student == true) {
         print_error($ex->getMessage());
     }
 }
+
+$completion = new completion_info($course);
+$completion->set_module_viewed($cm);

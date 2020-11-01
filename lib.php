@@ -82,17 +82,17 @@ function kalmediares_update_instance($kalmediares) {
 function kalmediares_delete_instance($id) {
     global $DB;
 
-    if (! $kalmediares = $DB->get_record('kalmediares', array('id' => $id))) {
-        return false;
+    $cm = get_coursemodule_from_instance('kalmediares', $id, 0, false, MUST_EXIST);
+
+    if (!empty($cm)) {
+        $DB->delete_records('course_modules_completion', array('coursemoduleid' => $cm->id));
     }
 
-    $DB->delete_records('kalmediares', array('id' => $kalmediares->id));
+    $DB->delete_records('kalmediares', array('id' => $id));
 
-    $DB->delete_records('kalmediares_log', array('instanceid' => $kalmediares->id));
+    $DB->delete_records('kalmediares_log', array('instanceid' => $id));
 
-    if (! $DB->delete_records('event', array('modulename' => 'kalmediares', 'instance' => $kalmediares->id))) {
-        $result = false;
-    }
+    $DB->delete_records('event', array('modulename' => 'kalmediares', 'instance' => $id));
 
     return true;
 }
@@ -105,16 +105,24 @@ function kalmediares_delete_instance($id) {
  * $return->info = a short text description
  * @param object $course - Moodle course object.
  * @param object $user - Moodle user object.
- * @param object $mod - Moodle moduble object.
+ * @param object $mod - Moodle module object.
  * @param object $kalmediares - An object from the form in mod_form.php.
  * @return object - outline of user.
- * @todo Finish documenting this function
  */
 function kalmediares_user_outline($course, $user, $mod, $kalmediares) {
-    $return = new stdClass;
-    $return->time = 0;
-    $return->info = ''; // TODO finish this function.
-    return $return;
+    global $DB;
+
+    $kalmediareslog = $DB->get_record('kalmediares_log',
+                                      array('instanceid' => $mod->instance, 'userid' => $user->id));
+    if (empty($kalmediareslog)) {
+        return null;
+    }
+
+    $result = new stdClass();
+    $result->info = $kalmediareslog->plays . ' / ' . $kalmediareslog->views;
+    $result->time = $kalmediareslog->last;
+
+    return $result;
 }
 
 /**
@@ -124,11 +132,31 @@ function kalmediares_user_outline($course, $user, $mod, $kalmediares) {
  * @param object $user - Moodle user object.
  * @param object $mod - Moodle module obuject.
  * @param object $kalmediares - An object from the form in mod_form.php.
- * @return boolean - this function always return true.
- * @todo Finish documenting this function
  */
 function kalmediares_user_complete($course, $user, $mod, $kalmediares) {
-    return true;  // TODO: finish this function.
+    global $DB, $OUTPUT;
+
+    $kalmediareslog = $DB->get_record('kalmediares_log',
+                                      array('instanceid' => $mod->instance, 'userid' => $user->id));
+    if (empty($kalmediareslog)) {
+        echo "<p>" . get_string('neverseen', 'report_outline') . "</p>";
+
+    } else {
+        echo $OUTPUT->container($kalmediareslog->plays . ' / ' . $kalmediareslog->views . ' - ' . userdate($kalmediareslog->last));
+    }
+}
+
+/**
+ * Mark the activity completed (if required) and trigger the course_module_viewed event.
+ *
+ * @param stdClass $kalmediares - media resource object.
+ * @param stdClass $course - course object.
+ * @param stdClass $cm - course module object.
+ * @param stdClass $context - context object.
+ * @since Moodle 3.0
+ */
+function kalmediares_view($kalmediares, $course, $cm, $context) {
+    // Completion.
 }
 
 /**
