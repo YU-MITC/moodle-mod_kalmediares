@@ -129,10 +129,15 @@ if ($student == true) {
     $PAGE->requires->js_call_amd('mod_kalmediares/playtrigger', 'init', array($url, $id));
 }
 
-// For completion trackings.
-if ($teacher == true && $student == false && $admin == false) {
-    $completion = new completion_info($course);
-    $completion->set_module_viewed($cm);
+$entryobj = local_yukaltura_get_ready_entry_object($kalmediares->entry_id);
+if (!empty($entryobj) && $admin == false) {
+    // For completion trackings.
+    if ((KalturaMediaType::VIDEO != $entryobj->mediaType &&
+         KalturaMediaType::AUDIO != $entryobj->mediaType) ||
+        $teacher == true && $student == false) {
+        $completion = new completion_info($course);
+        $completion->set_module_viewed($cm);
+    }
 }
 
 echo $OUTPUT->header();
