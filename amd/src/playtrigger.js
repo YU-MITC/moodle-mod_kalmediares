@@ -17,7 +17,7 @@
  * Scripts for mod_kalmediares
  *
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2020 Yamaguchi University (gh-cc@mlex.cc.yamaguchi-u.ac.jp)
+ * @copyright  (C) 2016-2021 Yamaguchi University (gh-cc@mlex.cc.yamaguchi-u.ac.jp)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -231,7 +231,7 @@ define(['jquery'], function($) {
             }
 
             if (serviceURL !== null && serviceURL !== "") {
-                $(window).on("load", function() {
+                $(document).ready(function($) {
                     if (trigger === false) {
                         videoTags = $("video");
                         if (videoTags !== null && videoTags.length >= 1) {
@@ -243,6 +243,15 @@ define(['jquery'], function($) {
                 $("iframe").on("load", function() {
                     if (trigger === false) {
                         videoTags = $("iframe").eq(0).contents().find("video");
+                        if (videoTags !== null && videoTags.length >= 1) {
+                            setCallback(videoTags);
+                        }
+                    }
+                });
+
+                $(window).on("load", function() {
+                    if (trigger === false) {
+                        videoTags = $("video");
                         if (videoTags !== null && videoTags.length >= 1) {
                             setCallback(videoTags);
                         }

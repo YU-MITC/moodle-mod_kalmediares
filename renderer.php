@@ -18,7 +18,7 @@
  * Kaltura media resource renderer class
  *
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2020 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,7 +35,7 @@ require_login();
 /**
  * Renderer class of YU Kaltura media resource.
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2020 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_kalmediares_renderer extends plugin_renderer_base {
@@ -80,19 +80,25 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
             $session = local_yukaltura_generate_kaltura_session(true, array($entryobj->id));
 
             // Determine if the mobile theme is being used.
-            $theme = core_useragent::get_device_type_theme();
+	    $theme = core_useragent::get_device_type_theme();
 
             if (KalturaMediaType::IMAGE == $entryobj->mediaType) {
                 $markup = local_yukaltura_create_image_markup($entryobj, $kalmediares->name, $theme,
                                                             KALTURA_IMAGE_DESKTOP_WIDTH, KALTURA_IMAGE_DESKTOP_HEIGHT);
             } else {
                 $entryobj->width = $kalmediares->width;
-                $entryobj->height = $kalmediares->height;
+		$entryobj->height = $kalmediares->height;
 
-                if (0 == strcmp($theme, 'mymobile')) {
-                    $markup = local_yukaltura_get_kwidget_code($entryobj, $kalmediares->uiconf_id, $session);
+                $playertype = local_yukaltura_get_player_type($kalmediares->uiconf_id, $connection);
+
+		if ($playertype == KALTURA_TV_PLATFORM_STUDIO) {
+                    $markup = local_yukaltura_get_iframeembed_code($entryobj, $kalmediares->uiconf_id, $connection, $session);
                 } else {
-                    $markup = local_yukaltura_get_dynamicembed_code($entryobj, $kalmediares->uiconf_id, $session);
+                    if (false !== strpos($theme, 'mobile') || false !== strpos($theme, 'desktop')) {
+                        $markup = local_yukaltura_get_kwidget_code($entryobj, $kalmediares->uiconf_id, $session);
+                    } else {
+                        $markup = local_yukaltura_get_dynamicembed_code($entryobj, $kalmediares->uiconf_id, $connection, $session);
+                    }
                 }
             }
 
