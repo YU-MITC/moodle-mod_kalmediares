@@ -80,18 +80,18 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
             $session = local_yukaltura_generate_kaltura_session(true, array($entryobj->id));
 
             // Determine if the mobile theme is being used.
-	    $theme = core_useragent::get_device_type_theme();
+            $theme = core_useragent::get_device_type_theme();
 
             if (KalturaMediaType::IMAGE == $entryobj->mediaType) {
                 $markup = local_yukaltura_create_image_markup($entryobj, $kalmediares->name, $theme,
                                                             KALTURA_IMAGE_DESKTOP_WIDTH, KALTURA_IMAGE_DESKTOP_HEIGHT);
             } else {
                 $entryobj->width = $kalmediares->width;
-		$entryobj->height = $kalmediares->height;
+                $entryobj->height = $kalmediares->height;
 
                 $playertype = local_yukaltura_get_player_type($kalmediares->uiconf_id, $connection);
 
-		if ($playertype == KALTURA_TV_PLATFORM_STUDIO) {
+                if ($playertype == KALTURA_TV_PLATFORM_STUDIO) {
                     $markup = local_yukaltura_get_iframeembed_code($entryobj, $kalmediares->uiconf_id, $connection, $session);
                 } else {
                     if (false !== strpos($theme, 'mobile') || false !== strpos($theme, 'desktop')) {
