@@ -18,15 +18,16 @@
  * Message defines.
  *
  * @package   mod_kalmediares
- * @copyright (C) 2016-2020 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+$string['pluginname'] = 'Kaltura Media Resource';
 
 $string['modulenameplural'] = 'Kaltura Media Resources';
 $string['modulename'] = 'Kaltura Media Resource';
 $string['modulename_help'] = 'The Kaltura Media Resource enables a teacher to create a resource using a Kaltura media.';
 $string['pluginadministration'] = 'Kaltura Media Resource';
-$string['pluginname'] = 'Kaltura Media Resource';
 $string['name'] = 'Name';
 $string['description'] = 'Description';
 $string['media_hdr'] = 'Media';
