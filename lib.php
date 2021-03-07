@@ -170,7 +170,7 @@ function kalmediares_view($kalmediares, $course, $cm, $context) {
  * @todo Finish documenting this function
  */
 function kalmediares_print_recent_activity($course, $viewfullnames, $timestart) {
-    // TODO: finish this function
+    // TODO: finish this function.
     return false;  // True if anything was printed, otherwise false.
 }
 

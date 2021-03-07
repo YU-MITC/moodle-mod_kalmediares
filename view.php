@@ -77,7 +77,7 @@ if ($connection) {
         }
         $PAGE->requires->js($url, true);
         $url = new moodle_url('/local/yukaltura/js/frameapi.js');
-	$PAGE->requires->js($url, true);
+        $PAGE->requires->js($url, true);
     }
 }
 
