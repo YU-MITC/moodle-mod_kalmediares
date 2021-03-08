@@ -71,6 +71,7 @@ $string['no_media'] = 'Media (id = {$a}) is not avctive.<br>This media may have 
 $string['your_views'] = 'Page viewing: {$a} times before';
 $string['your_plays'] = 'Media playing: {$a} times before';
 $string['delay_stats_desc'] = 'Remarks : Your actions will be added to the statistics after about {$a} hours.';
+$string['app_stats_warning'] = 'Remarks : In the mobile app, this plugin does not count up number of media playbacks.';
 
 // Privacy strings.
 $string['privacy:metadata:kalmediares_log'] = 'Information about the access logs to Kaltura media resources. This includes number of plays, numver of page views, first access time, and last access time.';
