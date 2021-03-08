@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Contains the mobile output class for the attendance
+ * Contains the mobile output class for mod_kalmediares.
  *
- * @package   mod_kalmediares
- * @copyright 2018 Dan Marsden
+ * @package    mod_kalmediares
+ * @copyright  (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,16 +29,18 @@ require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/config.ph
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Mobile output class for the attendance.
+ * Mobile output class for the mod_kalmediares.
  *
- * @copyright 2018 Dan Marsden
+ * @package    mod_kalmediares
+ * @copyright  (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mobile {
-    /* Returns the initial page when viewing the activity for the mobile app.
+    /**
+     *  This function returns the initial page when viewing the activity for the mobile app.
      *
-     * @param  array $args Arguments from tool_mobile_get_content WS
-     * @return array HTML, javascript and other data
+     * @param array $args - Arguments from tool_mobile_get_content WS.
+     * @return array - HTML, javascript and other data.
      */
     public static function mobile_view_activity($args) {
         global $CFG, $OUTPUT, $DB, $PAGE;

@@ -30,12 +30,13 @@ global $CFG;
  * This function returns playback and page view count.
  * @param int $userid - user ID.
  * @param int $mid - module ID.
- * @param int $exclution_time - exclution time duration for stastics calculate.
+ * @param int $exclutiontime - exclution time duration for stastics calculate.
+ * @return list - list of plays, and views.
  */
-function mod_kalmediares_get_user_playsviews($userid, $mid, $exclusion_time) {
+function mod_kalmediares_get_user_playsviews($userid, $mid, $exclusiontime) {
     global $COURSE, $DB;
 
-    $stamp = time() - 3600 * $exclusion_time;
+    $stamp = time() - 3600 * $exclusiontime;
 
     $plays = 0;
     $views = 0;
