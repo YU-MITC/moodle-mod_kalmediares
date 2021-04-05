@@ -92,7 +92,6 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
                 $playertype = local_yukaltura_get_player_type($kalmediares->uiconf_id, $connection);
 
                 if ($playertype == KALTURA_TV_PLATFORM_STUDIO) {
-                    //$markup = local_yukaltura_get_iframeembed_code($entryobj, $kalmediares->uiconf_id, $connection, $session);
                     $markup = local_yukaltura_get_dynamicembed_code($entryobj, $kalmediares->uiconf_id, $connection, $session);
                 } else {
                     if (false !== strpos($theme, 'mymobile')) {
