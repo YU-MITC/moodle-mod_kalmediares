@@ -92,9 +92,10 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
                 $playertype = local_yukaltura_get_player_type($kalmediares->uiconf_id, $connection);
 
                 if ($playertype == KALTURA_TV_PLATFORM_STUDIO) {
-                    $markup = local_yukaltura_get_iframeembed_code($entryobj, $kalmediares->uiconf_id, $connection, $session);
+                    //$markup = local_yukaltura_get_iframeembed_code($entryobj, $kalmediares->uiconf_id, $connection, $session);
+                    $markup = local_yukaltura_get_dynamicembed_code($entryobj, $kalmediares->uiconf_id, $connection, $session);
                 } else {
-                    if (false !== strpos($theme, 'mobile') || false !== strpos($theme, 'desktop')) {
+                    if (false !== strpos($theme, 'mymobile')) {
                         $markup = local_yukaltura_get_kwidget_code($entryobj, $kalmediares->uiconf_id, $session);
                     } else {
                         $markup = local_yukaltura_get_dynamicembed_code($entryobj, $kalmediares->uiconf_id, $connection, $session);
@@ -692,5 +693,18 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
         }
 
         return html_writer::table($table);
+    }
+
+    /**
+     * This function returns warning markup about statistics for OVP/OTT players.
+     * @return string - HTML for assignments summary table.
+     */
+    public function create_player_stats_warning_markup() {
+        $output = '';
+        $attr = array('align' => 'center', 'style' => 'color: red');
+        $output .= html_writer::start_tag('div', $attr);
+        $output .= get_string('ovp_stats_warning', 'kalmediares');
+        $output .= html_writer::end_tag('div');
+        return $output;
     }
 }

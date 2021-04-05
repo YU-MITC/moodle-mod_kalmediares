@@ -37,7 +37,10 @@ define(['jquery'], function($) {
         init: function(serviceURL, cmid) {
 
             var videoTags;
+            var iframeTags;
             var trigger = false;
+            var listener = false;
+            var checkAction = null;
             var scchange = "webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange";
 
             /**
@@ -227,48 +230,70 @@ define(['jquery'], function($) {
                             ariseRatechange();
                         });
                     }
+
+                    listener = true;
                 }
             }
 
-            if (serviceURL !== null && serviceURL !== "") {
-                $(document).ready(function($) {
-                    if (trigger === false) {
-                        videoTags = $("video");
-                        if (videoTags !== null && videoTags.length >= 1) {
-                            setCallback(videoTags);
-                        }
-                    }
-                });
-
-                $("iframe").on("load", function() {
-                    if (trigger === false) {
-                        videoTags = $("iframe").eq(0).contents().find("video");
-                        if (videoTags !== null && videoTags.length >= 1) {
-                            setCallback(videoTags);
-                        }
-                    }
-                });
-
-                $(window).on("load", function() {
-                    if (trigger === false) {
-                        videoTags = $("video");
-                        if (videoTags !== null && videoTags.length >= 1) {
-                            setCallback(videoTags);
-                        }
-                    }
-                });
-
-                $(window).on(scchange, function() {
-                    if (trigger === false) {
-                        videoTags = $("video");
-                        if (videoTags !== null && videoTags.length >= 1) {
-                            setCallback(videoTags);
-                        } else {
-                            videoTags = $("iframe").eq(0).contents().find("video");
+            function checkElement() {
+                if (listener === false && trigger === false) {
+                    videoTags = $("video");
+                    if (videoTags !== null && videoTags.length >= 1) {
+                        setCallback(videoTags);
+                    } else {
+                        iframeTags = $("iframe");
+                        if (iframeTags !== null && iframeTags.length >= 1) {
+                            videoTags = iframeTags.eq(0).contents().find("video");
                             if (videoTags !== null && videoTags.length >= 1) {
                                 setCallback(videoTags);
                             }
                         }
+                    }
+                }
+
+                if (listener === true && checkAction !== null) {
+                    clearInterval(checkAction);
+                }
+            }
+
+            if (serviceURL !== null && serviceURL !== "") {
+                $(document).ready(function() {
+                    if (trigger === false && listener === false) {
+                        checkElement();
+                    }
+
+                    if (checkAction === null) {
+                        checkAction = setInterval(checkElement, 1000);
+                    }
+                });
+
+                $("iframe").on("load", function() {
+                    if (trigger === false && listener === false) {
+                        checkElement();
+                    }
+
+                    if (checkAction === null) {
+                        checkAction = setInterval(checkElement, 1000);
+                    }
+                });
+
+                $(window).on("load", function() {
+                    if (trigger === false && listener === false) {
+                        checkElement();
+                    }
+
+                    if (checkAction === null) {
+                        checkAction = setInterval(checkElement, 1000);
+                    }
+                });
+
+                $(window).on(scchange, function() {
+                    if (trigger === false && listener === false) {
+                        checkElement();
+                    }
+
+                    if (checkAction === null) {
+                        checkAction = setInterval(checkElement, 1000);
                     }
                 });
             }

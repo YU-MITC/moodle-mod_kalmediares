@@ -66,18 +66,25 @@ $PAGE->set_heading($course->fullname);
 $kaltura = new yukaltura_connection();
 $connection = $kaltura->get_connection(false, true, KALTURA_SESSION_LENGTH);
 
+$playertype = KALTURA_UNIVERSAL_STUDIO;
+
 if ($connection) {
     if (local_yukaltura_has_mobile_flavor_enabled() && local_yukaltura_get_enable_html5()) {
         $uiconfid = local_yukaltura_get_player_uiconf('player_resource');
 
         if (empty($kalmediares->uiconf_id)) {
-            $url = new moodle_url(local_yukaltura_html5_javascript_url($uiconfid));
-        } else {
-             $url = new moodle_url(local_yukaltura_html5_javascript_url($kalmediares->uiconf_id));
+            $kalmediares->uiconf_id = $uiconfid;
         }
+
+        $playertype = local_yukaltura_get_player_type($kalmediares->uiconf_id, $connection);
+
+        $url = new moodle_url(local_yukaltura_html5_javascript_url($kalmediares->uiconf_id, $playertype));
         $PAGE->requires->js($url, true);
-        $url = new moodle_url('/local/yukaltura/js/frameapi.js');
-        $PAGE->requires->js($url, true);
+
+        if ($playertype == KALTURA_UNIVERSAL_STUDIO) {
+            $url = new moodle_url('/local/yukaltura/js/frameapi.js');
+            $PAGE->requires->js($url, true);
+        }
     }
 }
 
@@ -173,8 +180,12 @@ if ($kalmediares->internal == 1 and !local_yukaltura_check_internal($clientipadd
         }
     }
 
-    if ($student == true && $kalmediares->publish_access_log == 1) {
-        echo $renderer->create_student_playsviews_markup($cm->id, $kalmediares);
+    if ($playertype == KALTURA_UNIVERSAL_STUDIO) {
+        if ($student == true && $kalmediares->publish_access_log == 1) {
+            echo $renderer->create_student_playsviews_markup($cm->id, $kalmediares);
+        }
+    } else {
+        echo $renderer->create_player_stats_warning_markup();
     }
 
     if ($teacher == true || $admin == true) {
