@@ -321,7 +321,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
             $i = 0;
             $j = 0;
 
-            if ($studentlist != null) {
+            if ($studentlist != null && !empty($activeids)) {
                 foreach ($studentlist as $student) {
                     if ($student->plays == null) {
                         $student->plays = 0;
