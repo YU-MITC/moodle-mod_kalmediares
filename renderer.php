@@ -299,7 +299,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
             $enrolitems = $DB->get_recordset_sql($query, array('courseid' => $COURSE->id, 'statusid' => 0));
             $enrolids = '';
-            foreach($enrolitems as $item) {
+            foreach ($enrolitems as $item) {
                 if (strcmp($enrolids, '') != 0) {
                     $enrolids .= ',';
                 }
