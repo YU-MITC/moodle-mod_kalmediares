@@ -121,6 +121,28 @@ if (has_capability('mod/kalmediares:viewlog', $coursecontext) && !empty($kalmedi
             $instanceid = $row->instance;
         }
 
+        $query = 'select id from {enrol} where courseid=:courseid and status=:statusid';
+
+        $enrolitems = $DB->get_recordset_sql($query, array('courseid' => $COURSE->id, 'statusid' => 0));
+        $enrolids = '';
+        foreach($enrolitems as $item) {
+            if (strcmp($enrolids, '') != 0) {
+                $enrolids .= ',';
+            }
+            $enrolids .= $item->id;
+        }
+
+        $query = 'select userid from {user_enrolments} where enrolid in (' . $enrolids ') ';
+        $query .= 'and status=:statusid group by userid';
+        $activelist = $DB->get_recordset_sql($query, array('statusid' => 0));
+
+        $activeids = array();
+        $i = 0;
+        foreach ($activelist as $activeitem) {
+            $activeids[$i] = $activeitem->userid;
+            $i++;
+        }
+
         try {
             $query = 'select b.id, b.username, b.firstname, b.lastname, c.plays, c.views, c.first, c.last ';
             $query .= 'from (select u.id, u.username, u.picture, u.firstname, u.lastname, u.firstnamephonetic, ';
@@ -153,6 +175,18 @@ if (has_capability('mod/kalmediares:viewlog', $coursecontext) && !empty($kalmedi
         $rownum = 1;
 
         foreach ($userdata as $row) {
+            $activeflag = false;
+            for ($k = 0; $k < count($activeids); $k++) {
+                if ($row->id == $activeids[$k]) {
+                    $activeflag = true;
+                    break;
+                }
+            }
+
+            if ($activeflag === false) {
+                continue;
+            }
+
             $firstaccess = '-';
             if ($row->first != null and $row->first > 0) {
                 $firstaccess = date("Y-m-d H:i:s", $row->first);
