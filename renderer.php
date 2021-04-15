@@ -295,6 +295,27 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
                 $instanceid = $row->instance;
             }
 
+            $query = 'select id from {enrol} where courseid=:courseid and status=:statusid';
+
+            $enrolitems = $DB->get_recordset_sql($query, array('courseid' => $COURSE->id, 'statusid' => 0));
+            $enrolids = '';
+            foreach($enrolitems as $item) {
+                if (strcmp($enrolids, '') != 0) {
+                    $enrolids .= ',';
+                }
+                $enrolids .= $item->id;
+            }
+
+            $query = 'select userid from {user_enrolments} where enrolid in (' . $enrolids  . ') ';
+            $query .= 'and status=:statusid group by userid';
+            $activelist = $DB->get_recordset_sql($query, array('statusid' => 0));
+            $activeids = array();
+            $i = 0;
+            foreach ($activelist as $activeitem) {
+                $activeids[$i] = $activeitem->userid;
+                $i++;
+            }
+
             $query = 'select b.id, b.picture, b.firstname, b.lastname, b.firstnamephonetic, b.lastnamephonetic, ';
             $query .= 'b.middlename, b.alternatename, b.imagealt, b.email, c.plays, c.views, c.first, c.last ';
             $query .= 'from (select u.id, u.picture, u.firstname, u.lastname, u.firstnamephonetic, ';
@@ -308,7 +329,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
             $studentlist = $DB->get_recordset_sql($query,
                                                   array('cid' => $coursecontext->id,
                                                         'rid' => $roleid,
-                                                         'instanceid' => $instanceid
+                                                        'instanceid' => $instanceid
                                                   )
                                                  );
 
@@ -321,7 +342,6 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
             if ($studentlist != null) {
                 foreach ($studentlist as $student) {
-
                     if ($student->plays == null) {
                         $student->plays = 0;
                     }
@@ -332,6 +352,18 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
                     $totalplays = $totalplays + $student->plays;
                     $totalviews = $totalviews + $student->views;
+
+                    $activeflag = false;
+                    for ($k = 0; $k < count($activeids); $k++) {
+                        if ($student->id == $activeids[$k]) {
+                            $activeflag = true;
+                            break;
+                        }
+                    }
+
+                    if ($activeflag === false) {
+                        continue;
+                    }
 
                     if ($student->last != null and $student->last > 0 and $student->last > $recently) {
                         $recently = $student->last;
@@ -692,18 +724,5 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
         }
 
         return html_writer::table($table);
-    }
-
-    /**
-     * This function returns warning markup about statistics for OVP/OTT players.
-     * @return string - HTML for assignments summary table.
-     */
-    public function create_player_stats_warning_markup() {
-        $output = '';
-        $attr = array('align' => 'center', 'style' => 'color: red');
-        $output .= html_writer::start_tag('div', $attr);
-        $output .= get_string('ovp_stats_warning', 'kalmediares');
-        $output .= html_writer::end_tag('div');
-        return $output;
     }
 }
