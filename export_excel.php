@@ -121,9 +121,9 @@ if (has_capability('mod/kalmediares:viewlog', $coursecontext) && !empty($kalmedi
             $instanceid = $row->instance;
         }
 
-        $activeids = mod_kalemdiares_active_user_list();
-
         try {
+            $activeids = mod_kalemdiares_active_user_list();
+
             $query = 'select b.id, b.username, b.firstname, b.lastname, c.plays, c.views, c.first, c.last ';
             $query .= 'from (select u.id, u.username, u.picture, u.firstname, u.lastname, u.firstnamephonetic, ';
             $query .= 'u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email ';
