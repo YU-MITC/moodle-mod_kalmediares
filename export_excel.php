@@ -125,14 +125,14 @@ if (has_capability('mod/kalmediares:viewlog', $coursecontext) && !empty($kalmedi
 
         $enrolitems = $DB->get_recordset_sql($query, array('courseid' => $COURSE->id, 'statusid' => 0));
         $enrolids = '';
-        foreach($enrolitems as $item) {
+        foreach ($enrolitems as $item) {
             if (strcmp($enrolids, '') != 0) {
                 $enrolids .= ',';
             }
             $enrolids .= $item->id;
         }
 
-        $query = 'select userid from {user_enrolments} where enrolid in (' . $enrolids ') ';
+        $query = 'select userid from {user_enrolments} where enrolid in (' . $enrolids . ') ';
         $query .= 'and status=:statusid group by userid';
         $activelist = $DB->get_recordset_sql($query, array('statusid' => 0));
 
