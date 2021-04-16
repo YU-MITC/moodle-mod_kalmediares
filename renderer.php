@@ -27,6 +27,7 @@ require_once(dirname(dirname(dirname(__FILE__))) . '/local/yukaltura/locallib.ph
 require_once(dirname(dirname(dirname(__FILE__))) . '/local/yukaltura/API/KalturaClient.php');
 require_once(dirname(dirname(dirname(__FILE__))) . '/local/yukaltura/kaltura_entries.class.php');
 require_once(dirname(dirname(dirname(__FILE__))) . '/mod/kalmediares/renderable.php');
+require_once(dirname(dirname(dirname(__FILE__))) . '/mod/kalmediares/locallib.php');
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -295,7 +296,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
                 $instanceid = $row->instance;
             }
 
-            $activeids = mod_kalemdiares_active_user_list();
+            $activeids = mod_kalmediares_active_user_list();
 
             $query = 'select b.id, b.picture, b.firstname, b.lastname, b.firstnamephonetic, b.lastnamephonetic, ';
             $query .= 'b.middlename, b.alternatename, b.imagealt, b.email, c.plays, c.views, c.first, c.last ';
