@@ -66,7 +66,7 @@ function mod_kalmediares_get_user_playsviews($userid, $mid, $exclusiontime) {
  * This function returns IDs of active users.
  * @return array - IDs of active users in course.
  */
-function mod_kalemdiares_active_user_list() {
+function mod_kalmediares_active_user_list() {
     global $COURSE, $DB;
 
     $query = 'select id from {enrol} where courseid=:courseid and status=:statusid';

@@ -28,6 +28,7 @@
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once($CFG->libdir . '/excellib.class.php');
 require_once(dirname(dirname(dirname(__FILE__))) . '/local/yukaltura/locallib.php');
+require_once(dirname(dirname(dirname(__FILE__))) . '/mod/kalmediares/locallib.php');
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -122,7 +123,7 @@ if (has_capability('mod/kalmediares:viewlog', $coursecontext) && !empty($kalmedi
         }
 
         try {
-            $activeids = mod_kalemdiares_active_user_list();
+            $activeids = mod_kalmediares_active_user_list();
 
             $query = 'select b.id, b.username, b.firstname, b.lastname, c.plays, c.views, c.first, c.last ';
             $query .= 'from (select u.id, u.username, u.picture, u.firstname, u.lastname, u.firstnamephonetic, ';
