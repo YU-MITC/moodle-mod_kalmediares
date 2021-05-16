@@ -39,6 +39,7 @@ $string['media_preview'] = 'Preview';
 $string['widescreen'] = 'Widescreen';
 $string['media_preview_header'] = 'Preview';
 $string['invalidid'] = 'Invalid ID';
+$string['invalid_module'] = 'Invalid course module ID ({$a})';
 $string['invalidaccess'] = 'Invalid Access';
 $string['cannot_view'] = 'You cannot view this page.';
 $string['replace_media'] = 'Replace media';
@@ -72,6 +73,8 @@ $string['your_views'] = 'Page viewing: {$a} times before';
 $string['your_plays'] = 'Media playing: {$a} times before';
 $string['delay_stats_desc'] = 'Remarks : Your actions will be added to the statistics after about {$a} hours.';
 $string['app_stats_warning'] = 'Remarks : In the mobile app, this plugin cannot count number of media playbacks.';
+$string['log_update_error'] = 'Cannot update access log ({$a}).';
+$string['log_get_error'] = 'Cannot get access log ({$a}).';
 
 // Privacy strings.
 $string['privacy:metadata:kalmediares_log'] = 'Information about the access logs to Kaltura media resources. This includes number of plays, numver of page views, first access time, and last access time.';

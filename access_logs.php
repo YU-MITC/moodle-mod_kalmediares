@@ -50,22 +50,22 @@ if ($order != 'ASC' && $order != 'DESC') {
 
 // Retrieve module instance.
 if (empty($id)) {
-    print_error('invalid course module id - ' . $id, 'kalmediares');
+    throw new moodle_exception('invalid_module', 'kalmediares', '', 'N/A');
     die();
 }
 
 if (! $cm = get_coursemodule_from_id('kalmediares', $id)) {
-    print_error('invalid_coursemodule', 'kalmediares');
+    throw new moodle_exception('invalid_module', 'kalmediares', '', $id);
     die();
 }
 
 if (! $course = $DB->get_record('course', array('id' => $cm->course))) {
-    print_error('course_misconf');
+    throw new moodle_exception('course_misconf');
     die();
 }
 
 if (! $kalmediares = $DB->get_record('kalmediares', array('id' => $cm->instance))) {
-    print_error('invalid_id', 'kalmediares');
+    throw new moodle_exception('invalidid', 'kalmediares');
     die();
 }
 
