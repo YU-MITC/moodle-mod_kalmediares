@@ -53,15 +53,15 @@ class mobile {
 
         $cmid = $args['cmid'];
         if (! $cm = get_coursemodule_from_id('kalmediares', $cmid)) {
-            print_error('invalid_coursemodule', 'kalmediares');
+            throw new moodle_exception('invalid_coursemodule', 'kalmediares');
         }
 
         if (! $course = $DB->get_record('course', array('id' => $cm->course))) {
-            print_error('course_misconf');
+            throw new moodle_exception('course_misconf');
         }
 
         if (! $kalmediares = $DB->get_record('kalmediares', array('id' => $cm->instance))) {
-            print_error('invalid_id', 'kalmediares');
+            throw new moodle_exception('invalid_id', 'kalmediares');
         }
 
         $PAGE->requires->jquery();

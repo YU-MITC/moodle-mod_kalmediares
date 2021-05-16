@@ -335,6 +335,10 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
                     $totalplays = $totalplays + $student->plays;
                     $totalviews = $totalviews + $student->views;
 
+                    if ($student->last != null and $student->last > 0 and $student->last > $recently) {
+                        $recently = $student->last;
+                    }
+
                     $activeflag = false;
                     for ($k = 0; $k < count($activeids); $k++) {
                         if ($student->id == $activeids[$k]) {
@@ -345,10 +349,6 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
                     if ($activeflag === false) {
                         continue;
-                    }
-
-                    if ($student->last != null and $student->last > 0 and $student->last > $recently) {
-                        $recently = $student->last;
                     }
 
                     if ($i >= $page * $perpage  and $i < ($page + 1) * $perpage) {

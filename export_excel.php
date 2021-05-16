@@ -44,17 +44,17 @@ $order = optional_param('order', 'ASC', PARAM_TEXT);     // Sorting Order (ASC o
 
 // Retrieve module instance.
 if (empty($id)) {
-    print_error('invalid course module id - ' . $id, 'kalmediares');
+    throw new moodle_exception('invalid_module', 'kalmediares', '', 'N/A');
     die();
 }
 
 if (! $cm = get_coursemodule_from_id('kalmediares', $id)) {
-    print_error('invalid_coursemodule', 'kalmediares');
+    throw new moodle_exception('invalid_module', 'kalmediares', '', $id);
     die();
 }
 
 if (! $course = $DB->get_record('course', array('id' => $cm->course))) {
-    print_error('course_misconf');
+    throw new moodle_exception('course_misconf');
     die();
 }
 
@@ -80,22 +80,22 @@ if ($order != 'ASC' and $order != 'DESC') {
 
 // Retrieve module instance.
 if (empty($id)) {
-    print_error('invalid course module id - ' . $id, 'kalmediares');
+    throw new moodle_exception('invalid_module', 'kalmediares', '', 'N/A');
     die();
 }
 
 if (! $cm = get_coursemodule_from_id('kalmediares', $id)) {
-    print_error('invalid_coursemodule', 'kalmediares');
+    throw new moodle_exception('invalid_module', 'kalmediares', '', $id);
     die();
 }
 
 if (! $course = $DB->get_record('course', array('id' => $cm->course))) {
-    print_error('course_misconf');
+    throw new moodle_exception('course_misconf');
     die();
 }
 
 if (! $kalmediares = $DB->get_record('kalmediares', array('id' => $cm->instance))) {
-    print_error('invalid_id', 'kalmediares');
+    throw new moodle_exception('invalidid', 'kalmediares');
     die();
 }
 
@@ -142,7 +142,7 @@ if (has_capability('mod/kalmediares:viewlog', $coursecontext) && !empty($kalmedi
                                                )
                                               );
         } catch (Exception $ex) {
-            print_error($ex->getMessage());
+            throw new moodle_exception('log_get_error', 'kalmediares', '', $ex->getMessage());
         }
 
         $worksheet[0]->write_string(0, 0, get_string('username', 'moodle'));

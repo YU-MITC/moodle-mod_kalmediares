@@ -37,28 +37,28 @@ $id = optional_param('id', 0, PARAM_INT); // Course Module ID.
 
 // Retrieve module instance.
 if (empty($id)) {
-    print_error('invalid course module id - ' . $id, 'kalmediares');
+    throw new moodle_exception('invalid_module', 'kalmediares', '', 'N/A');
 }
 
 $correcturl = new moodle_url('/mod/kalmediares/view.php');
 $correcturl .= '?id=' . $id;
 
 if ($referer != $correcturl) {
-    print_error('invalid_access', 'kalmediares');
+    throw new moodle_exception('invalid_access', 'kalmediares');
 }
 
 if (!empty($id)) {
 
     if (! $cm = get_coursemodule_from_id('kalmediares', $id)) {
-        print_error('invalid_coursemodule', 'kalmediares');
+        throw new moodle_exception('invalid_module', 'kalmediares', '', $id);
     }
 
     if (! $course = $DB->get_record('course', array('id' => $cm->course))) {
-        print_error('course_misconf');
+        throw new moodle_exception('course_misconf');
     }
 
     if (! $kalmediares = $DB->get_record('kalmediares', array('id' => $cm->instance))) {
-        print_error('invalid_id', 'kalmediares');
+        throw new moodle_exception('invalidid', 'kalmediares');
     }
 }
 
@@ -104,7 +104,7 @@ if ($student == true) {
             $DB->update_record('kalmediares_log', $kalmediareslog, false);
         }
     } catch (Exception $ex) {
-        print_error($ex->getMessage());
+        throw new moodle_exception('log_update_error', 'kalmediares', '', $ex->getMessage());
     }
 }
 
