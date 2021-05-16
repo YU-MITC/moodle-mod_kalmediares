@@ -87,7 +87,7 @@ if (empty($id)) {
 if (! $cm = get_coursemodule_from_id('kalmediares', $id)) {
     throw new moodle_exception('invalid_module', 'kalmediares', '', $id);
     die();
-} else if  (! $course = $DB->get_record('course', array('id' => $cm->course))) {
+} else if (! $course = $DB->get_record('course', array('id' => $cm->course))) {
     throw new moodle_exception('course_misconf');
     die();
 } else if (! $kalmediares = $DB->get_record('kalmediares', array('id' => $cm->instance))) {
