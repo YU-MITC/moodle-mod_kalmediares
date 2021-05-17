@@ -25,7 +25,7 @@
  * Moodle is performing actions across all modules.
  *
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2020 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -170,7 +170,7 @@ function kalmediares_view($kalmediares, $course, $cm, $context) {
  * @todo Finish documenting this function
  */
 function kalmediares_print_recent_activity($course, $viewfullnames, $timestart) {
-    // TODO: finish this function
+    // TODO: finish this function.
     return false;  // True if anything was printed, otherwise false.
 }
 
