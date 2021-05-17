@@ -18,15 +18,16 @@
  * Message defines.
  *
  * @package   mod_kalmediares
- * @copyright (C) 2016-2020 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+$string['pluginname'] = 'Kaltura Media Resource';
 
 $string['modulenameplural'] = 'Kaltura Media Resources';
 $string['modulename'] = 'Kaltura Media Resource';
 $string['modulename_help'] = 'The Kaltura Media Resource enables a teacher to create a resource using a Kaltura media.';
 $string['pluginadministration'] = 'Kaltura Media Resource';
-$string['pluginname'] = 'Kaltura Media Resource';
 $string['name'] = 'Name';
 $string['description'] = 'Description';
 $string['media_hdr'] = 'Media';
@@ -38,6 +39,7 @@ $string['media_preview'] = 'Preview';
 $string['widescreen'] = 'Widescreen';
 $string['media_preview_header'] = 'Preview';
 $string['invalidid'] = 'Invalid ID';
+$string['invalid_module'] = 'Invalid course module ID ({$a})';
 $string['invalidaccess'] = 'Invalid Access';
 $string['cannot_view'] = 'You cannot view this page.';
 $string['replace_media'] = 'Replace media';
@@ -70,6 +72,9 @@ $string['no_media'] = 'Media (id = {$a}) is not avctive.<br>This media may have 
 $string['your_views'] = 'Page viewing: {$a} times before';
 $string['your_plays'] = 'Media playing: {$a} times before';
 $string['delay_stats_desc'] = 'Remarks : Your actions will be added to the statistics after about {$a} hours.';
+$string['app_stats_warning'] = 'Remarks : In the mobile app, this plugin cannot count number of media playbacks.';
+$string['log_update_error'] = 'Cannot update access log ({$a}).';
+$string['log_get_error'] = 'Cannot get access log ({$a}).';
 
 // Privacy strings.
 $string['privacy:metadata:kalmediares_log'] = 'Information about the access logs to Kaltura media resources. This includes number of plays, numver of page views, first access time, and last access time.';
