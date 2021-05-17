@@ -21,13 +21,14 @@
  * if you like, and it can span multiple lines.
  *
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2020 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once($CFG->libdir . '/excellib.class.php');
 require_once(dirname(dirname(dirname(__FILE__))) . '/local/yukaltura/locallib.php');
+require_once(dirname(dirname(dirname(__FILE__))) . '/mod/kalmediares/locallib.php');
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -43,17 +44,17 @@ $order = optional_param('order', 'ASC', PARAM_TEXT);     // Sorting Order (ASC o
 
 // Retrieve module instance.
 if (empty($id)) {
-    print_error('invalid course module id - ' . $id, 'kalmediares');
+    throw new moodle_exception('invalid_module', 'kalmediares', '', 'N/A');
     die();
 }
 
 if (! $cm = get_coursemodule_from_id('kalmediares', $id)) {
-    print_error('invalid_coursemodule', 'kalmediares');
+    throw new moodle_exception('invalid_module', 'kalmediares', '', $id);
     die();
 }
 
 if (! $course = $DB->get_record('course', array('id' => $cm->course))) {
-    print_error('course_misconf');
+    throw new moodle_exception('course_misconf');
     die();
 }
 
@@ -79,22 +80,18 @@ if ($order != 'ASC' and $order != 'DESC') {
 
 // Retrieve module instance.
 if (empty($id)) {
-    print_error('invalid course module id - ' . $id, 'kalmediares');
+    throw new moodle_exception('invalid_module', 'kalmediares', '', 'N/A');
     die();
 }
 
 if (! $cm = get_coursemodule_from_id('kalmediares', $id)) {
-    print_error('invalid_coursemodule', 'kalmediares');
+    throw new moodle_exception('invalid_module', 'kalmediares', '', $id);
     die();
-}
-
-if (! $course = $DB->get_record('course', array('id' => $cm->course))) {
-    print_error('course_misconf');
+} else if (! $course = $DB->get_record('course', array('id' => $cm->course))) {
+    throw new moodle_exception('course_misconf');
     die();
-}
-
-if (! $kalmediares = $DB->get_record('kalmediares', array('id' => $cm->instance))) {
-    print_error('invalid_id', 'kalmediares');
+} else if (! $kalmediares = $DB->get_record('kalmediares', array('id' => $cm->instance))) {
+    throw new moodle_exception('invalidid', 'kalmediares');
     die();
 }
 
@@ -122,6 +119,8 @@ if (has_capability('mod/kalmediares:viewlog', $coursecontext) && !empty($kalmedi
         }
 
         try {
+            $activeids = mod_kalmediares_active_user_list();
+
             $query = 'select b.id, b.username, b.firstname, b.lastname, c.plays, c.views, c.first, c.last ';
             $query .= 'from (select u.id, u.username, u.picture, u.firstname, u.lastname, u.firstnamephonetic, ';
             $query .= 'u.lastnamephonetic, u.middlename, u.alternatename, u.imagealt, u.email ';
@@ -139,7 +138,7 @@ if (has_capability('mod/kalmediares:viewlog', $coursecontext) && !empty($kalmedi
                                                )
                                               );
         } catch (Exception $ex) {
-            print_error($ex->getMessage());
+            throw new moodle_exception('log_get_error', 'kalmediares', '', $ex->getMessage());
         }
 
         $worksheet[0]->write_string(0, 0, get_string('username', 'moodle'));
@@ -153,6 +152,18 @@ if (has_capability('mod/kalmediares:viewlog', $coursecontext) && !empty($kalmedi
         $rownum = 1;
 
         foreach ($userdata as $row) {
+            $activeflag = false;
+            for ($k = 0; $k < count($activeids); $k++) {
+                if ($row->id == $activeids[$k]) {
+                    $activeflag = true;
+                    break;
+                }
+            }
+
+            if ($activeflag === false) {
+                continue;
+            }
+
             $firstaccess = '-';
             if ($row->first != null and $row->first > 0) {
                 $firstaccess = date("Y-m-d H:i:s", $row->first);

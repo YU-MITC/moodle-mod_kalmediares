@@ -21,7 +21,7 @@
  * if you like, and it can span multiple lines.
  *
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2020 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -37,20 +37,20 @@ $id = optional_param('id', 0, PARAM_INT);  // Course Module ID.
 
 // Retrieve module instance.
 if (empty($id)) {
-    print_error('invalid course module id - ' . $id, 'kalmediares');
+    throw new moodle_exception('invalid_module', 'kalmediares', '', 'N/A');
 }
 
 if (!empty($id)) {
     if (! $cm = get_coursemodule_from_id('kalmediares', $id)) {
-        print_error('invalid_coursemodule', 'kalmediares');
+        throw new moodle_exception('invalid_module', 'kalmediares', '', $id);
     }
 
     if (! $course = $DB->get_record('course', array('id' => $cm->course))) {
-        print_error('course_misconf');
+        throw new moodle_exception('course_misconf');
     }
 
     if (! $kalmediares = $DB->get_record('kalmediares', array('id' => $cm->instance))) {
-        print_error('invalid_id', 'kalmediares');
+        throw new moodle_exception('invalidid', 'kalmediares');
     }
 }
 
@@ -66,18 +66,25 @@ $PAGE->set_heading($course->fullname);
 $kaltura = new yukaltura_connection();
 $connection = $kaltura->get_connection(false, true, KALTURA_SESSION_LENGTH);
 
+$playertype = KALTURA_UNIVERSAL_STUDIO;
+
 if ($connection) {
     if (local_yukaltura_has_mobile_flavor_enabled() && local_yukaltura_get_enable_html5()) {
         $uiconfid = local_yukaltura_get_player_uiconf('player_resource');
 
         if (empty($kalmediares->uiconf_id)) {
-            $url = new moodle_url(local_yukaltura_html5_javascript_url($uiconfid));
-        } else {
-             $url = new moodle_url(local_yukaltura_html5_javascript_url($kalmediares->uiconf_id));
+            $kalmediares->uiconf_id = $uiconfid;
         }
+
+        $playertype = local_yukaltura_get_player_type($kalmediares->uiconf_id, $connection);
+
+        $url = new moodle_url(local_yukaltura_html5_javascript_url($kalmediares->uiconf_id, $playertype));
         $PAGE->requires->js($url, true);
-        $url = new moodle_url('/local/yukaltura/js/frameapi.js');
-        $PAGE->requires->js($url, true);
+
+        if ($playertype == KALTURA_UNIVERSAL_STUDIO) {
+            $url = new moodle_url('/local/yukaltura/js/frameapi.js');
+            $PAGE->requires->js($url, true);
+        }
     }
 }
 
@@ -122,7 +129,7 @@ if ($student == true) {
             $DB->update_record('kalmediares_log', $kalmediareslog, false);
         }
     } catch (Exception $ex) {
-        print_error($ex->getMessage());
+        throw new moodle_exception('log_update_error', 'kalmediares', '', $ex->getMessage());
     }
 
     $url = $CFG->wwwroot . '/mod/kalmediares/trigger.php';
