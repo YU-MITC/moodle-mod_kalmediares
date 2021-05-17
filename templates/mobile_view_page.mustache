@@ -1,0 +1,102 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+
+{{!
+    @template mod_kalmediares/mobile_view_page
+
+    This template renders the media playback page.
+
+    Example context (json):
+    {
+        "js": true,
+        "kalmediares": {
+        },
+        "studentlog": {
+            "plays": 10,
+            "views": 10,
+            "exclusion": "message"
+        },
+        "data": {
+            "error": true,
+            "message": "an error occurred",
+            "theme": 0,
+            "cmid": "10",
+            "host": "https://localhost.localdomain",
+            "partnerid": 102,
+            "uiconfid": 12345678,
+            "playerid": "kaltura_player_1234567890",
+            "entryid": "0_zbcd0hd3",
+            "now": 1234567890,
+            "width": 320,
+            "height": 240,
+            "ovp": true,
+            "html5": true,
+            "image": true,
+            "image_src": "https://localhost.localdomain/thumbnail/",
+            "image_width": 320,
+            "image_height": 240,
+            "image_alt": "title",
+            "stats_warning": "Remark: ..."
+        }
+    }
+
+}}
+
+{{=<% %>=}}
+<%^data.error%>
+
+<core-course-module-description description="<% kalmediares.intro %>" component="mod_kalmediares" componentId="<% data.cmid %>"></core-course-module-description>
+
+<ion-item text-center>
+
+<%#data.image%>
+<img src="<% data.image_src %>" width="<% data.image_width %>" height="<% data.image_height %>" alt="<% data.image_alt %>" title="<% data.image_alt %>" />
+<%/data.image%>
+<%#data.html5%>
+<iframe id="<% data.playerid %>" src="<% data.host %>/p/<% data.partnerid %>/sp/<% data.partnerid %>00/embedIframeJs/uiconf_id/<% data.uiconf %>/partner_id/<% data.partnerid %>?iframeembed=true&playerId=<% data.playerid %>&entry_id=<% data.entryid %>&flashvars[leadWithHTML5]=true" width="<% data.width %>" height="<% data.height %>" allowfullscreen webkitallowfullscreen mozAllowFullScreen frameborder="0" allow="fullscreen; encrypted-media"></iframe>
+<%/data.html5%>
+
+<%#data.ovp%>
+<iframe type="/text/javascript" src="<% data.host %>/p/<% data.partnerid %>/embedPlaykitJs/uiconf_id/<% data.uiconf %>?iframeembed=true&entry_id=<% data.entryid %>" style="width: <% data.width %>px; height: <% data.height %>px" allowfullscreen webkitallowfullscreen mozAllowFullScreen frameborder="0" allow="encrypted-media"></iframe>
+<%/data.ovp%>
+
+</ion-item>
+
+<%#studentlog%>
+<ion-item text-center>
+<% studentlog.plays %><br>
+<% studentlog.views %><br>
+</ion-item>
+<%/studentlog%>
+
+<%^data.stats_warning%>
+<%#studentlog.exclusion%>
+<ion-item>
+<% studentlog.exclusion %><br>
+</ion-item>
+<%/studentlog.exclusion%>
+<%/data.stats_warning%>
+
+<%#data.stats_warning%>
+<ion-card>
+<ion-card-content>
+<font color="red"><% data.stats_warning %></font><br>
+</ion-card-content>
+</ion-card>
+<%/data.stats_warning%>
+
+<%/data.error%>
