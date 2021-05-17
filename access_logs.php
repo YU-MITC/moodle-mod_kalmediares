@@ -21,7 +21,7 @@
  * if you like, and it can span multiple lines.
  *
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2020 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -50,22 +50,16 @@ if ($order != 'ASC' && $order != 'DESC') {
 
 // Retrieve module instance.
 if (empty($id)) {
-    print_error('invalid course module id - ' . $id, 'kalmediares');
+    throw new moodle_exception('invalid_module', 'kalmediares', '', 'N/A');
     die();
-}
-
-if (! $cm = get_coursemodule_from_id('kalmediares', $id)) {
-    print_error('invalid_coursemodule', 'kalmediares');
+} else if (! $cm = get_coursemodule_from_id('kalmediares', $id)) {
+    throw new moodle_exception('invalid_module', 'kalmediares', '', $id);
     die();
-}
-
-if (! $course = $DB->get_record('course', array('id' => $cm->course))) {
-    print_error('course_misconf');
+} else if (! $course = $DB->get_record('course', array('id' => $cm->course))) {
+    throw new moodle_exception('course_misconf');
     die();
-}
-
-if (! $kalmediares = $DB->get_record('kalmediares', array('id' => $cm->instance))) {
-    print_error('invalid_id', 'kalmediares');
+} else if (! $kalmediares = $DB->get_record('kalmediares', array('id' => $cm->instance))) {
+    throw new moodle_exception('invalidid', 'kalmediares');
     die();
 }
 
