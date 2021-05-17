@@ -15,22 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Kaltura media resource logs file
+ * Service definition file of YU Kaltura Media resource.
  *
- * @package   mod_kalmediares
- * @copyright (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    mod_kalmediares
+ * @copyright  (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+defined('MOODLE_INTERNAL') || die;
 
-global $DB;
-
-$logs = array(
-    array('module' => 'kalmediares',
-          'action' => 'view',
-          'mtable' => 'kalmediares',
-          'field' => 'name'
-         ),
-
+$functions = array(
+    'mod_kalmediares_view_activity' => array(
+        'classname'     => 'mod_kalmediares_external',
+        'methodname'    => 'mobile_view_activity',
+        'description'   => 'Trigger the attempt viewed event.',
+        'type'          => 'write',
+        'capabilities'  => 'mod/kalmediares:view',
+        'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE)
+    ),
 );

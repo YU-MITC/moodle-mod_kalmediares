@@ -18,7 +18,7 @@
  * Kaltura media resource renderer class
  *
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2020 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -27,6 +27,7 @@ require_once(dirname(dirname(dirname(__FILE__))) . '/local/yukaltura/locallib.ph
 require_once(dirname(dirname(dirname(__FILE__))) . '/local/yukaltura/API/KalturaClient.php');
 require_once(dirname(dirname(dirname(__FILE__))) . '/local/yukaltura/kaltura_entries.class.php');
 require_once(dirname(dirname(dirname(__FILE__))) . '/mod/kalmediares/renderable.php');
+require_once(dirname(dirname(dirname(__FILE__))) . '/mod/kalmediares/locallib.php');
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -35,7 +36,7 @@ require_login();
 /**
  * Renderer class of YU Kaltura media resource.
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2020 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_kalmediares_renderer extends plugin_renderer_base {
@@ -89,10 +90,16 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
                 $entryobj->width = $kalmediares->width;
                 $entryobj->height = $kalmediares->height;
 
-                if (0 == strcmp($theme, 'mymobile')) {
-                    $markup = local_yukaltura_get_kwidget_code($entryobj, $kalmediares->uiconf_id, $session);
+                $playertype = local_yukaltura_get_player_type($kalmediares->uiconf_id, $connection);
+
+                if ($playertype == KALTURA_TV_PLATFORM_STUDIO) {
+                    $markup = local_yukaltura_get_dynamicembed_code($entryobj, $kalmediares->uiconf_id, $connection, $session);
                 } else {
-                    $markup = local_yukaltura_get_dynamicembed_code($entryobj, $kalmediares->uiconf_id, $session);
+                    if (false !== strpos($theme, 'mymobile')) {
+                        $markup = local_yukaltura_get_kwidget_code($entryobj, $kalmediares->uiconf_id, $session);
+                    } else {
+                        $markup = local_yukaltura_get_dynamicembed_code($entryobj, $kalmediares->uiconf_id, $connection, $session);
+                    }
                 }
             }
 
@@ -289,6 +296,8 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
                 $instanceid = $row->instance;
             }
 
+            $activeids = mod_kalmediares_active_user_list();
+
             $query = 'select b.id, b.picture, b.firstname, b.lastname, b.firstnamephonetic, b.lastnamephonetic, ';
             $query .= 'b.middlename, b.alternatename, b.imagealt, b.email, c.plays, c.views, c.first, c.last ';
             $query .= 'from (select u.id, u.picture, u.firstname, u.lastname, u.firstnamephonetic, ';
@@ -302,7 +311,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
             $studentlist = $DB->get_recordset_sql($query,
                                                   array('cid' => $coursecontext->id,
                                                         'rid' => $roleid,
-                                                         'instanceid' => $instanceid
+                                                        'instanceid' => $instanceid
                                                   )
                                                  );
 
@@ -313,9 +322,8 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
             $i = 0;
             $j = 0;
 
-            if ($studentlist != null) {
+            if ($studentlist != null && !empty($activeids)) {
                 foreach ($studentlist as $student) {
-
                     if ($student->plays == null) {
                         $student->plays = 0;
                     }
@@ -329,6 +337,18 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
 
                     if ($student->last != null and $student->last > 0 and $student->last > $recently) {
                         $recently = $student->last;
+                    }
+
+                    $activeflag = false;
+                    for ($k = 0; $k < count($activeids); $k++) {
+                        if ($student->id == $activeids[$k]) {
+                            $activeflag = true;
+                            break;
+                        }
+                    }
+
+                    if ($activeflag === false) {
+                        continue;
                     }
 
                     if ($i >= $page * $perpage  and $i < ($page + 1) * $perpage) {

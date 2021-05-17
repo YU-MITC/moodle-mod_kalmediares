@@ -21,7 +21,7 @@
  * visit: http://docs.moodle.org/en/Development:lib/formslib.php
  *
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2020 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -40,7 +40,7 @@ require_login();
 /**
  * class of YU Kaltura Media resource setting form.
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2020 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_kalmediares_mod_form extends moodleform_mod {
@@ -87,12 +87,6 @@ class mod_kalmediares_mod_form extends moodleform_mod {
             $PAGE->requires->js_call_amd('local_yumymedia/loadrecorder', 'init',
                                          array($CFG->wwwroot . "/local/yumymedia/module_recorder.php"));
             $uiconfid = local_yukaltura_get_player_uiconf('player_resource');
-        }
-
-        if (local_yukaltura_has_mobile_flavor_enabled() && local_yukaltura_get_enable_html5()) {
-
-            $url = new moodle_url(local_yukaltura_html5_javascript_url($uiconfid));
-            $PAGE->requires->js($url, true);
         }
 
         $mform =& $this->_form;
