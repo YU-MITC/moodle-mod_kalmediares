@@ -107,6 +107,10 @@ Known issues
 Change log of YU Kaltura Media Resource
 ------
 
+Version 2.0.0R2
+
+* fixed some statement in mobile.php, and some language statement.
+
 Version 2.0.0
 
 * fixed copyright statements in various files.
