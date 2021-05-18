@@ -235,6 +235,9 @@ define(['jquery'], function($) {
                 }
             }
 
+            /**
+             * This function retrieve video element.
+             */
             function checkElement() {
                 if (listener === false && trigger === false) {
                     videoTags = $("video");
