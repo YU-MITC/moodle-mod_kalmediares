@@ -28,8 +28,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_kalmediares';
-$plugin->version = 2021051700;
-$plugin->release = '2.0.0';
+$plugin->version = 2021051800;
+$plugin->release = '2.0.0R2';
 $plugin->maturity = MATURITY_STABLE;
 $plugin->requires = 2015051100;
 $plugin->cron = 0;
