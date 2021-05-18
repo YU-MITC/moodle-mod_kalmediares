@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use context_module;
+
 namespace mod_kalmediares\output;
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/config.php');
@@ -52,16 +54,17 @@ class mobile {
         require_once($CFG->libdir . '/completionlib.php');
 
         $cmid = $args['cmid'];
+
         if (! $cm = get_coursemodule_from_id('kalmediares', $cmid)) {
-            throw new moodle_exception('invalid_coursemodule', 'kalmediares');
+            throw new \moodle_exception('invalid_module', 'kalmediares', '', $cmid);
         }
 
         if (! $course = $DB->get_record('course', array('id' => $cm->course))) {
-            throw new moodle_exception('course_misconf');
+            throw new \moodle_exception('course_misconf');
         }
 
         if (! $kalmediares = $DB->get_record('kalmediares', array('id' => $cm->instance))) {
-            throw new moodle_exception('invalid_id', 'kalmediares');
+            throw new \moodle_exception('invalid_id', 'kalmediares', '', $cm->instance);
         }
 
         $PAGE->requires->jquery();
