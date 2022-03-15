@@ -19,7 +19,7 @@
  * @package    mod_kalmediares
  * @subpackage backup-moodle2
  * @copyright  (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
- * @copyright  (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2022 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,7 +35,7 @@ require_once(dirname(__FILE__) . '/backup_kalmediares_settingslib.php');
  * @package    mod_kalmediares
  * @subpackage backup-moodle2
  * @copyright  (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
- * @copyright  (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2022 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_kalmediares_activity_task extends backup_activity_task {

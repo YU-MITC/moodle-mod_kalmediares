@@ -1,6 +1,6 @@
 # YU Kaltura Media Package
 
-"YU Kaltura Media Package" is a third-party's Kaltura plugin package (a series of plugins) for Moodle 2.9 or later.
+"YU Kaltura Media Package" is a third-party's Kaltura plugin package (a series of plugins) for Moodle 3.9 or later.
 This package is developed by the Center for Information Infrastructure, Yamaguchi University.
 By using this package, users can upload media to the Kaltura server, and easily embed the media in Moodle courses.
 Moreover, this package provides some useful functions.
@@ -31,7 +31,7 @@ This plugin is updated with stable releases. To follow active development on Git
 Requirements
 ------
 
-* PHP5.3 or greater.
+* PHP 7.3 or greater.
 * Web browsers must support the JavaScript and HTML5.
 * System administrators must use the HTTPS protocol for their Moodle site and Kaltura server.
 * Administrators must not delete "Default" access control profile from their Kaltura server. If they delete the "Default" profile, they must create new profile named "Default" before install our plugins.
@@ -63,32 +63,23 @@ The verison 1.3.0 and laters use this table in order to display an access status
 How to use
 ------
 
-* User's guide, click [here](http://www.cc.yamaguchi-u.ac.jp/guides/cas/plugins/userguide_version2.0.pdf).
+* User's guide, click [here](http://www.cc.yamaguchi-u.ac.jp/guides/cas/plugins/userguide_version2.1.pdf).
 * Demonstration web page, click [here](http://www.cc.yamaguchi-u.ac.jp/guides/cas/plugins/demo/).
 
 Targeted Moodle versions
 ------
 
-Moodle 2.9, 3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 3.10, 3.11
+Moodle 3.9, 3.10, 3.11
 
 Branches
 ------
 
-* MOODLE_29_STABLE -> Moodle2.9 branch
-* MOODLE_30_STABLE -> Moodle3.0 branch
-* MOODLE_31_STABLE -> Moodle3.1 branch
-* MOODLE_32_STABLE -> Moodle3.2 branch
-* MOODLE_33_STABLE -> Moodle3.3 branch
-* MOODLE_34_STABLE -> Moodle3.4 branch
-* MOODLE_35_STABLE -> Moodle3.5 branch
-* MOODLE_36_STABLE -> Moodle3.6 branch
-* MOODLE_37_STABLE -> Moodle3.7 branch
-* MOODLE_38_STABLE -> Moodle3.8 branch
-* MOODLE_39_STABLE -> Moodle3.9 branch
-* MOODLE_310_STABLE -> Moodle3.10 branch
-* MOODLE_311_STABLE -> Moodle3.11 branch
+* MOODLE_39_STABLE -> Moodle 3.9 branch
+* MOODLE_310_STABLE -> Moodle 3.10 branch
+* MOODLE_311_STABLE -> Moodle 3.11 branch
+* MOODLE_40_STABLE -> Moodle 4.0 branch
 
-First clone the repository with "git clone", then "git checkout MOODLE_29_STABLE(branch name)" to switch branches.
+First clone the repository with "git clone", then "git checkout MOODLE_40_STABLE(branch name)" to switch branches.
 
 Warning
 ------
@@ -107,13 +98,15 @@ Known issues
 Change log of YU Kaltura Media Resource
 ------
 
-Version 2.0.0R3
+Version 2.1.0
 
-* fixed some language strings.
+* fixed copyright statements in various files.
+* fixed provider.php, in order to only support formats employed in Moodle 3.5 and laters.
+* fixed renderer.php, in order to support audio players.
 
 Version 2.0.0R2
 
-* fixed some statement in mobile.php, and some language strings.
+* fixed some statement in mobile.php, and some language statement.
 
 Version 2.0.0
 
