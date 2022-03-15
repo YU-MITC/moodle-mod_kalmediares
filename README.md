@@ -63,7 +63,7 @@ The verison 1.3.0 and laters use this table in order to display an access status
 How to use
 ------
 
-* User's guide, click [here](http://www.cc.yamaguchi-u.ac.jp/guides/cas/plugins/userguide_version2.0.pdf).
+* User's guide, click [here](http://www.cc.yamaguchi-u.ac.jp/guides/cas/plugins/userguide_version2.1.pdf).
 * Demonstration web page, click [here](http://www.cc.yamaguchi-u.ac.jp/guides/cas/plugins/demo/).
 
 Targeted Moodle versions
@@ -74,11 +74,12 @@ Moodle 3.9, 3.10, 3.11
 Branches
 ------
 
-* MOODLE_39_STABLE -> Moodle3.9 branch
-* MOODLE_310_STABLE -> Moodle3.10 branch
-* MOODLE_311_STABLE -> Moodle3.11 branch
+* MOODLE_39_STABLE -> Moodle 3.9 branch
+* MOODLE_310_STABLE -> Moodle 3.10 branch
+* MOODLE_311_STABLE -> Moodle 3.11 branch
+* MOODLE_40_STABLE -> Moodle 4.0 branch
 
-First clone the repository with "git clone", then "git checkout MOODLE_39_STABLE(branch name)" to switch branches.
+First clone the repository with "git clone", then "git checkout MOODLE_40_STABLE(branch name)" to switch branches.
 
 Warning
 ------
@@ -97,13 +98,15 @@ Known issues
 Change log of YU Kaltura Media Resource
 ------
 
-Version 2.0.0R3
+Version 2.1.0
 
-* fixed some language strings.
+* fixed copyright statements in various files.
+* fixed provider.php, in order to only support formats employed in Moodle 3.5 and laters.
+* fixed renderer.php, in order to support audio players.
 
 Version 2.0.0R2
 
-* fixed some statement in mobile.php, and some language strings.
+* fixed some statement in mobile.php, and some language statement.
 
 Version 2.0.0
 
