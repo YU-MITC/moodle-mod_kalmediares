@@ -18,13 +18,13 @@
  * Contains the mobile output class for mod_kalmediares.
  *
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2022 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_kalmediares\output;
-
 use context_module;
+
+namespace mod_kalmediares\output;
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/config.php');
 
@@ -34,7 +34,7 @@ defined('MOODLE_INTERNAL') || die();
  * Mobile output class for the mod_kalmediares.
  *
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2022 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mobile {

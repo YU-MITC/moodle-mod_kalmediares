@@ -18,7 +18,7 @@
  * Message defines.
  *
  * @package   mod_kalmediares
- * @copyright (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright (C) 2016-2022 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -52,7 +52,7 @@ $string['access_control_hdr'] = 'Access control';
 $string['internal'] = 'Internal only';
 $string['publish_access_log_hdr'] = 'Publish access log';
 $string['publish_access_log'] = 'Publish access log to students';
-$string ['publish_access_log_help'] = 'If this property is set to "Yes", student can view own statistics (number of "media plays" and "page views").';
+$string['publish_access_log_help'] = 'If this property is set to "Yes", student can view own statistics (number of "media plays" and "page views").';
 $string['exclusion_time'] = 'Exclusion time (hours)';
 $string['exclusion_time_help'] = 'Exclude the access log of the last few hours from the statistics presented to the students.';
 $string['previewmedia'] = 'Preview';

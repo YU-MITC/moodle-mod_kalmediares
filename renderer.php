@@ -18,7 +18,7 @@
  * Kaltura media resource renderer class
  *
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2022 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -36,7 +36,7 @@ require_login();
 /**
  * Renderer class of YU Kaltura media resource.
  * @package    mod_kalmediares
- * @copyright  (C) 2016-2021 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2022 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_kalmediares_renderer extends plugin_renderer_base {
@@ -87,6 +87,23 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
                 $markup = local_yukaltura_create_image_markup($entryobj, $kalmediares->name, $theme,
                                                             KALTURA_IMAGE_DESKTOP_WIDTH, KALTURA_IMAGE_DESKTOP_HEIGHT);
             } else {
+                $devicetype = core_useragent::get_device_type();
+                if (get_config(KALTURA_PLUGIN_NAME, 'enable_player_resource_audio') == 1 &&
+                    KalturaMediaType::AUDIO == $entryobj->mediaType && !core_useragent::is_moodle_app() &&
+                    $devicetype != core_useragent::DEVICETYPE_MOBILE && $devicetype != core_useragent::DEVICETYPE_MOBILE) {
+                    $uiconfobj = local_yukaltura_get_player_object(
+                                                                   get_config(
+                                                                              KALTURA_PLUGIN_NAME,
+                                                                              'player_resource_audio'
+                                                                             ),
+                                                                   $connection
+                                                                  );
+                    if (!empty($uiconfobj)) {
+                        $kalmediares->uiconf_id = get_config(KALTURA_PLUGIN_NAME, 'player_resource_audio');
+                        $kalmediares->width = $uiconfobj->width;
+                        $kalmediares->height = $uiconfobj->height;
+                    }
+                }
                 $entryobj->width = $kalmediares->width;
                 $entryobj->height = $kalmediares->height;
 
