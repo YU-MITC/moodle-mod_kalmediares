@@ -22,10 +22,9 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use context_module;
-
 namespace mod_kalmediares\output;
 
+use context_module;
 
 defined('MOODLE_INTERNAL') || die();
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/config.php');
