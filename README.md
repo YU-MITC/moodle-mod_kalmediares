@@ -77,10 +77,10 @@ Branches
 * MOODLE_39_STABLE -> Moodle 3.9 branch
 * MOODLE_310_STABLE -> Moodle 3.10 branch
 * MOODLE_311_STABLE -> Moodle 3.11 branch
-* MOODLE_40_STABLE -> Moodle 4.0 branch
-* MOODLE_41_STABLE -> Moodle 4.1 branch
+* MOODLE_400_STABLE -> Moodle 4.0 branch
+* MOODLE_401_STABLE -> Moodle 4.1 branch
 
-First clone the repository with "git clone", then "git checkout MOODLE_40_STABLE(branch name)" to switch branches.
+First clone the repository with "git clone", then "git checkout MOODLE_400_STABLE(branch name)" to switch branches.
 
 Warning
 ------
