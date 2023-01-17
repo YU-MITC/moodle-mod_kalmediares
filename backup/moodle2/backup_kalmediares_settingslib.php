@@ -29,5 +29,3 @@
  * existing in /backup/moodle2/backup_settingslib.php (activities section).
  */
 
-defined('MOODLE_INTERNAL') || die();
-

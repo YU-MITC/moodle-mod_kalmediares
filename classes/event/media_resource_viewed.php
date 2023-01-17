@@ -24,8 +24,6 @@
 
 namespace mod_kalmediares\event;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Event class of YU Kaltura Media resource.
  *
