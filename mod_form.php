@@ -392,7 +392,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         // Check if player selection is globally overridden.
         if (local_yukaltura_get_player_override()) {
             return array(array( $defaultplayerid => $choices[$defaultplayerid]),
-                         $defaultplayerid
+                         $defaultplayerid,
                         );
         }
 
@@ -440,7 +440,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
         $output .= '&nbsp;';
 
         $options = array(0 => get_string('normal', 'kalmediares'),
-                         1 => get_string('widescreen', 'kalmediares')
+                         1 => get_string('widescreen', 'kalmediares'),
                          );
 
         $attr = array('id' => 'media_prop_dimensions');
@@ -457,7 +457,7 @@ class mod_kalmediares_mod_form extends moodleform_mod {
 
         $options = array(0 => get_string('media_prop_size_large', 'kalmediares'),
                          1 => get_string('media_prop_size_small', 'kalmediares'),
-                         2 => get_string('media_prop_size_custom', 'kalmediares')
+                         2 => get_string('media_prop_size_custom', 'kalmediares'),
                          );
 
         $attr = array('id' => 'media_prop_size');

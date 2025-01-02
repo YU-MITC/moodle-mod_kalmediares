@@ -134,7 +134,7 @@ if (has_capability('mod/kalmediares:viewlog', $coursecontext) && !empty($kalmedi
                                                array(
                                                    'cid' => $coursecontext->id,
                                                    'rid' => $roleid,
-                                                   'instanceid' => $kalmediares->id
+                                                   'instanceid' => $kalmediares->id,
                                                )
                                               );
         } catch (Exception $ex) {

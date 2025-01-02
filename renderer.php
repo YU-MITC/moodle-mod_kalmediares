@@ -328,7 +328,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
             $studentlist = $DB->get_recordset_sql($query,
                                                   array('cid' => $coursecontext->id,
                                                         'rid' => $roleid,
-                                                        'instanceid' => $instanceid
+                                                        'instanceid' => $instanceid,
                                                   )
                                                  );
 
@@ -498,7 +498,7 @@ class mod_kalmediares_renderer extends plugin_renderer_base {
                                      'popup' => false,
                                      'alttext' => true,
                                      'class' => 'userpicture',
-                                     'visibletoscreenreaders' => true
+                                     'visibletoscreenreaders' => true,
                                     );
 
                         $attr = array('class' => 'cell c1');

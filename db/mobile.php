@@ -34,13 +34,13 @@ $addons = [
                     'class' => '',
                 ],
                 'delegate' => 'CoreCourseModuleDelegate',
-                'method' => 'mobile_view_activity'
-            ]
+                'method' => 'mobile_view_activity',
+            ],
         ],
         'lang' => [
             ['media_converting', 'kalmediares'],
             ['conn_failed_alt', 'yukaltura'],
-            ['no_media', 'kalmediares']
+            ['no_media', 'kalmediares'],
         ],
-    ]
+    ],
 ];
