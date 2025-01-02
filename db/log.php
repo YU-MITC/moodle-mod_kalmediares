@@ -30,7 +30,7 @@ $logs = array(
     array('module' => 'kalmediares',
           'action' => 'view',
           'mtable' => 'kalmediares',
-          'field' => 'name'
+          'field' => 'name',
          ),
 
 );
