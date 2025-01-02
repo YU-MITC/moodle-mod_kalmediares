@@ -15,44 +15,44 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy Subsystem implementation for mod_kalmediaassign.
+ * Privacy Subsystem implementation for mod_kalmediares.
  *
- * @package   mod_kalmediaassign
+ * @package   mod_kalmediares
  * @copyright (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_kalmediaassign\privacy;
+namespace mod_kalmediares\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
-interface kalmediaassign_interface extends
+interface kalmediares_interface extends
     \core_privacy\local\metadata\provider,
     \core_privacy\local\request\core_userlist_provider,
     \core_privacy\local\request\plugin\provider {
 };
 
 use context;
-use context_hepler;
-use comtext_module;
+use context_helper;
+use context_module;
 use stdClass;
-use core_privacy\local\metadata\collection;
-use core_privacy\local\request\approved_contextlist;
-use core_privacy\local\request\approved_userlist;
-use core_privacy\local\request\contextlist;
-use core_privacy\local\request\helper;
-use core_privacy\local\request\transform;
-use core_privacy\local\request\userlist;
-use core_privacy\local\request\writer;
+use \core_privacy\local\metadata\collection;
+use \core_privacy\local\request\approved_contextlist;
+use \core_privacy\local\request\approved_userlist;
+use \core_privacy\local\request\contextlist;
+use \core_privacy\local\request\helper;
+use \core_privacy\local\request\transform;
+use \core_privacy\local\request\userlist;
+use \core_privacy\local\request\writer;
 
 /**
- * Privacy Subsystem for mod_kalmediaassign implementing provider.
+ * Privacy Subsystem for mod_kalmediares implementing provider.
  *
- * @package   mod_kalmediaassign
- * @copyright (C) 2016-2023 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @package   mod_kalmediares
+ * @copyright (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements kalmediaassign_interface {
+class provider implements kalmediares_interface {
 
     // To provide php 5.6 (33_STABLE) and up support.
     use \core_privacy\local\legacy_polyfill;
@@ -64,16 +64,14 @@ class provider implements kalmediaassign_interface {
      */
     public static function get_metadata($items): collection {
         // Add items to collection.
-        $items->add_database_table('kalmediaassign_submission', [
-            'mediaassignid' => 'privacy:metadata:kalmediaassign_submission:mediaassignid',
-            'userid' => 'privacy:metadata:kalmediaassign_submission:userid',
-            'grade' => 'privacy:metadata:kalmediaassign_submission:grade',
-            'submissioncomment' => 'privacy:metadata:kalmediaassign_submission:submissioncomment',
-            'teacher' => 'privacy:metadata:kalmediaassign_submission:teacher',
-            'timemarked' => 'privacy:metadata:kalmediaassign_submission:timemarked',
-            'timecreated' => 'privacy:metadata:kalmediaassign_submission:timecreated',
-            'timemodified' => 'privacy:metadata:kalmediaassign_submission:timemodified'],
-            'privacy:metadata:kalmediaassign_submission');
+        $items->add_database_table('kalmediares_log', [
+            'userid' => 'privacy:metadata:kalmediares_log:userid',
+            'instanceid' => 'privacy:metadata:kalmediares_log:instanceid',
+            'plays' => 'privacy:metadata:kalmediares_log:plays',
+            'views' => 'privacy:metadata:kalmediares_log:views',
+            'first' => 'privacy:metadata:kalmediares_log:first',
+            'last' => 'privacy:metadata:kalmediares_log:last'
+            ], 'privacy:metadata:kalmediares_log');
 
         return $items;
     }
@@ -87,13 +85,13 @@ class provider implements kalmediaassign_interface {
         $sql = "select c.id from {context} c
            inner join {course_modules} cm on cm.id = c.instanceid and c.contextlevel = :contextlevel
            inner join {modules} m on m.id = cm.module and m.name = :modname
-           inner join {kalmediaassign} k on k.id = cm.instance
-           left join {kalmediaassign_submission} s on s.mediaassignid = k.id
-           where s.userid = :submissionuserid";
+           inner join {kalmediares} k on k.id = cm.instance
+           left join {kalmediares_log} l on l.instanceid = k.id
+           where l.userid = :loguserid";
 
-        $params = array('modname' => 'kalmediaassign',
+        $params = array('modname' => 'kalmediares',
                         'contextlevel' => CONTEXT_MODULE,
-                        'submissionuserid' => $userid);
+                        'loguserid' => $userid);
 
         $contextlist = new \core_privacy\local\request\contextlist();
         $contextlist->add_from_sql($sql, $params);
@@ -113,12 +111,12 @@ class provider implements kalmediaassign_interface {
         }
 
         $params = ['instanceid' => $context->instanceid,
-                   'moudlename' => 'kalmediaassign'];
+                   'moudlename' => 'kalmediares'];
 
-        $sql = "select s.userid from {course_modules} cm
+        $sql = "select l.userid from {course_modules} cm
 		join {modules} m on m.id = cm.module and m.name = :modulename
-                join {kalmediaassign_submission} s on s.mediaassignid = cm.instance
-                where cm.id = :instanceid";
+		join {kalmediares_log} l on l.instanceid = cm.instance
+		where cm.id = :instanceid";
         $userlist->add_from_sql('userid', $sql, $params);
     }
 
@@ -132,24 +130,24 @@ class provider implements kalmediaassign_interface {
         $user = $contextlist->get_user();
         foreach ($contextlist->get_contexts() as $context) {
             $cm = $DB->get_record('course_modules', ['id' => $context->instanceid]);
-            $instance = $DB->get_record('kalmediaassign', ['id' => $cm->instance]);
+            $instance = $DB->get_record('kalmediares', ['id' => $cm->instance]);
             $data = array();
-            $params = array('mediaassignid' => $context->instanceid,
+            $params = array('instanceid' => $context->instanceid,
                             'userid' => $user->id);
-            $submission = $DB->get_records('kalmediaassign_submission', $params);
+            $log = $DB->get_record('kalmediares_log', $params);
 
             $params = array('id' => $context->instanceid);
-            $assign = $DB->get_record('kalmediaassign', $params);
+            $resource = $DB->get_record('kalmediares', $params);
 
-            if (!empty($submission) && !empty($assign)) {
-                $submissiondata = (object) [
-                    'name' => format_string($assign->name, true),
-                    'grade' => $submission->grade,
-                    'submssioncomment' => format_string($submission->submissioncomment, true),
-                    'timecreated' => transform::datetime($submission->timecreated),
-                    'timemodified' => transform::datetime($submission->timemodified),
-                    'timemarked' => transform::datetime($submission->timemarked)];
-                $data[$submission->id] = $submissiondata;
+            if (!empty($log) && !empty($resource)) {
+                $logdata = (object) [
+                    'name' => format_string($resource->name, true),
+                    'plays' => $log->plays,
+                    'views' => $log->views,
+                    'first' => transform::datetime($log->first),
+                    'last' => transform::datetime($log->last)];
+                $data[$log->id] = $logdata;
+
                 $instance->export_data(null, $data);
             }
         }
@@ -159,7 +157,7 @@ class provider implements kalmediaassign_interface {
      * Delete all data for all users in the specified context.
      * @param context $context - The specific context to delete data for.
      */
-    public static function delete_data_for_all_users_in_context($context) {
+    public static function delete_data_for_all_users_in_context(context $context) {
         global $DB;
 
         // Check that this is a context_module.
@@ -168,29 +166,28 @@ class provider implements kalmediaassign_interface {
         }
 
         // Get the course module.
-        if (!$cm = get_coursemodule_from_id('kalmediaassign', $context->instanceid)) {
+        if (!$cm = get_coursemodule_from_id('kalmediares', $context->instanceid)) {
             return;
         }
 
-        $assignid = $cm->instance;
+        $resourceid = $cm->instance;
 
-        $DB->delete_records('kalemdiaassign_submission', ['mediaassignid' => $assignid]);
+        $DB->delete_records('kalemdires_log', ['instanceid' => $resourceid]);
     }
 
     /**
      * Delete all user data for the specified user, in the specified contexts.
-     * @param approved_contextlist $contextlist -The approved contexts and user information to delete information for.
+     * @param approved_contextlist $contextlist - The approved contexts and user information to delete information for.
      */
     public static function delete_data_for_user($contextlist) {
         global $DB;
-
         $user = $contextlist->get_user();
         $userid = $user->id;
         foreach ($contextlist as $context) {
             // Get the course module.
             $cm = $DB->get_record('course_modules', ['id' => $context->instanceid]);
-            $DB->delete_records('kalmediaassign_submission',
-                                ['mediaassignid' => $cm->instance,
+            $DB->delete_records('kalmediares_log',
+                                ['instanceid' => $cm->instance,
                                  'userid' => $userid]);
         }
     }
@@ -204,12 +201,12 @@ class provider implements kalmediaassign_interface {
 
         $context = $userlist->get_context();
         $cm = $DB->get_record('course_modules', ['id' => $context->instanceid]);
-        $assign = $DB->get_record('kalmediaassign', ['id' => $cm->instance]);
+        $resource = $DB->get_record('kalmediares', ['id' => $cm->instance]);
 
         list($userinsql, $userinparams) = $DB->get_in_or_equal($userlist->get_userids(), SQL_PARAMS_NAMED);
-        $params = array_merge(['assignid' => $assign->id], $userinparams);
-        $sql = "mediaassignid = :assignid and userid {$userinsql}";
+        $params = array_merge(['resourceid' => $resource->id], $userinparams);
+        $sql = "instanceid = :resourceid and userid {$userinsql}";
 
-        $DB->delete_records_select('kalmediaassign_submission', $sql, $params);
+        $DB->delete_records_select('kalmediares_log', $sql, $params);
     }
 }

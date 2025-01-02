@@ -16,7 +16,7 @@
 
 /**
  * Backup step script.
- * @package    mod_kalmediaassign
+ * @package    mod_kalmediares
  * @subpackage backup-moodle2
  * @copyright  (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @copyright  (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
@@ -24,21 +24,21 @@
  */
 
 /**
- * Define all the backup steps that will be used by the backup_kalmediaassign_activity_task.
+ * Define all the backup steps that will be used by the backup_kalmediares_activity_task
  */
 
 /**
- * Define the complete kalmediaassign structure for backup, with file and id annotations.
- * @package    mod_kalmediaassign
+ * Define the complete kalmediares structure for backup, with file and id annotations.
+ * @package    mod_kalmediares
  * @subpackage backup-moodle2
  * @copyright  (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @copyright  (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class backup_kalmediaassign_activity_structure_step extends backup_activity_structure_step {
+class backup_kalmediares_activity_structure_step extends backup_activity_structure_step {
 
     /**
-     * Define (add) particular settings this activity can have.
+     * Define (add) particular settings this resource can have.
      * @return object - define structure.
      */
     protected function define_structure() {
@@ -47,35 +47,36 @@ class backup_kalmediaassign_activity_structure_step extends backup_activity_stru
         $userinfo = $this->get_setting_value('userinfo');
 
         // Define each element separated.
-        $kalmediaassign = new backup_nested_element('kalmediaassign', array('id'), array(
-            'course', 'name', 'intro', 'introformat', 'timeavailable', 'timedue', 'alwaysshowdescription',
-            'preventlate', 'resubmit', 'emailteachers', 'grade', 'timecreated', 'timemodified'));
+        $kalmediares = new backup_nested_element('kalmediares', array('id'), array(
+            'name', 'intro', 'introformat', 'entry_id', 'media_title',
+            'uiconf_id', 'widescreen', 'height', 'width', 'internal', 'publish_access_log',
+            'exclusion_time', 'timemodified', 'timecreated'));
 
-        $issues = new backup_nested_element('submissions');
+        $logs = new backup_nested_element('logs');
 
-        $issue = new backup_nested_element('submission', array('id'), array(
-            'userid', 'entry_id', 'grade', 'submissioncomment', 'format',
-            'teacher', 'mailed', 'timemarked', 'timecreated', 'timemodified'));
+        $log = new backup_nested_element('log', array('id'), array(
+            'instanceid', 'userid', 'plays', 'views', 'first', 'last'));
 
-        // Build the tree.
-        $kalmediaassign->add_child($issues);
-        $issues->add_child($issue);
+        // Build tree.
+        $kalmediares->add_child($logs);
+        $logs->add_child($log);
 
         // Define sources.
-        $kalmediaassign->set_source_table('kalmediaassign', array('id' => backup::VAR_ACTIVITYID));
+        $kalmediares->set_source_table('kalmediares', array('id' => backup::VAR_ACTIVITYID));
 
         // All the rest of elements only happen if we are including user info.
         if ($userinfo) {
-            $issue->set_source_table('kalmediaassign_submission', array('mediaassignid' => backup::VAR_PARENTID));
+            $log->set_source_table('kalmediares_log', array('instanceid' => backup::VAR_PARENTID));
         }
 
         // Annotate the user id's where required.
-        $issue->annotate_ids('user', 'userid');
+        $log->annotate_ids('user', 'userid');
 
-        // Annotate the file areas in use.
-        $kalmediaassign->annotate_files('mod_kalmediaassign', 'intro', null);
+        // Define file annotations.
+        // This file area do not have an itemdid.
+        $kalmediares->annotate_files('mod_kalmediares', 'intro', null);
 
         // Return the root element, wrapped into standard activity structure.
-        return $this->prepare_activity_structure($kalmediaassign);
+        return $this->prepare_activity_structure($kalmediares);
     }
 }

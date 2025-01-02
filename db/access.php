@@ -15,19 +15,40 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Kaltura media assignment capability definition
+ * Capability definitions for the kalmediares module
  *
- * @package   mod_kalmediaassign
+ * The capabilities are loaded into the database table when the module is
+ * installed or updated. Whenever the capability definitions are updated,
+ * the module version number should be bumped up.
+ *
+ * The system has four possible values for a capability:
+ * CAP_ALLOW, CAP_PREVENT, CAP_PROHIBIT, and inherit (not set).
+ *
+ * It is important that capability names are unique. The naming convention
+ * for capabilities that are specific to modules and blocks is as follows:
+ *   [mod/block]/<plugin_name>:<capabilityname>
+ *
+ * component_name should be the same as the directory name of the mod or block.
+ *
+ * Core moodle capabilities are defined thus:
+ *    moodle/<capabilityclass>:<capabilityname>
+ *
+ * Examples: mod/forum:viewpost
+ *           block/recent_activity:view
+ *           moodle/site:deleteuser
+ *
+ * The variable name for the capability definitions array is $capabilities
+ *
+ * @package   mod_kalmediares
  * @copyright (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
-    'mod/kalmediaassign:addinstance' => array(
+    'mod/kalmediares:addinstance' => array(
         'riskbitmask' => RISK_XSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
@@ -38,30 +59,14 @@ $capabilities = array(
         'clonepermissionsfrom' => 'moodle/course:manageactivities'
     ),
 
-    'mod/kalmediaassign:gradesubmission' => array(
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_MODULE,
+    'mod/kalmediares:viewlog' => array(
+        'riskbitmask' => RISK_XSS,
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
-            'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
         )
-    ),
-
-    'mod/kalmediaassign:submit' => array(
-
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
-            'student' => CAP_ALLOW
-        )
-    ),
-
-    'mod/kalmediaassign:screenrecorder' => array(
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
-            'student' => CAP_ALLOW
-        )
-   )
+    )
 );
