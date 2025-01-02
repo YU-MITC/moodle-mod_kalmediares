@@ -77,7 +77,7 @@ Branches
 * MOODLE_404_STABLE -> Moodle 4.4 branch
 * MOODLE_405_STABLE -> Moodle 4.5 branch
 
-First clone the repository with "git clone", then "git checkout MOODLE_400_STABLE(branch name)" to switch branches.
+First clone the repository with "git clone", then "git checkout MOODLE_403_STABLE(branch name)" to switch branches.
 
 Warning
 ------
