@@ -16,7 +16,7 @@
 
 /**
  * Restore step script.
- * @package    mod_kalmediaassign
+ * @package    mod_kalmediares
  * @subpackage backup-moodle2
  * @copyright  (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @copyright  (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
@@ -24,22 +24,22 @@
  */
 
 /**
- * Define all the restore steps that will be used by the restore_kalmediaassign_activity_task
+ * Define all the restore steps that will be used by the restore_kalmediares_activity_task
  */
 
 /**
- * Structure step to restore one kalmediaassign activity.
+ * Structure step to restore one kalmediares activity.
  *
- * @package    mod_kalmediaassign
+ * @package    mod_kalmediares
  * @subpackage backup-moodle2
  * @copyright  (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @copyright  (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class restore_kalmediaassign_activity_structure_step extends restore_activity_structure_step {
+class restore_kalmediares_activity_structure_step extends restore_activity_structure_step {
 
     /**
-     * Define (add) particular settings this activity can have.
+     * Define (add) particular settings this resource can have.
      * @return object - define structure.
      */
     protected function define_structure() {
@@ -47,10 +47,10 @@ class restore_kalmediaassign_activity_structure_step extends restore_activity_st
         $paths = array();
         $userinfo = $this->get_setting_value('userinfo');
 
-        $paths[] = new restore_path_element('kalmediaassign', '/activity/kalmediaassign');
+        $paths[] = new restore_path_element('kalmediares', '/activity/kalmediares');
 
         if ($userinfo) {
-            $paths[] = new restore_path_element('kalmediaassign_submission', '/activity/kalmediaassign/submissions/submission');
+            $paths[] = new restore_path_element('kalmediares_log', '/activity/kalmediares/logs/log');
         }
 
         // Return the paths wrapped into standard activity structure.
@@ -58,46 +58,46 @@ class restore_kalmediaassign_activity_structure_step extends restore_activity_st
     }
 
     /**
-     * Define (add) particular settings this activity can have.
+     * Define (add) particular settings this resource can have.
      * @param object $data - array of data.
      */
-    protected function process_kalmediaassign($data) {
+    protected function process_kalmediares($data) {
         global $DB;
 
         $data = (object)$data;
+        $oldid = $data->id;
         $data->course = $this->get_courseid();
 
         $data->timemodified = $this->apply_date_offset($data->timemodified);
 
-        // Insert the kalmediaassign record.
-        $newitemid = $DB->insert_record('kalmediaassign', $data);
+        // Insert the kalmediares record.
+        $newitemid = $DB->insert_record('kalmediares', $data);
         // Immediately after inserting "activity" record, call this.
         $this->apply_activity_instance($newitemid);
     }
 
     /**
-     * Restore kalmediaassigni_submission.
+     * Restore kalmediares_log.
      * @param array $data - structure defines.
      */
-    protected function process_kalmediaassign_submission($data) {
+    protected function process_kalmediares_log($data) {
         global $DB;
 
         $data = (object)$data;
         $oldid = $data->id;
 
-        $data->mediaassignid = $this->get_new_parentid('kalmediaassign');
+        $data->instanceid = $this->get_new_parentid('kalmediares');
         $data->userid = $this->get_mappingid('user', $data->userid);
-        $data->timecreated = $this->apply_date_offset($data->timecreated);
 
-        $newitemid = $DB->insert_record('kalmediaassign_submission', $data);
-        $this->set_mapping('kalmediaassign_submission', $oldid, $newitemid);
+        $newitemid = $DB->insert_record('kalmediares_log', $data);
+        $this->set_mapping('kalmediares_log', $oldid, $newitemid);
     }
 
     /**
      * Restore related files.
      */
     protected function after_execute() {
-        // Add kalmediaassign related files, no need to match by itemname (just internally handled context).
-        $this->add_related_files('mod_kalmediaassign', 'intro', null);
+        // Add kalmediares related files, no need to match by itemname (just internally handled context).
+        $this->add_related_files('mod_kalmediares', 'intro', null);
     }
 }

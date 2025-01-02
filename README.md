@@ -1,5 +1,10 @@
 # YU Kaltura Media Package
-"YU Kaltura Media Package" is a third-party's Kaltura plugin package (a series of plugins) for Moodle 4.3 or later. This package is developed by the Center for Information Infrastructure, Yamaguchi University. By using this package, users can upload media to the Kaltura server, and easily embed the media in Moodle courses. Moreover, this package provides some useful functions. Since this package does not require Kaltura Application Framework (KAF), can work with Kaltura Community Edition (CE) and other editions.
+
+"YU Kaltura Media Package" is a third-party's Kaltura plugin package (a series of plugins) for Moodle 4.3 or later.
+This package is developed by the Center for Information Infrastructure, Yamaguchi University.
+By using this package, users can upload media to the Kaltura server, and easily embed the media in Moodle courses.
+Moreover, this package provides some useful functions.
+Since this package does not require Kaltura Application Framework (KAF), can work with Kaltura Community Edition (CE) and other editions.
 
 In order to use this package, administrators must install "[YU Kaltura Media Local Libraries](https://moodle.org/plugins/local_yukaltura)" and "[YU Kaltura Media Gallery](https://moodle.org/plugins/local_yumymedia)".
 These plugins provide functions such as uploading, playing back and deleting media files to users.
@@ -8,14 +13,20 @@ In addition, the administrators can install "[YU Kaltura Media Assignment](https
 These plugins provide teachers ability of creating resource and activity modules which use kaltura media in their Moodle courses.
 And, user can embed his/her media into text area (introduction or page content) through the Atto HTML editor.
 
-Please note that there is a chance this module will not work on some Moodle environment. Also, this package is only available in English and Japanese. Stay tuned to future versions for other language supports.
+Please note that there is a chance this module will not work on some Moodle environment.
+Also, this package is only available in English and Japanese. Stay tuned to future versions for other language supports.
 
 Original plugin package ("Kaltura Video Package") has better functions than ours and is easy to use. So that, for customers of the "Kaltura SaaS Edition", use the original plugin package is the better.
 
-YU Kaltura Media Assignment for Moodle
+YU Kaltura Media Resource for Moodle
 ------
-This is an activity module. Each student can submit a media from their "My Media", and teachers can play submitted medias, and grade each media. Aditionally, the student can upload and record new media in submission page.
-This plugin is updated with stable releases. To follow active development on GitHub, click [here](https://github.com/YU-MITC/moodle-mod_kalmediaassign/).
+
+This is a resource module.
+Teachers can create media play page (embed media) in their courses, and can view students' play/view status.
+Teachers can choose a media player from Kaltura players, and can set player's size (dimension).
+Aditionally, the teacher can upload and record new media in resource editing page.
+Students can play the embedded media.
+This plugin is updated with stable releases. To follow active development on GitHub, click [here](https://github.com/YU-MITC/moodle-mod_kalmediares/).
 
 Requirements
 ------
@@ -38,8 +49,15 @@ This plugin package might be able to work with other themes.
 Installation
 ------
 
-Unzip this plugin, and copy the directory (mod/kalmediaasign) under moodle root directory (ex. /moodle).
+Unzip this plugin, and copy the directory (mod/kalmediares) under moodle root directory (ex. /moodle).
 Installation will be completed after you log in as an administrator and access the notification menu.
+
+After upgrading the plugin from version 1.1.x/1.2.x to 1.3.x (or later version), the administrators must execute the following command:
+
+php /path/to/moodle/mod/kalmediares/cli/log_migration_1.2to1.3.php
+
+This script reads the access logs of students from the Moodle standard log, and inserts records to new database table.
+The verison 1.3.0 and laters use this table in order to display an access status list of students.
 
 How to use
 ------
@@ -59,7 +77,7 @@ Branches
 * MOODLE_404_STABLE -> Moodle 4.4 branch
 * MOODLE_405_STABLE -> Moodle 4.5 branch
 
-First clone the repository with "git clone", then "git checkout MOODLE_403_STABLE(branch name)" to switch branches.
+First clone the repository with "git clone", then "git checkout MOODLE_400_STABLE(branch name)" to switch branches.
 
 Warning
 ------
@@ -67,7 +85,7 @@ Warning
 * We are not responsible for any problem caused by this software. 
 * This software follows the license policy of Moodle (GNU GPL v3).
 * "Kaltura" is the registered trademark of the Kaltura Inc.
-* Web-camera recording function supports the Mozilla Firefox, Google Chrome, Opera and Safari. For smartphones and tablets, you can record movie through a normal media uploader.
+* Web-camera recording function supports the Mozilla Firefox, Google Chrome, Opera and Safari. For smartphones and tablets, you can record movies through a normal media uploader.
 * Uploading and recording functions in resource and activity modules may not work well with smartphones. Because, low resolution screen cannot display these forms correctly.
 
 Known issues
@@ -75,7 +93,7 @@ Known issues
 
 * In some browsers, preview window (modal window) cannot receive MPEG-DASH/HLS/HDS streaming data. And, if Kaltura server employs HTTPS and users embed their media into web sites employs HTTP, Kaltura players cannot receive streaming data. For local_yumymedia and mod_kalmediaassign, we recommend Kaltura players which receive video using progressive download.
 
-Change log of YU Kaltura Media Assignment
+Change log of YU Kaltura Media Resource
 ------
 
 Version 3.0.0
@@ -87,31 +105,41 @@ Version 2.1.0
 
 * fixed copyright statements in various files.
 * fixed provider.php, in order to only support formats employed in Moodle 3.5 and laters.
+* fixed renderer.php, in order to support audio players.
+
+Version 2.0.0R2
+
+* fixed some statement in mobile.php, and some language statement.
 
 Version 2.0.0
 
 * fixed copyright statements in various files.
 * fixed various files in order to delete statements using print_error function.
-* fixed grade_submission.php, renderer.php, single_submission_form.php, view.php, and preview.js, in order to support Kaltura OVP media players (TV Platform studio).
-* fixed grades_updated.php to solve a misstake about target table.
-* fixed lib.php to solve a misstake about refresh of events.
+* fixed renderer.php, and playtrigger.js, in order to support Kaltura OVP media players (TV Platform studio).
 
 Version 1.5.0
 
-* fixed grade_preferences.php, lib.php, locallib.php, and renderer.php, in order to support completion tracking, calendar event, outline report, and complete report.
-* fixed submission.php, in order to resolve an issue about late submissions.
-* fixed single_submission_form.php, in order to resolve a playback issue of submitted media.
+* fixed lib.php, trigger.php, and view.php, in order to support completion tracking, outline report, and complete report.
 * fixed README.md, in order to support the Moodle 3.10.
 
 Version 1.4.2
 
-* fixed provider.php, renderer.php, and restore_kalmediaassign_activity_task.class.php, in order to corresponding to Moodle coding style.
-* fixed README.md in order to support the Moodle 3.9.
+* fixed provider.php, renderer.php, and restore_kalmediares_activity_task.class.php, in order to corresponding to Moodle coding style.
+* fixed README.md, in order to support the Moodle 3.9.
+
+Version 1.4.1R3
+
+* fixed acess_logs.php, export_excel.php, and access.php, in order to display access logs without errors.
+
+Version 1.4.1R2
+
+* fixed playtrigger.js, in order to detect playback events even in full-screen mode video.
 
 Version 1.4.1
 
 * fixed copyright statements in all files.
-* fixed renderer.php, single_submission.php, and view.php, in order to adopt upload URI.
+* fixed SQL statements in access_logs.php and expoert_excel.php.
+* fixed mod_form.php, renerer.php, and view.php, in order to adopt upload URI.
 
 Version 1.4.0
 
@@ -119,42 +147,42 @@ Version 1.4.0
 * fixed javascript files based on JSDoc warnings.
 * fixed javascript files in order to support the Safari 12.x/13.x on macOS.
 * added privacy functions ans strings to comply with GDPR.
-* fixed some statements in grade_submission.php, in order to adjust player size for "classic" theme.
 * fixed "Requirements" in README.md.
 
 Version 1.3.2
 
+* fixed some statements in access_logs.php, and kalmediares.php, in order to use language strings.
 * fixed  backup and restore scripts, in order to backup/restore courses in the Moodle 3.x.
+* fixed some statements in lib.php, backup_kalmediares_stepslib.php, and restore_kalmediares_stepslib.php, in order to backup/resotore mdl_kalmediares_log table.
 
 Version 1.3.1
 
-* fixed locallib.php, in order to resolve a problem about submission remaining datetime.
-* removed unused comments from renderer.php.
+* fixed README.md, in order to support sub-plugin of Atto HTML editor.
+* fixed some statements in view.php, 
 
 Version 1.3.0
 
-* fixed some statements in backup_kalmediaassign_stepslib.php, in order to backup assignment's informations correctly.
-* fixed some statements in renderer.php and grade_submissions.php, in order to correctly display submissions that have been submitted or require grading.
-* fixed some statements in locallib.php, renderer.php, and view.php, in order to correctly judge whether the submission / resubmission is permitted.
+* fixed statements in lib.php, renderer.php, export_excel.php, view.php, trigger.php, install.xml and upgrade.php, in order to reduce a time it takes to display students' access logs.
+* fixed some statements in backup_kalmediares_stepslib.php, in order to backup resource's informations correctly.
 
 Version 1.2.2
 
-* fixed lib.php, mod_form.php, upgrade.php and install,xml, in order to display module's introduction on a moodle course page.
+* fixed some statements (about UIConf ID) in view.php, in order to solve a problem that unnecessary javascript codes are loaded.
+* fixed some statements in lib.php and mod_form.php, in order to display module's introduction on a moodle course page.
 
 Version 1.2.1
 
-* fixed some statements in single_submission_form.php, according to changes of local plugin (local_yukaltura).
-* fixed some statements in preview.php, based on JSDoc warnings.
+* fixed some statements in renderer.php, according to changes of local plugin (local_yukaltura).
+* executed minimization to playtrigger.js, base on JSDoc warnings.
 
 Version 1.2.0
 
-* fixed some statements in view.php, in order to permit students to upload/record new movie in editing page of activity module (In order to permit upload/record, administrators must set some items in configuration page of local_yukaltura).
-* fixed some statements in grades_updated.php, media_submitted.php, submission_detail_viewed.php, and submission_page_viewed.php, in order to respond to backup and restore mechanisms in recently versions of Moodle.
+* fixed some statements in view.php, in order to permit teachers to upload/record new movie in editing page of resource module (In order to permit upload/record, administrators must set some items in configuration page of local_yukaltura).
+* fixed some statements in media_resource_played.php, and media_resource_viewed.php, in order to respond to backup and restore mechanisms in recently versions of Moodle.
 
 Version 1.1.8
 
 * added statements about "Requirements" in README.md.
-* fixed some statements for support "Boost" theme in grade_submission.php, and kalmediaassign.css.
 * fixed copyright statements in all scripts.
 
 Version 1.1.7
@@ -163,25 +191,26 @@ Version 1.1.7
 
 Version 1.1.6
 
-* added procedures for course reset in lib.php.
+* added functions for course reset in lib.php. Actually, these functions do nothing.
 * fixed statements about "How to use" in README.md.
 
 Version 1.1.5
 
-* added precedures for submitted and deleted entry in grade_submissions.php and renderer.php.
+* added statements in README.md.
 
 Version 1.1.4
 
-* fixed statements in README.md.
+* fixed issue that an error occurs in the "Administration->Course completion".
+* supports auto completion tracking.
 
 Version 1.1.3
 
-* fixed issue that the plugin presents "lated submission" for submissions when duetime is not set.
+* supported "Chrome OS" for recording view/play logs.
 
 Version 1.1.2
 
 * added statements in README.md.
-* separate player setting from Media Resource.
+* fixed last access timestamp and sort/order issue of access list (in renderer.php and export_excel.php).
 
 Version 1.1.1
 
@@ -190,5 +219,4 @@ Version 1.1.1
 Version 1.1.0
 
 * fixed some login check statement.
-* fixed modal window dimension in quick grading.
 

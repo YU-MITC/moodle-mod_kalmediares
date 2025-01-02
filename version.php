@@ -15,15 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * YU Kaltura Media Assignment verison file.
- * @package   mod_kalmediaassign
+ * YU Kaltura Media Resouurce version file.
+ *
+ * Setting the $plugin->version to 0 prevents the plugin from being installed.
+ * See https://docs.moodle.org/dev/version.php for more info.
+ *
+ * @package   mod_kalmediares
  * @copyright (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'mod_kalmediaassign';
+$plugin->component = 'mod_kalmediares';
 $plugin->version = 2025010200;
 $plugin->release = '3.0.0';
 $plugin->maturity = MATURITY_STABLE;

@@ -15,22 +15,32 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Kaltura media resource logs file
+ * Defines mobile handlers.
  *
  * @package   mod_kalmediares
+ * @copyright 2018 Dan Marsdenb
  * @copyright (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-global $DB;
-
-$logs = array(
-    array('module' => 'kalmediares',
-          'action' => 'view',
-          'mtable' => 'kalmediares',
-          'field' => 'name'
-         ),
-
-);
+$addons = [
+    'mod_kalmediares' => [
+        'handlers' => [
+            'media_view' => [
+                'displaydata' => [
+                    'icon' => $CFG->wwwroot . '/mod/kalmediares/pix/icon.png',
+                    'class' => '',
+                ],
+                'delegate' => 'CoreCourseModuleDelegate',
+                'method' => 'mobile_view_activity'
+            ]
+        ],
+        'lang' => [
+            ['media_converting', 'kalmediares'],
+            ['conn_failed_alt', 'yukaltura'],
+            ['no_media', 'kalmediares']
+        ],
+    ]
+];

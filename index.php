@@ -15,21 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Displays information about all the assignment modules in the requested course
+ * Displays information about all the resource modules in the requested course
  *
- * @package   mod_kalmediaassign
+ * @package   mod_kalmediares
  * @copyright (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once(dirname(dirname(dirname(__FILE__))) . '/local/yukaltura/locallib.php');
-require_once(dirname(__FILE__) . '/locallib.php');
+require_once(dirname(__FILE__) . '/renderable.php');
 
-if (!defined('MOODLE_INTERNAL')) {
-    // It must be included from a Moodle page.
-    die('Direct access to this script is forbidden.');
-}
+defined('MOODLE_INTERNAL') || die();
 
 header('Access-Control-Allow-Origin: *');
 header('Cache-Control: no-cache');
@@ -38,22 +35,22 @@ $id = required_param('id', PARAM_INT); // Course ID.
 
 $course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
 
-require_login($course);
+global $PAGE, $SESSION, $CFG;
 
-global $SESSION, $CFG;
-
-$strplural = get_string("modulenameplural", "kalmediaassign");
-$PAGE->set_url('/mod/kalmediaassign/index.php', array('id' => $id));
+$strplural = get_string("modulenameplural", "kalmediares");
+$PAGE->set_url('/mod/kalmediares/index.php', array('id' => $id));
 $PAGE->set_pagelayout('incourse');
 $PAGE->navbar->add($strplural);
+$PAGE->set_url('/mod/kalmediares/index.php');
 $PAGE->set_title($strplural);
 $PAGE->set_heading($course->fullname);
+$PAGE->set_course($course);
 
 require_login();
 
 echo $OUTPUT->header();
 
-$renderer = $PAGE->get_renderer('mod_kalmediaassign');
-$renderer->display_kalmediaassignments_table($course);
+$renderer = $PAGE->get_renderer('mod_kalmediares');
+$renderer->display_kalmediaresources_table($course);
 
 echo $OUTPUT->footer();

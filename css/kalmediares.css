@@ -1,0 +1,46 @@
+/**
+ * Stylesheet for YU Kaltura Media Resource.
+ * @package   mod_kalmediares
+ * @copyright (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+#id_add_media {
+    float: left;
+}
+
+#id_media_properties,
+#id_media_preview {
+    float: left;
+    margin-left: 5px;
+}
+
+#slider_border {
+    width: 100%;
+    height: 18px;
+    border: 1px solid #000;
+    overflow: hidden;
+}
+
+#progress_bar {
+    float: left;
+    height: 18px;
+    width: 0;
+    background: #0f0;
+}
+
+#loading_text {
+    position: relative;
+    top: -18px;
+    font-weight: bold;
+    left: 12px;
+}
+
+.playPauseBtn,
+.largePlayBtn,
+.ui-slider-horizontal,
+.icon-volume-high,
+.currentTimeLabel,
+.durationLabel {
+    display: none;
+}

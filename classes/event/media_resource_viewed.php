@@ -15,34 +15,31 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The grades_updated event.
+ * The media_resource_viewed event.
  *
- * @package   mod_kalmediaassign
+ * @package   mod_kalmediares
  * @copyright (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_kalmediaassign\event;
+namespace mod_kalmediares\event;
 
 /**
- * Event class of YU Kaltura Media assign.
+ * Event class of YU Kaltura Media resource.
  *
- * @package   mod_kalmediaassign
+ * @package   mod_kalmediares
  * @copyright (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class grades_updated extends \core\event\base {
-
+class media_resource_viewed extends \core\event\base {
     /**
      * This function set default value.
      */
     protected function init() {
-        /*
-         * Select flags. c(reate), r(ead), u(pdate), d(elete).
-         */
-        $this->data['crud'] = 'u';
-        $this->data['edulevel'] = self::LEVEL_TEACHING;
-        $this->data['objecttable'] = 'kalmediaassign_submission';
+        // Select flags. c(reate), r(ead), u(pdate), d(elete).
+        $this->data['crud'] = 'r';
+        $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
+        $this->data['objecttable'] = 'kalmediares';
     }
 
     /**
@@ -50,7 +47,7 @@ class grades_updated extends \core\event\base {
      * @return string - event name.
      */
     public static function get_name() {
-        return get_string('event_grades_updated', 'kalmediaassign');
+        return get_string('event_media_resource_viewed', 'kalmediares');
     }
 
     /**
@@ -58,7 +55,7 @@ class grades_updated extends \core\event\base {
      * @return string - description of event.
      */
     public function get_description() {
-        return "The user with id '{$this->userid}' updated grades of Kaltura media assign with "
+        return "The user with id '{$this->userid}' viewed the Kaltura media resource with "
         . "the course module id '{$this->contextinstanceid}'.";
     }
 
@@ -67,7 +64,7 @@ class grades_updated extends \core\event\base {
      * @return string - URL of target submission.
      */
     public function get_url() {
-        return new \moodle_url('/mod/kalmediaassign/grade_submissions.php', array('cmid' => $this->contextinstanceid));
+        return new \moodle_url('/mod/kalmediares/view.php', array('id' => $this->contextinstanceid));
     }
 
     /**
@@ -75,7 +72,7 @@ class grades_updated extends \core\event\base {
      * @return array - log data.
      */
     public function get_legacy_logdata() {
-        return array($this->courseid, 'kalmediaassign', 'updated grades of submissions',
+        return array($this->courseid, 'kalmediares', 'view media resource',
             $this->get_url(), $this->objectid, $this->contextinstanceid);
     }
 
@@ -85,6 +82,6 @@ class grades_updated extends \core\event\base {
      * @return array - object mapping.
      */
     public static function get_objectid_mapping() {
-        return array('db' => 'kalmediaassign_submission', 'restore' => 'grade');
+        return array('db' => 'kalmediares', 'restore' => 'kalmediares');
     }
 }

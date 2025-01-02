@@ -16,7 +16,7 @@
 
 /**
  * Backup activity script.
- * @package    mod_kalmediaassign
+ * @package    mod_kalmediares
  * @subpackage backup-moodle2
  * @copyright  (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @copyright  (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
@@ -26,19 +26,19 @@
 defined('MOODLE_INTERNAL') || die();
 
 // Because it exists (must).
-require_once(dirname(__FILE__) . '/backup_kalmediaassign_stepslib.php');
-// Because it exists (optional).
-require_once(dirname(__FILE__) . '/backup_kalmediaassign_settingslib.php');
+require_once(dirname(__FILE__) . '/backup_kalmediares_stepslib.php');
+// Because it exists (must).
+require_once(dirname(__FILE__) . '/backup_kalmediares_settingslib.php');
 
 /**
- * kalmediaassign backup task.
- * @package    mod_kalmediaassign
+ * kalmediares backup task.
+ * @package    mod_kalmediares
  * @subpackage backup-moodle2
  * @copyright  (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
- * @copyright  (C) 2016-2023 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class backup_kalmediaassign_activity_task extends backup_activity_task {
+class backup_kalmediares_activity_task extends backup_activity_task {
 
     /**
      * Define (add) particular settings this activity can have.
@@ -52,27 +52,27 @@ class backup_kalmediaassign_activity_task extends backup_activity_task {
      */
     protected function define_my_steps() {
         // Choice only has one structure step.
-        $this->add_step(new backup_kalmediaassign_activity_structure_step('kalmediaassign_structure', 'kalmediaassign.xml'));
+        $this->add_step(new backup_kalmediares_activity_structure_step('kalmediares_structure', 'kalmediares.xml'));
     }
 
     /**
      * Code the transformations to perform in the activity in
      * order to get transportable (encoded) links.
-     * @param string $content - link text.
-     * @return string - encoded text.
+     * @param string $content - link URL of content.
+     * @return string - Encoded URL of content.
      */
     public static function encode_content_links($content) {
         global $CFG;
 
         $base = preg_quote($CFG->wwwroot, "/");
 
-        // Link to the list of kalmediaassigns.
-        $search = "/(".$base."\/mod\/kalmediaassign\/index.php\?id\=)([0-9]+)/";
-        $content = preg_replace($search, '$@KALMEDIAASSIGNINDEX*$2@$', $content);
+        // Link to the list of kalmediaress.
+        $search = "/(". $base . "\/mod\/kalmediares\/index.php\?id\=)([0-9]+)/";
+        $content = preg_replace($search, '$@KALMEDIARESINDEX*$2@$', $content);
 
-        // Link to kalmediaassign view by moduleid.
-        $search = "/(".$base."\/mod\/kalmediaassign\/view.php\?id\=)([0-9]+)/";
-        $content = preg_replace($search, '$@KALMEDIAASSIGNVIEWBYID*$2@$', $content);
+        // Link to kalmediares view by moduleid.
+        $search = "/(" . $base . "\/mod\/kalmediares\/view.php\?id\=)([0-9]+)/";
+        $content = preg_replace($search, '$@KALMEDIARESVIEWBYID*$2@$', $content);
 
         return $content;
     }
