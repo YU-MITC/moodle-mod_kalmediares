@@ -26,6 +26,9 @@ namespace mod_kalmediares\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Interface definition.
+ */
 interface kalmediares_interface extends
     \core_privacy\local\metadata\provider,
     \core_privacy\local\request\core_userlist_provider,
@@ -36,14 +39,14 @@ use context;
 use context_helper;
 use context_module;
 use stdClass;
-use \core_privacy\local\metadata\collection;
-use \core_privacy\local\request\approved_contextlist;
-use \core_privacy\local\request\approved_userlist;
-use \core_privacy\local\request\contextlist;
-use \core_privacy\local\request\helper;
-use \core_privacy\local\request\transform;
-use \core_privacy\local\request\userlist;
-use \core_privacy\local\request\writer;
+use core_privacy\local\metadata\collection;
+use core_privacy\local\request\approved_contextlist;
+use core_privacy\local\request\approved_userlist;
+use core_privacy\local\request\contextlist;
+use core_privacy\local\request\helper;
+use core_privacy\local\request\transform;
+use core_privacy\local\request\userlist;
+use core_privacy\local\request\writer;
 
 /**
  * Privacy Subsystem for mod_kalmediares implementing provider.
@@ -70,7 +73,7 @@ class provider implements kalmediares_interface {
             'plays' => 'privacy:metadata:kalmediares_log:plays',
             'views' => 'privacy:metadata:kalmediares_log:views',
             'first' => 'privacy:metadata:kalmediares_log:first',
-            'last' => 'privacy:metadata:kalmediares_log:last'
+            'last' => 'privacy:metadata:kalmediares_log:last',
             ], 'privacy:metadata:kalmediares_log');
 
         return $items;

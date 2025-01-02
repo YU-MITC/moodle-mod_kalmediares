@@ -31,6 +31,6 @@ $functions = array(
         'description'   => 'Trigger the attempt viewed event.',
         'type'          => 'write',
         'capabilities'  => 'mod/kalmediares:view',
-        'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE)
+        'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
     ),
 );

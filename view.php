@@ -111,7 +111,7 @@ foreach ($roles as $role) {
 if ($student == true) {
     $event = \mod_kalmediares\event\media_resource_viewed::create(array(
         'objectid' => $kalmediares->id,
-        'context' => context_module::instance($cm->id)
+        'context' => context_module::instance($cm->id),
     ));
     $event->trigger();
 

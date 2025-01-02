@@ -114,7 +114,7 @@ class mobile {
                     if ($student == true) {
                         $event = \mod_kalmediares\event\media_resource_viewed::create(array(
                             'objectid' => $kalmediares->id,
-                            'context' => \context_module::instance($cmid)
+                            'context' => \context_module::instance($cmid),
                         ));
                         $event->trigger();
 
@@ -250,7 +250,7 @@ class mobile {
             ],
 
             'javascript' => '',
-            'otherdata' => ''
+            'otherdata' => '',
         ];
     }
 }
