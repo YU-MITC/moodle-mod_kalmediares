@@ -15,41 +15,38 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file contains the definition for the renderable classes for the assignment
+ * This file contains the definition for the renderable classes for the resource
  *
- * @package   mod_kalmediaassign
+ * @package   mod_kalmediares
  * @copyright (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// It must be included from a Moodle page.
-defined('MOODLE_INTERNAL') || die('Direct access to this script is forbidden.');
+require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
-global $PAGE;
-
-$PAGE->set_url('/mod/kalmediaassign/renderable.php');
+defined('MOODLE_INTERNAL') || die();
 
 require_login();
 
 /**
- * Renderable class of YU Kaltura Media assignment.
- *
- * @package   mod_kalmediaassign
+ * Renderable course index summary.
+ * @package   mod_kalmediares
  * @copyright (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class kalmediaassign_course_index_summary implements renderable {
-    /** @var array assignments A list of course module info and submission counts or statuses */
-    public $assignments = array();
+class kalmediares_course_index_summary implements renderable {
+    /** @var array resources A list of course module info and submission counts or statuses */
+    public $resourcess = array();
     /** @var boolean usesections Does this course format support sections? */
     public $usesections = false;
     /** @var string courseformat The current course format name */
     public $courseformatname = '';
 
     /**
-     * This function is cunstructor of renderable class.
-     * @param boolean $usesections - True if this course format uses sections.
-     * @param string $courseformatname - The id of this course format.
+     * constructor
+     *
+     * @param bool $usesections - True if this course format uses sections
+     * @param string $courseformatname - The id of this course format
      */
     public function __construct($usesections, $courseformatname) {
         $this->usesections = $usesections;
@@ -58,22 +55,16 @@ class kalmediaassign_course_index_summary implements renderable {
 
     /**
      * Add a row of data to display on the course index page
+     *
      * @param int $cmid - The course module id for generating a link
      * @param string $cmname - The course module name for generating a link
      * @param string $sectionname - The name of the course section (only if $usesections is true)
-     * @param int $timedue - The due date for the assignment - may be 0 if no duedate
-     * @param string $submissioninfo - A string with either the number of submitted assignments, or the
-     *                                 status of the current users submission depending on capabilities.
-     * @param string $gradeinfo - The current users grade if they have been graded and it is not hidden.
      */
-    public function add_assign_info($cmid, $cmname, $sectionname, $timedue, $submissioninfo, $gradeinfo) {
-        $this->assignments[] = array(
+    public function add_resource_info($cmid, $cmname, $sectionname) {
+        $this->resources[] = array(
             'cmid' => $cmid,
             'cmname' => $cmname,
             'sectionname' => $sectionname,
-            'timedue' => $timedue,
-            'submissioninfo' => $submissioninfo,
-            'gradeinfo' => $gradeinfo
         );
     }
 }

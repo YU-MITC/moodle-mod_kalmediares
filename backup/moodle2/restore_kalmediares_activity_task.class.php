@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Restore activity script.
- * @package    mod_kalmediaassign
+ * Restore activity task.
+ * @package    mod_kalmediares
  * @subpackage backup-moodle2
  * @copyright  (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @copyright  (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
@@ -26,17 +26,17 @@
 defined('MOODLE_INTERNAL') || die();
 
 // Because it exists (must).
-require_once(dirname(__FILE__) . '/restore_kalmediaassign_stepslib.php');
+require_once(dirname(__FILE__) . '/restore_kalmediares_stepslib.php');
 
 /**
- * kalmediaassign restore task.
- * @package    mod_kalmediaassign
+ * kalmediares restore task.
+ * @package    mod_kalmediares
  * @subpackage backup-moodle2
  * @copyright  (C) 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
- * @copyright  (C) 2016-2023 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
+ * @copyright  (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class restore_kalmediaassign_activity_task extends restore_activity_task {
+class restore_kalmediares_activity_task extends restore_activity_task {
 
     /**
      * Define (add) particular settings this activity can have.
@@ -46,22 +46,22 @@ class restore_kalmediaassign_activity_task extends restore_activity_task {
     }
 
     /**
-     * Define (add) particular steps this activity can have.
+     * Define (add) particular steps this activity can have
      */
     protected function define_my_steps() {
         // Certificate only has one structure step.
-        $this->add_step(new restore_kalmediaassign_activity_structure_step('kalmediaassign_structure', 'kalmediaassign.xml'));
+        $this->add_step(new restore_kalmediares_activity_structure_step('kalmediares_structure', 'kalmediares.xml'));
     }
 
     /**
      * Define the contents in the activity that must be
      * processed by the link decoder.
-     * @return object - decoded content.
+     * @return array - decoded contents.
      */
     public static function define_decode_contents() {
         $contents = array();
 
-        $contents[] = new restore_decode_content('kalmediaassign', array('intro'), 'kalmediaassign');
+        $contents[] = new restore_decode_content('kalmediares', array('intro'), 'kalmediares');
 
         return $contents;
     }
@@ -74,8 +74,8 @@ class restore_kalmediaassign_activity_task extends restore_activity_task {
     public static function define_decode_rules() {
         $rules = array();
 
-        $rules[] = new restore_decode_rule('KALMEDIAASSIGNVIEWBYID', '/mod/kalmediaassign/view.php?id=$1', 'course_module');
-        $rules[] = new restore_decode_rule('KALMEDIAASSIGNINDEX', '/mod/kalmediaassign/index.php?id=$1', 'course_module');
+        $rules[] = new restore_decode_rule('KALMEDIARESVIEWBYID', '/mod/kalmediares/view.php?id=$1', 'course_module');
+        $rules[] = new restore_decode_rule('KALMEDIARESINDEX', '/mod/kalmediares/index.php?id=$1', 'course');
 
         return $rules;
 
@@ -83,28 +83,25 @@ class restore_kalmediaassign_activity_task extends restore_activity_task {
 
     /**
      * Define the restore log rules that will be applied by the restore_logs_processor
-     * when restoring kalmediaassign logs.
+     * when restoring kalmediares logs.
      * It must return one array of restore_log_rule objects.
      * @return array - list of rule.
      */
     public static function define_restore_log_rules() {
         $rules = array();
 
-        $rules[] = new restore_log_rule('kalmediaassign', 'add', 'view.php?id={course_module}', '{kalmediaassign}');
-        $rules[] = new restore_log_rule('kalmediaassign', 'update', 'view.php?id={course_module}', '{kalmediaassign}');
-        $rules[] = new restore_log_rule('kalmediaassign', 'view', 'view.php?id={course_module}', '{kalmediaassign}');
+        $rules[] = new restore_log_rule('kalmediares', 'view', 'view.php?id={course_module}', '{kalmediares}');
 
         return $rules;
     }
 
     /**
-     * Define the restore log rules that will be applied
-     * by the restore_logs_processor when restoring course logs.
+     * Define the restore log rules that will be applied by the restore_logs_processor when restoring course logs.
      * It must return one array of restore_log_rule objects.
      *
-     * Note this rules are applied when restoring course logs by the restore final task,
-     * but are defined here at activity level.
-     * All them are rules not linked to any module instance (cmid = 0).
+     * Note this rules are applied when restoring course logs
+     * by the restore final task, but are defined here at
+     * activity level. All them are rules not linked to any module instance (cmid = 0)
      *
      * @return array - list of rule.
      */
@@ -112,7 +109,7 @@ class restore_kalmediaassign_activity_task extends restore_activity_task {
         $rules = array();
 
         // Fix old wrong uses (missing extension).
-        $rules[] = new restore_log_rule('kalmediaassign', 'view all', 'index.php?id={course}', null);
+        $rules[] = new restore_log_rule('kalmediares', 'view all', 'index.php?id={course}', null);
 
         return $rules;
     }

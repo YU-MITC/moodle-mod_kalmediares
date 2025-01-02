@@ -15,39 +15,42 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Kaltura media assignment
+ * Prints a particular instance of newmodule
  *
- * @package   mod_kalmediaassign
+ * You can have a rather longer description of the file as well,
+ * if you like, and it can span multiple lines.
+ *
+ * @package   mod_kalmediares
  * @copyright (C) 2016-2025 Yamaguchi University <gh-cc@mlex.cc.yamaguchi-u.ac.jp>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once(dirname(dirname(dirname(__FILE__))) . '/local/yukaltura/locallib.php');
-require_once(dirname(__FILE__) . '/locallib.php');
+
+defined('MOODLE_INTERNAL') || die();
 
 header('Access-Control-Allow-Origin: *');
 header('Cache-Control: no-cache');
 
-$id = optional_param('id', 0, PARAM_INT); // Course Module ID.
+$id = optional_param('id', 0, PARAM_INT);  // Course Module ID.
 
 // Retrieve module instance.
 if (empty($id)) {
-    throw new moodle_exception('invalidid', 'kalmediaassign');
+    throw new moodle_exception('invalid_module', 'kalmediares', '', 'N/A');
 }
 
 if (!empty($id)) {
-
-    if (! $cm = get_coursemodule_from_id('kalmediaassign', $id)) {
-        throw new moodle_exception('invalidcoursemodule');
+    if (! $cm = get_coursemodule_from_id('kalmediares', $id)) {
+        throw new moodle_exception('invalid_module', 'kalmediares', '', $id);
     }
 
     if (! $course = $DB->get_record('course', array('id' => $cm->course))) {
-        throw new moodle_exception('coursemisconf');
+        throw new moodle_exception('course_misconf');
     }
 
-    if (! $kalmediaassign = $DB->get_record('kalmediaassign', array("id" => $cm->instance))) {
-        throw new moodle_exception('invalidid', 'kalmediaassign');
+    if (! $kalmediares = $DB->get_record('kalmediares', array('id' => $cm->instance))) {
+        throw new moodle_exception('invalidid', 'kalmediares');
     }
 }
 
@@ -55,127 +58,138 @@ require_course_login($course->id, true, $cm);
 
 global $SESSION, $CFG, $USER, $COURSE;
 
-// Connect to Kaltura.
-$kaltura = new yukaltura_connection();
-$connection = $kaltura->get_connection(false, true, KALTURA_SESSION_LENGTH);
-$partnerid = '';
-$srunconfid = '';
-$host = '';
-
-if ($connection) {
-
-    // If a connection is made then include the JS libraries.
-    $partnerid = local_yukaltura_get_partner_id();
-    $host = local_yukaltura_get_host();
-
-    $modalwidth  = 0;
-    $modalheight = 0;
-
-    list($modalwidth, $modalheight) = kalmediaassign_get_popup_player_dimensions();
-
-    if (strcmp($CFG->theme, 'boost') == 0) {
-        $modalheight = ((int)$modalheight + 20);
-    }
-
-    $PAGE->requires->js_call_amd('mod_kalmediaassign/preview', 'init', array($modalwidth, $modalheight));
-    $PAGE->requires->js_call_amd('local_yukaltura/simpleselector', 'init',
-                                 array($CFG->wwwroot . "/local/yukaltura/simple_selector.php",
-                                       get_string('replace_media', 'mod_kalmediaassign')));
-    $PAGE->requires->js_call_amd('local_yukaltura/properties', 'init',
-                                 array($CFG->wwwroot . "/local/yukaltura/media_properties.php"));
-    $PAGE->requires->js_call_amd('local_yumymedia/loaduploader', 'init',
-                                 array($CFG->wwwroot . "/local/yumymedia/module_uploader.php"));
-    $PAGE->requires->js_call_amd('local_yumymedia/loadrecorder', 'init',
-                                 array($CFG->wwwroot . "/local/yumymedia/module_recorder.php"));
-    $PAGE->requires->css('/local/yukaltura/css/simple_selector.css');
-    $PAGE->requires->css('/local/yumymedia/css/module_uploader.css');
-    $PAGE->requires->css('/mod/kalmediaassign/css/kalmediaassign.css', true);
-}
-
-$PAGE->set_url('/mod/kalmediaassign/view.php', array('id' => $id));
-$PAGE->set_title(format_string($kalmediaassign->name));
+$PAGE->set_url('/mod/kalmediares/view.php', array('id' => $id));
+$PAGE->set_title(format_string($kalmediares->name));
 $PAGE->set_heading($course->fullname);
 
-require_login();
+// Try connection.
+$kaltura = new yukaltura_connection();
+$connection = $kaltura->get_connection(false, true, KALTURA_SESSION_LENGTH);
 
-$modulecontext = context_module::instance(CONTEXT_MODULE, $cm->id);
+$playertype = KALTURA_UNIVERSAL_STUDIO;
 
-// Update 'viewed' state if required by completion system.
-$completion = new completion_info($course);
-$completion->set_module_viewed($cm);
+if ($connection) {
+    if (local_yukaltura_has_mobile_flavor_enabled() && local_yukaltura_get_enable_html5()) {
+        $uiconfid = local_yukaltura_get_player_uiconf('player_resource');
 
-if (local_yukaltura_has_mobile_flavor_enabled() && local_yukaltura_get_enable_html5()) {
-    $uiconfid = local_yukaltura_get_player_uiconf('player');
-    $playertype = local_yukaltura_get_player_type($uiconfid, $connection);
-    $url = new moodle_url(local_yukaltura_html5_javascript_url($uiconfid, $playertype));
-    $PAGE->requires->js($url, true);
-    if ($playertype == KALTURA_UNIVERSAL_STUDIO) {
-        $url = new moodle_url('/local/yukaltura/js/frameapi.js');
+        if (empty($kalmediares->uiconf_id)) {
+            $kalmediares->uiconf_id = $uiconfid;
+        }
+
+        $playertype = local_yukaltura_get_player_type($kalmediares->uiconf_id, $connection);
+
+        $url = new moodle_url(local_yukaltura_html5_javascript_url($kalmediares->uiconf_id, $playertype));
         $PAGE->requires->js($url, true);
+
+        if ($playertype == KALTURA_UNIVERSAL_STUDIO) {
+            $url = new moodle_url('/local/yukaltura/js/frameapi.js');
+            $PAGE->requires->js($url, true);
+        }
+    }
+}
+
+$admin = false;
+
+if (is_siteadmin()) {
+       $admin = true;
+}
+
+$student = false;
+$teacher = false;
+
+$coursecontext = context_course::instance($COURSE->id);
+$roles = get_user_roles($coursecontext, $USER->id);
+foreach ($roles as $role) {
+    if ($role->shortname == 'student' || $role->shortname == 'guest') {
+        $student = true;
+    }
+    if ($role->shortname == 'teacher' || $role->shortname == 'editingteacher') {
+        $teacher = true;
+    }
+}
+
+if ($student == true) {
+    $event = \mod_kalmediares\event\media_resource_viewed::create(array(
+        'objectid' => $kalmediares->id,
+        'context' => context_module::instance($cm->id)
+    ));
+    $event->trigger();
+
+    try {
+        $kalmediareslog = $DB->get_record('kalmediares_log',
+                                          array('instanceid' => $cm->instance, 'userid' => $USER->id));
+        $now = time();
+        if (empty($kalmediareslog)) {
+            $objectdata = array('instanceid' => $cm->instance, 'userid' => $USER->id, 'plays' => 0, 'views' => 1,
+                                'first' => $now, 'last' => $now);
+            $DB->insert_record('kalmediares_log', $objectdata);
+        } else {
+            $kalmediareslog->last = $now;
+            $kalmediareslog->views = $kalmediareslog->views + 1;
+            $DB->update_record('kalmediares_log', $kalmediareslog, false);
+        }
+    } catch (Exception $ex) {
+        throw new moodle_exception('log_update_error', 'kalmediares', '', $ex->getMessage());
+    }
+
+    $url = $CFG->wwwroot . '/mod/kalmediares/trigger.php';
+    $PAGE->requires->js_call_amd('mod_kalmediares/playtrigger', 'init', array($url, $id));
+}
+
+$entryobj = local_yukaltura_get_ready_entry_object($kalmediares->entry_id);
+if (!empty($entryobj) && $admin == false) {
+    // For completion trackings.
+    if ((KalturaMediaType::VIDEO != $entryobj->mediaType &&
+         KalturaMediaType::AUDIO != $entryobj->mediaType) ||
+        $teacher == true && $student == false) {
+        $completion = new completion_info($course);
+        $completion->set_module_viewed($cm);
     }
 }
 
 echo $OUTPUT->header();
 
-$coursecontext = context_course::instance($COURSE->id);
-
-$renderer = $PAGE->get_renderer('mod_kalmediaassign');
+$renderer = $PAGE->get_renderer('mod_kalmediares');
 
 echo $OUTPUT->box_start('generalbox');
 
-echo format_module_intro('kalmediaassign', $kalmediaassign, $cm->id);
+echo $renderer->display_mod_info($kalmediares->media_title);
+
+echo format_module_intro('kalmediares', $kalmediares, $cm->id);
+
 echo $OUTPUT->box_end();
 
-$entryobject   = null;
-$disabled       = false;
+$clientipaddress = local_yukaltura_get_client_ipaddress(true);
+if ($kalmediares->internal == 1 && !local_yukaltura_check_internal($clientipaddress)) {
+    echo $renderer->create_access_error_markup($clientipaddress);
+} else if ($connection) {
 
-if (empty($connection)) {
-    echo $OUTPUT->notification(get_string('conn_failed_alt', 'local_yukaltura'));
-    $disabled = true;
-} else {
-    echo $renderer->create_kaltura_hidden_markup($connection);
-}
+    // Embed a kaltura media.
+    if (!empty($kalmediares->entry_id)) {
 
-echo $renderer->display_mod_header($kalmediaassign);
+        try {
+            $media = $connection->media->get($kalmediares->entry_id);
 
-if (has_capability('mod/kalmediaassign:gradesubmission', $coursecontext)) {
-    echo $renderer->display_grading_summary($cm, $kalmediaassign, $coursecontext);
-    echo $renderer->display_instructor_buttons($cm);
-}
-
-if (has_capability('mod/kalmediaassign:submit', $coursecontext)) {
-
-    echo $renderer->display_submission_status($cm, $kalmediaassign, $coursecontext);
-
-    $param = array('mediaassignid' => $kalmediaassign->id, 'userid' => $USER->id);
-    $submission = $DB->get_record('kalmediaassign_submission', $param);
-
-    if (!empty($submission->entry_id)) {
-        $entryobject = local_yukaltura_get_ready_entry_object($submission->entry_id, false);
-    }
-
-    echo $renderer->display_submission($entryobject, $connection);
-
-    $disabled = true;
-
-    if (kalmediaassign_assignment_submission_opened($kalmediaassign, $submission) &&
-        (!kalmediaassign_assignment_submission_expired($kalmediaassign) || $kalmediaassign->preventlate == 1)) {
-           $disabled = false;
-    }
-
-    if (empty($submission->entry_id) && empty($submission->timecreated)) {
-        echo $renderer->display_student_submit_buttons($cm, $disabled);
-    } else {
-        if ($disabled ||
-            !kalmediaassign_assignment_submission_resubmit($kalmediaassign, $entryobject, $submission)) {
-
-            $disabled = true;
+            if ($media !== null) {
+                echo $renderer->embed_media($kalmediares, $connection);
+            }
+        } catch (Exception $ex) {
+            echo '<p>';
+            echo get_string('no_media', 'kalmediares', $kalmediares->entry_id);
+            echo '</p>';
         }
-
-        echo $renderer->display_student_resubmit_buttons($cm, $USER->id, $disabled);
     }
 
-    echo $renderer->display_grade_feedback($kalmediaassign, $coursecontext);
+    if ($student == true && $kalmediares->publish_access_log == 1) {
+        echo $renderer->create_student_playsviews_markup($cm->id, $kalmediares);
+    }
+
+    if ($teacher == true || $admin == true) {
+        echo $renderer->create_access_link_markup($cm->id);
+    }
+
+} else {
+    echo $renderer->connection_failure();
 }
 
 echo $OUTPUT->footer();
